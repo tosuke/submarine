@@ -1,15 +1,16 @@
 import React, { useCallback } from 'react'
 import { FlatList } from 'react-native'
-import { Divider, Theme, withTheme, List } from 'react-native-paper'
+import { Divider } from 'react-native-paper'
 import { Post } from './Post'
 import { Post as PostType } from '../../models'
+import { useTheme } from '../hooks/useTheme';
 
-const PostListImpl: React.FC<{ theme: Theme; posts: PostType[]; refreshing?: boolean; onRefresh?: () => void }> = ({
-  theme,
+export const PostList: React.FC<{posts: PostType[]; refreshing?: boolean; onRefresh?: () => void }> = ({
   posts,
   refreshing,
   onRefresh,
 }) => {
+  const theme = useTheme()
 
   const renderItem = useCallback(({ item }: { item: PostType }) => <Post key={item.id} post={item} />, [])
   const keyExtractor = useCallback((item: PostType) => `${item.id}`, [])
@@ -25,5 +26,3 @@ const PostListImpl: React.FC<{ theme: Theme; posts: PostType[]; refreshing?: boo
     />
   )
 }
-
-export const PostList = withTheme(PostListImpl)
