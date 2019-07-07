@@ -1,7 +1,7 @@
 import 'core-js/features/url'
 import React from 'react'
 import { Provider as PaperProvider, DarkTheme } from 'react-native-paper'
-import { AppContainer } from './navigation'
+import { AppContainer } from './components/navigators/App'
 import { AuthBlocProvider } from './components/hooks/useAuthBloc'
 import { ThemeBlocProvider } from './components/hooks/useThemeBloc'
 import { useTheme } from './components/hooks/useTheme'

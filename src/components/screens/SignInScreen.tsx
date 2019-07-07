@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
 import { View } from 'react-native'
 import { Text, Button, Divider, Title, Caption } from 'react-native-paper'
-import { ScreenView } from '../../atoms/ScreenView'
-import { withNavigationOptions } from '../../hocs/withNavigationOption'
-import { useAuthBloc } from '../../hooks/useAuthBloc'
-import { useNaviagtion } from '../../hooks/useNavigation'
-import { endpoint } from '../../../config'
-import { useTheme } from '../../hooks/useTheme'
+import { ScreenView } from '../atoms/ScreenView'
+import { withNavigationOptions } from '../hocs/withNavigationOption'
+import { useAuthBloc } from '../hooks/useAuthBloc'
+import { useNaviagtion } from '../hooks/useNavigation'
+import { endpoint } from '../../config'
+import { useTheme } from '../hooks/useTheme'
 
 const SignInScreenImpl: React.FC = () => {
   const authBloc = useAuthBloc()

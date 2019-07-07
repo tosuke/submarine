@@ -1,12 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { Clipboard, Alert } from 'react-native'
 import { Title, Caption, Divider, TextInput, Button, Text } from 'react-native-paper'
-import { ScreenView } from '../../atoms/ScreenView'
-import { withNavigationOptions } from '../../hocs/withNavigationOption'
-import { useAuthBloc } from '../../hooks/useAuthBloc'
-import { useNaviagtion } from '../../hooks/useNavigation'
-import { useValueObservable } from '../../hooks/useObservable'
-import { useObservableEffect } from '../../hooks/useObservableEffect'
+import { ScreenView } from '../atoms/ScreenView'
+import { withNavigationOptions } from '../hocs/withNavigationOption'
+import { useAuthBloc } from '../hooks/useAuthBloc'
+import { useNaviagtion } from '../hooks/useNavigation'
+import { useValueObservable } from '../hooks/useObservable'
+import { useObservableEffect } from '../hooks/useObservableEffect'
 
 const AuthorizeWithCodeScreenImpl: React.FC = () => {
   const authBloc = useAuthBloc()

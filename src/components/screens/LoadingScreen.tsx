@@ -5,7 +5,7 @@ import { useValueObservable } from '../hooks/useObservable'
 import { useAuthBloc } from '../hooks/useAuthBloc'
 import { useNaviagtion } from '../hooks/useNavigation'
 
-const AuthLoadingScreenImpl: React.FC = () => {
+const LoadingScreenImpl: React.FC = () => {
   const authBloc = useAuthBloc()
   const loading = useValueObservable(() => authBloc.loading$)
   const seaClient = useValueObservable(() => authBloc.seaClient$)
@@ -24,6 +24,6 @@ const AuthLoadingScreenImpl: React.FC = () => {
   return <AppLoading />
 }
 
-export const AuthLoadingScreen = withNavigationOptions({
+export const LoadingScreen = withNavigationOptions({
   header: null,
-})(AuthLoadingScreenImpl)
+})(LoadingScreenImpl)

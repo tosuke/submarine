@@ -1,7 +1,7 @@
 import { createStackNavigator } from 'react-navigation'
-import { SignInScreen } from './SignInScreen'
-import { AuthorizeWithCodeScreen } from './AuthorizeWithCodeScreen'
-import { StackHeader } from '../../atoms/StackHeader'
+import { SignInScreen } from '../screens/SignInScreen'
+import { AuthorizeWithCodeScreen } from '../screens/AuthorizeWithCodeScreen'
+import { StackHeader } from '../atoms/StackHeader'
 
 export const AuthStack = createStackNavigator({
   SignIn: SignInScreen,
