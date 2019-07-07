@@ -4,6 +4,7 @@ import { ScreenView } from '../atoms/ScreenView'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { PublicTimeline } from '../containers/PublicTimeline'
 import { PublicTimelineBlocProvider } from '../hooks/usePublicTimelineBloc'
+import { MaterialIcons } from '@expo/vector-icons'
 
 const HomeScreenImpl: React.FC = () => {
   return (
@@ -15,10 +16,16 @@ const HomeScreenImpl: React.FC = () => {
   )
 }
 
-export const HomeScreen = withNavigationOptions({
-  header: () => (
+const HomeScreenHeader: React.FC = () => {
+  return (
     <Appbar.Header>
-      <Appbar.Content title="Home" />
+      <Appbar.Content title="ホーム" />
     </Appbar.Header>
-  ),
+  )
+}
+
+export const HomeScreen = withNavigationOptions({
+  header: <HomeScreenHeader />,
+  tabBarLabel: 'ホーム',
+  tabBarIcon: ({ tintColor }) => <MaterialIcons name="home" size={32} color={tintColor} />,
 })(HomeScreenImpl)
