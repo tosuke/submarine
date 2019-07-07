@@ -14,6 +14,7 @@ export class AuthBloc {
   private _linkToSignInURL$ = new Subject<void>()
   private _linkToAuthzURL$ = new Subject<void>()
   private _authorizeWithCode$ = new Subject<string>()
+  private _signOut$ = new Subject<void>()
 
   // Output Controllers
   private _seaClient$ = new BehaviorSubject<SeaClient | undefined>(undefined)
@@ -30,6 +31,9 @@ export class AuthBloc {
   }
   get authorizeWithCode$(): Observer<string> {
     return this._authorizeWithCode$
+  }
+  get signOut$(): Observer<void> {
+    return this._signOut$
   }
 
   // Outputs
@@ -107,7 +111,16 @@ export class AuthBloc {
             return caught
           }
           throw e
-        })
+        }),
+      )
+      .subscribe()
+
+    this._signOut$
+      .pipe(
+        tap(() => {
+          this._seaClient$.next(undefined)
+        }),
+        switchMap(() => AsyncStorage.removeItem(USER_TOKEN_KEY)),
       )
       .subscribe()
   }
@@ -116,5 +129,6 @@ export class AuthBloc {
     this._authorizeWithCode$.complete()
     this._linkToAuthzURL$.complete()
     this._linkToSignInURL$.complete()
+    this._signOut$.complete()
   }
 }
