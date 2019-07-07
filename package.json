@@ -24,9 +24,7 @@
     "react-navigation": "^3.11.0",
     "react-use-promise": "^0.2.0",
     "rxjs": "^6.5.2",
-    "transform-ts": "^0.1.2",
-    "url": "^0.11.0",
-    "whatwg-url": "^7.0.0"
+    "transform-ts": "^0.1.2"
   },
   "devDependencies": {
     "@types/hoist-non-react-statics": "^3.3.1",
