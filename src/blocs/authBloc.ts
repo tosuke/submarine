@@ -7,6 +7,8 @@ import * as $ from 'transform-ts'
 import { SeaClient } from '../infra/seaClient'
 import { clientId, clientSecret, restEndpoint, wsEndpoint, endpoint } from '../config'
 
+const USER_TOKEN_KEY = 'userToken'
+
 export class AuthBloc {
   // Input Controllers
   private _linkToSignInURL$ = new Subject<void>()
@@ -45,19 +47,14 @@ export class AuthBloc {
   }
 
   constructor() {
-    AsyncStorage.getItem('userToken')
-      .then(token => {
-        if (token) {
-          this._seaClient$.next(new SeaClient(restEndpoint, wsEndpoint, token))
-        }
-        this._loading$.next(false)
-      })
+    AsyncStorage.getItem(USER_TOKEN_KEY).then(token => {
+      if (token) {
+        this._seaClient$.next(new SeaClient(restEndpoint, wsEndpoint, token))
+      }
+      this._loading$.next(false)
+    })
 
-    this._linkToSignInURL$
-      .pipe(
-        switchMap(() => Linking.openURL(endpoint)),
-      )
-      .subscribe()
+    this._linkToSignInURL$.pipe(switchMap(() => Linking.openURL(endpoint))).subscribe()
 
     this._linkToAuthzURL$
       .pipe(
@@ -105,7 +102,7 @@ export class AuthBloc {
           },
         ),
         catchError((e, caught) => {
-          if(e instanceof HTTPError) {
+          if (e instanceof HTTPError) {
             this._invalidCodeError$.next()
             return caught
           }
