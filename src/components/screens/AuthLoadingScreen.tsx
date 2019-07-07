@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { ActivityIndicator } from 'react-native-paper'
-import { ScreenView } from '../atoms/ScreenView'
+import { AppLoading } from 'expo'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useValueObservable } from '../hooks/useObservable'
 import { useAuthBloc } from '../hooks/useAuthBloc'
@@ -22,11 +21,7 @@ const AuthLoadingScreenImpl: React.FC = () => {
     }
   }, [loading, seaClient])
 
-  return (
-    <ScreenView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size="large" />
-    </ScreenView>
-  )
+  return <AppLoading />
 }
 
 export const AuthLoadingScreen = withNavigationOptions({
