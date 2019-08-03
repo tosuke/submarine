@@ -5,6 +5,7 @@ import { AppContainer } from './components/navigators/App'
 import { AuthBlocProvider } from './components/hooks/useAuthBloc'
 import { ThemeBlocProvider } from './components/hooks/useThemeBloc'
 import { useTheme } from './components/hooks/useTheme'
+import { PostSendBlocProvider } from './components/hooks/usePostSendBloc'
 
 const AppImpl: React.FC = () => {
   const theme = useTheme()
@@ -21,7 +22,9 @@ export default class App extends React.Component {
     return (
       <ThemeBlocProvider defaultTheme={DarkTheme}>
         <AuthBlocProvider>
-          <AppImpl />
+          <PostSendBlocProvider>
+            <AppImpl />
+          </PostSendBlocProvider>
         </AuthBlocProvider>
       </ThemeBlocProvider>
     )

@@ -23,4 +23,13 @@ export class SeaClient {
     const json = await this.http.get(`v1/timelines/public?${qs.join('&')}`).json()
     return $.array($Post).transformOrThrow(json)
   }
+
+  async doPost(text: string, fileIds?: number[]): Promise<void> {
+    const json = await this.http.post('v1/posts', {
+      json: {
+        text,
+        fileIds
+      }
+    })
+  }
 }
