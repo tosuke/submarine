@@ -56,7 +56,7 @@ const File: React.FC<{ file: FileType }> = ({ file }) => {
   return <Image style={{ marginRight: 4, borderRadius: 4 }} source={{ uri: variant.url, width: 128, height: 128 }}/>
 }
 
-export const Post: React.ComponentType<{ post: PostType }> = ({ post }) => (
+export const Post: React.ComponentType<{ post: PostType, relativeTime: string}> = ({ post, relativeTime}) => (
   <View style={styles.post}>
     {post.user.avatarFile ? <AvatarImage avatarFile={post.user.avatarFile} /> : <AvatarText text={post.user.name[0]} />}
     <View style={styles.postBody}>
@@ -65,7 +65,7 @@ export const Post: React.ComponentType<{ post: PostType }> = ({ post }) => (
           <Text style={[styles.postStatusNameText, { fontWeight: 'bold' }]}>{post.user.name}</Text>
           <Text style={styles.postStatusNameText}>@{post.user.screenName}</Text>
         </View>
-        <Text>ms</Text>
+        <Text>{relativeTime}</Text>
       </View>
       <Paragraph style={{ marginVertical: 0 }} selectable={true}>
         {post.text}
