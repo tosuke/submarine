@@ -8,7 +8,7 @@ import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useNaviagtion } from '../hooks/useNavigation'
 import { useTheme } from '../hooks/useTheme'
 import { usePostSendBloc } from '../hooks/usePostSendBloc'
-import { useObservableEffect } from '../hooks/useObservableEffect';
+import { useObservableEffect } from '../hooks/useObservableEffect'
 
 const screenStyle: ViewStyle = {
   flex: 1,
@@ -34,14 +34,23 @@ const PostModalScreenImpl: React.FC = () => {
   const onPostButtonPressed = useCallback(() => {
     postSendBloc.send$.next(text)
   }, [text])
+  const disabled = text.length === 0
 
-  useObservableEffect(() => postSendBloc.sendComplete$, () => {
-    navigate('Main')
-  }, [postSendBloc])
+  useObservableEffect(
+    () => postSendBloc.sendComplete$,
+    () => {
+      navigate('Main')
+    },
+    [postSendBloc],
+  )
 
-  useObservableEffect(() => postSendBloc.emptyTextError$, () => {
-    ToastAndroid.show('本文を入力してください', 0.5)
-  })
+  useObservableEffect(
+    () => postSendBloc.emptyTextError$,
+    () => {
+      ToastAndroid.show('本文を入力してください', 0.5)
+    },
+    [postSendBloc]
+  )
 
   return (
     <ScreenView style={screenStyle}>
@@ -56,9 +65,9 @@ const PostModalScreenImpl: React.FC = () => {
             onChangeText={updateText}
           />
         </ScreenView>
-        <Appbar style={{ maxHeight: 44 }}>
+        <Appbar style={{ maxHeight: 44, backgroundColor: theme.colors.surface }}>
           <Appbar.Content title="" />
-          <Appbar.Action icon="send" onPress={onPostButtonPressed} />
+          <Appbar.Action icon="send" accessibilityLabel="Send" disabled={disabled} onPress={onPostButtonPressed} />
         </Appbar>
       </KeyboardAvoidingView>
     </ScreenView>
