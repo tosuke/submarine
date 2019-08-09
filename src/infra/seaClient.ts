@@ -8,18 +8,24 @@ export class SeaClient {
   constructor(readonly restEndpoint: string, readonly wsEndpoint: string, readonly seaToken: string) {
     this.http = ky.create({
       prefixUrl: restEndpoint,
-      headers: [
-        ['Authorization', `Bearer ${seaToken}`]
-      ]
+      headers: [['Authorization', `Bearer ${seaToken}`]],
     })
   }
 
   async fetchLatestPostsFromPublicTimeline(count: number = 20, sinceId?: number): Promise<Post[]> {
     const qs = []
     qs.push(`count=${count}`)
-    if(sinceId) {
+    if (sinceId) {
       qs.push(`sinceId=${sinceId}`)
     }
+    const json = await this.http.get(`v1/timelines/public?${qs.join('&')}`).json()
+    return $.array($Post).transformOrThrow(json)
+  }
+
+  async fetchMorePostsFromPublicTimeline(count: number, maxId: number): Promise<Post[]> {
+    const qs = []
+    qs.push(`count=${count}`)
+    qs.push(`maxId=${maxId}`)
     const json = await this.http.get(`v1/timelines/public?${qs.join('&')}`).json()
     return $.array($Post).transformOrThrow(json)
   }
@@ -28,8 +34,8 @@ export class SeaClient {
     const json = await this.http.post('v1/posts', {
       json: {
         text,
-        fileIds
-      }
+        fileIds,
+      },
     })
   }
 }

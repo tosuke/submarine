@@ -1,4 +1,4 @@
-import { Observer, BehaviorSubject, zip } from 'rxjs'
+import { Observer, BehaviorSubject, zip, Subject } from 'rxjs'
 import { switchMap, debounceTime, tap } from 'rxjs/operators'
 import { ValueObservable } from '../utils'
 import { Post } from '../models'
@@ -6,15 +6,20 @@ import { SeaClient } from '../infra/seaClient'
 
 export class PublicTimelineBloc {
   // Input Controllers
-  private _fetchLatestPosts$: BehaviorSubject<number>
+  private _fetchLatestPosts$ = new Subject<number>()
+  private _fetchMorePosts$ = new Subject<number>()
 
   // Output Controllers
   private _posts$ = new BehaviorSubject<Post[]>([])
   private _isFetchingLatestPosts$ = new BehaviorSubject(false)
+  private _isFetchingMorePosts$ = new BehaviorSubject(false)
 
   // Inputs
   get fetchLatestPosts$(): Observer<number> {
     return this._fetchLatestPosts$
+  }
+  get fetchMorePosts$(): Observer<number> {
+    return this._fetchMorePosts$
   }
 
   // Outputs
@@ -24,9 +29,11 @@ export class PublicTimelineBloc {
   get isFetchingLatestPosts$(): ValueObservable<boolean> {
     return this._isFetchingLatestPosts$
   }
+  get isFetchingMorePosts$(): ValueObservable<boolean> {
+    return this._isFetchingMorePosts$
+  }
 
   constructor(seaClient: SeaClient, firstLoad: number = 20) {
-    this._fetchLatestPosts$ = new BehaviorSubject(firstLoad)
     this._fetchLatestPosts$
       .pipe(
         debounceTime(200),
@@ -50,11 +57,49 @@ export class PublicTimelineBloc {
         ),
       )
       .subscribe()
+
+    let fetchingMaxId: number = -1
+    this._fetchMorePosts$
+      .pipe(
+        debounceTime(200),
+        switchMap(async count => {
+          try {
+            const posts = this._posts$.value
+
+            const maxId = posts[posts.length - 1].id
+            if (fetchingMaxId === maxId) return posts
+            fetchingMaxId = maxId
+            this._isFetchingMorePosts$.next(true)
+
+            const newPosts = await seaClient.fetchMorePostsFromPublicTimeline(count, maxId)
+
+            return [...this._posts$.value, ...newPosts]
+          } catch(e) {
+            console.error(e)
+            fetchingMaxId = -1
+            throw e
+          } finally {
+            this._isFetchingMorePosts$.next(false)
+          }
+        }),
+      )
+      .subscribe(
+        posts => {
+          this._posts$.next(posts)
+        },
+        err => {
+          console.error(err)
+        },
+      )
+
+    this.fetchLatestPosts$.next(firstLoad)
   }
 
   dispose(): void {
     this._fetchLatestPosts$.unsubscribe()
+    this._fetchMorePosts$.unsubscribe()
     this._isFetchingLatestPosts$.unsubscribe()
+    this._isFetchingMorePosts$.unsubscribe()
     this._posts$.unsubscribe()
   }
 }
