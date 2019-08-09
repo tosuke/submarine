@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { ScrollView, Alert } from 'react-native'
-import { List, Divider } from 'react-native-paper'
+import { List, Divider, Appbar } from 'react-native-paper'
 import { ScreenView } from '../atoms/ScreenView'
 import { useTheme } from '../hooks/useTheme'
 
@@ -24,6 +24,9 @@ export const PreferencesScreenView: React.FC<{
 
   return (
     <ScreenView>
+      <Appbar.Header>
+        <Appbar.Content title="設定" />
+      </Appbar.Header>
       <ScrollView>
         <List.Section title="アカウント">
           <Divider />

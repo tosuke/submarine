@@ -6,7 +6,7 @@ import { useAuthBloc } from '../hooks/useAuthBloc'
 import { useNaviagtion } from '../hooks/useNavigation'
 import { PreferencesScreenView } from '../presenters/PreferenceScreenView'
 
-const PreferencesScreenImpl: React.FC = () => {
+export const PreferencesScreen: React.FC = () => {
   const authBloc = useAuthBloc()
   const { navigate } = useNaviagtion()
 
@@ -17,15 +17,3 @@ const PreferencesScreenImpl: React.FC = () => {
 
   return <PreferencesScreenView doLogout={doLogout} />
 }
-
-const PreferencesScreenHeader: React.FC = () => (
-  <Appbar.Header>
-    <Appbar.Content title="設定" />
-  </Appbar.Header>
-)
-
-export const PreferencesScreen = withNavigationOptions({
-  header: <PreferencesScreenHeader />,
-  tabBarLabel: '設定',
-  tabBarIcon: ({ tintColor }) => <MaterialIcons name="settings" size={32} color={tintColor} />,
-})(PreferencesScreenImpl)

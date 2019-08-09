@@ -6,33 +6,25 @@ import { PublicTimeline } from '../containers/PublicTimeline'
 import { PublicTimelineBlocProvider } from '../hooks/usePublicTimelineBloc'
 import { MaterialIcons } from '@expo/vector-icons'
 import { PrimaryFAB } from '../atoms/PrimaryFAB'
-import { useNaviagtion } from '../hooks/useNavigation';
+import { useNaviagtion } from '../hooks/useNavigation'
+import { View } from 'react-native'
 
-const HomeScreenImpl: React.FC = () => {
+export const HomeScreen: React.FC = () => {
   const { navigate } = useNaviagtion()
   const onPostButtonPressed = useCallback(() => {
     navigate('PostModal')
   }, [navigate])
   return (
     <PublicTimelineBlocProvider firstLoad={20}>
-      <ScreenView style={{ paddingHorizontal: 5 }}>
-        <PrimaryFAB icon="send" onPress={onPostButtonPressed}/>
-        <PublicTimeline />
+      <ScreenView>
+        <Appbar.Header>
+          <Appbar.Content title="ホーム" />
+        </Appbar.Header>
+        <PrimaryFAB icon="send" onPress={onPostButtonPressed} />
+        <View style={{ flex: 1, paddingHorizontal: 5 }}>
+          <PublicTimeline />
+        </View>
       </ScreenView>
     </PublicTimelineBlocProvider>
   )
 }
-
-const HomeScreenHeader: React.FC = () => {
-  return (
-    <Appbar.Header>
-      <Appbar.Content title="ホーム" />
-    </Appbar.Header>
-  )
-}
-
-export const HomeScreen = withNavigationOptions({
-  header: <HomeScreenHeader />,
-  tabBarLabel: 'ホーム',
-  tabBarIcon: ({ tintColor }) => <MaterialIcons name="home" size={32} color={tintColor} />,
-})(HomeScreenImpl)
