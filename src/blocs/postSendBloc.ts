@@ -1,6 +1,6 @@
 import { Observer, Subject, Observable } from 'rxjs'
 import { SeaClient } from '../infra/seaClient'
-import { switchMap } from 'rxjs/operators'
+import { switchMap, debounceTime } from 'rxjs/operators'
 
 export class PostSendBloc {
   // Input Controllers
@@ -28,6 +28,7 @@ export class PostSendBloc {
     let sending = false
     this._send$
       .pipe(
+        debounceTime(200),
         switchMap(async text => {
           if (text.length === 0) {
             this._emptyTextError$.next()
