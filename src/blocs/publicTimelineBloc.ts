@@ -1,4 +1,4 @@
-import { Observer, BehaviorSubject, zip, Subject } from 'rxjs'
+import { Observer, BehaviorSubject, zip, Subject, Observable } from 'rxjs'
 import { switchMap, debounceTime, tap } from 'rxjs/operators'
 import { ValueObservable } from '../utils'
 import { Post } from '../models'
@@ -8,6 +8,7 @@ export class PublicTimelineBloc {
   // Input Controllers
   private _fetchLatestPosts$ = new Subject<number>()
   private _fetchMorePosts$ = new Subject<number>()
+  private _scrollToTop$ = new Subject<void>()
 
   // Output Controllers
   private _posts$ = new BehaviorSubject<Post[]>([])
@@ -21,6 +22,9 @@ export class PublicTimelineBloc {
   get fetchMorePosts$(): Observer<number> {
     return this._fetchMorePosts$
   }
+  get scrollToTop$(): Observer<void> {
+    return this._scrollToTop$
+  }
 
   // Outputs
   get posts$(): ValueObservable<Post[]> {
@@ -31,6 +35,9 @@ export class PublicTimelineBloc {
   }
   get isFetchingMorePosts$(): ValueObservable<boolean> {
     return this._isFetchingMorePosts$
+  }
+  get scrollToTopEvent$(): Observable<void> {
+    return this._scrollToTop$.asObservable()
   }
 
   constructor(seaClient: SeaClient, firstLoad: number = 20) {
