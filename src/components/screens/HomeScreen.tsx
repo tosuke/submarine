@@ -6,6 +6,7 @@ import { PublicTimelineBlocProvider, usePublicTimelineBloc } from '../hooks/useP
 import { PrimaryFAB } from '../atoms/PrimaryFAB'
 import { useNaviagtion } from '../hooks/useNavigation'
 import { View } from 'react-native'
+import { useObservable } from '../hooks/useObservable'
 
 const HomeScreenImpl: React.FC = () => {
   const tlBloc = usePublicTimelineBloc()
@@ -19,10 +20,13 @@ const HomeScreenImpl: React.FC = () => {
     tlBloc.scrollToTop$.next()
   }, [tlBloc])
 
+  const connected = useObservable(() => tlBloc.connectedToSocket$, false, [tlBloc])
+
   return (
     <ScreenView>
       <Appbar.Header onTouchEnd={scrollToTop}>
         <Appbar.Content title="ホーム" />
+        <Appbar.Action icon="wifi" disabled={!connected} />
       </Appbar.Header>
       <PrimaryFAB icon="send" onPress={onPostButtonPressed} />
       <View style={{ flex: 1, paddingHorizontal: 5 }}>

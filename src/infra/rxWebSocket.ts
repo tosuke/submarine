@@ -1,7 +1,7 @@
 import { Subject, Observable, Observer, BehaviorSubject } from 'rxjs'
 import { bufferTime, map, filter } from 'rxjs/operators'
 
-type ConnectionState = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
+export type ConnectionState = 'CONNECTING' | 'OPEN' | 'CLOSING' | 'CLOSED'
 
 export class RxWebSocket {
   private ws: WebSocket | null = null

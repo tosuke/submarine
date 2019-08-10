@@ -1,7 +1,7 @@
 import ky from 'ky'
 import * as $ from 'transform-ts'
 import { Post, $Post } from '../models'
-import { RxWebSocket } from './rxWebSocket'
+import { RxWebSocket, ConnectionState } from './rxWebSocket'
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators'
 
@@ -14,6 +14,7 @@ export class SeaClient {
   private http: typeof ky
   private publicTimelineSocket: RxWebSocket
   readonly publicTimeline$: Observable<Post>
+  readonly publicTimelineConnectionState$: Observable<ConnectionState>
 
   constructor(readonly restEndpoint: string, readonly wsEndpoint: string, readonly seaToken: string) {
     this.http = ky.create({
@@ -43,6 +44,8 @@ export class SeaClient {
         }
       })
     )
+
+    this.publicTimelineConnectionState$ = this.publicTimelineSocket.connectionState$
   }
 
   async fetchLatestPostsFromPublicTimeline(count: number = 20, sinceId?: number): Promise<Post[]> {
