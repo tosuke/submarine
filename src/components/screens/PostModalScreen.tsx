@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react'
-import { ViewStyle, TextInput, TextStyle, StatusBar, ToastAndroid } from 'react-native'
+import { View, ViewStyle, TextInput, TextStyle, StatusBar, ToastAndroid } from 'react-native'
 import { Header } from 'react-navigation'
 import { Appbar } from 'react-native-paper'
 import { KeyboardAvoidingView } from '../atoms/KeyboardAvoidingView'
@@ -33,6 +33,7 @@ const PostModalScreenImpl: React.FC = () => {
   const [text, updateText] = useState('')
   const onPostButtonPressed = useCallback(() => {
     postSendBloc.send$.next(text)
+    updateText('')
   }, [text])
   const disabled = text.length === 0
 
@@ -49,13 +50,13 @@ const PostModalScreenImpl: React.FC = () => {
     () => {
       ToastAndroid.show('本文を入力してください', 0.5)
     },
-    [postSendBloc]
+    [postSendBloc],
   )
 
   return (
     <ScreenView style={screenStyle}>
       <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT + StatusBar.currentHeight!}>
-        <ScreenView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
           <TextInput
             style={textInputStyle}
             placeholder="What's up Otaku?"
@@ -64,7 +65,7 @@ const PostModalScreenImpl: React.FC = () => {
             value={text}
             onChangeText={updateText}
           />
-        </ScreenView>
+        </View>
         <Appbar style={{ maxHeight: 44, backgroundColor: theme.colors.surface }}>
           <Appbar.Content title="" />
           <Appbar.Action icon="send" accessibilityLabel="Send" disabled={disabled} onPress={onPostButtonPressed} />
