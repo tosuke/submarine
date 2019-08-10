@@ -55,6 +55,7 @@ const postBodyViewStyle: ViewStyle = {
 }
 
 const postStatusViewStyle: ViewStyle = {
+  flex: 1,
   flexDirection: 'row',
 }
 
@@ -68,6 +69,12 @@ const postStatusScreenNameTextStyle: TextStyle = {
   fontWeight: 'bold',
 }
 
+const postStatusTimeTextStyle: TextStyle = {
+  position: 'absolute',
+  right: 0,
+  fontSize: 14,
+}
+
 const postContentTextStyle: TextStyle = {
   marginVertical: 0,
 }
@@ -79,11 +86,16 @@ const postFileViewStyle: ViewStyle = {
 
 export const Post: React.ComponentType<{ post: PostType; relativeTime: string }> = ({ post, relativeTime }) => (
   <View style={postViewStyle}>
-    {post.user.avatarFile ? <AvatarImage avatarFile={post.user.avatarFile} /> : <AvatarText text={post.user.name[0]} />}
+    {post.user.avatarFile ? (
+      <AvatarImage avatarFile={post.user.avatarFile} />
+    ) : (
+      <AvatarText text={post.user.name[0] || ' '} />
+    )}
     <View style={postBodyViewStyle}>
       <View style={postStatusViewStyle}>
         <Text style={postStatusScreenNameTextStyle}>{post.user.name}</Text>
         <Text style={postStatusTextStyle}>@{post.user.screenName}</Text>
+        <Text style={postStatusTimeTextStyle}>{relativeTime}</Text>
       </View>
       <Paragraph style={postContentTextStyle} selectable={true}>
         {post.text}
@@ -98,6 +110,5 @@ export const Post: React.ComponentType<{ post: PostType; relativeTime: string }>
         {post.application.isAutomated ? '[BOT]' : null}
       </Caption>
     </View>
-    <Text>{relativeTime}</Text>
   </View>
 )
