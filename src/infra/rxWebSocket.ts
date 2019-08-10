@@ -8,7 +8,7 @@ export class RxWebSocket {
 
   private _messages$ = new Subject<unknown>()
   private _send$ = new Subject<unknown>()
-  private _connectionState$ = new BehaviorSubject<ConnectionState>('CONNECTING')
+  private _connectionState$ = new BehaviorSubject<ConnectionState>('CLOSED')
 
   get messages$(): Observable<unknown> {
     return this._messages$.asObservable()
@@ -35,17 +35,31 @@ export class RxWebSocket {
       filter(([num, state]) => num === 0 && state === 'OPEN'),
     ).subscribe(() => {
       this.close()
-      this.connect()
+      this.connect().catch((() => {}))
+    })
+  }
+
+  private async openWS(): Promise<WebSocket> {
+    const ws = await this.factory()
+    if(ws.readyState === 1 /* OPEN */) return ws
+    return await new Promise((res, rej) => {
+      ws.addEventListener('open', () => {
+        res(ws)
+      })
+      ws.addEventListener('error', ev => {
+        rej((ev as ErrorEvent).error)
+      })
     })
   }
 
   private async connect(retryNum: number = 10) {
+    if(this._connectionState$.value !== 'CLOSED' && this._connectionState$.value !== 'CLOSING') return
     this._connectionState$.next('CONNECTING')
 
     let err: Error | null = null
     for (let i = 0; i < retryNum; i++) {
       try {
-        this.ws = await this.factory()
+        this.ws = await this.openWS()
         break
       } catch (e) {
         err = e
@@ -54,24 +68,21 @@ export class RxWebSocket {
     }
     if (err) throw err
     if (this.ws == null) throw 'invalid' // assert はよ
+    this._connectionState$.next('OPEN')
 
-    if (this.ws.readyState === 1 /* OPEN */) {
-      this._connectionState$.next('OPEN')
-    } else {
-      this.ws.addEventListener('open', () => {
-        this._connectionState$.next('OPEN')
-      })
-    }
-
+    let closeWithError = false
     this.ws.addEventListener('message', ev => {
       this._messages$.next(JSON.parse(ev.data))
     })
 
-    this.ws.addEventListener('error', ev => {
-      this._messages$.error(ev)
+    this.ws.addEventListener('error', () => {
+      closeWithError = true
+      this.close()
+      this.connect().catch(() => {})
     })
 
     this.ws.addEventListener('close', () => {
+      if(closeWithError) return
       this._connectionState$.next('CLOSED')
       this.connect()
     })
