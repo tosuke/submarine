@@ -1,10 +1,12 @@
-import { Observer, BehaviorSubject, zip, Subject, Observable } from 'rxjs'
+import { Observer, BehaviorSubject, zip, Subject, Observable, Subscription } from 'rxjs'
 import { switchMap, debounceTime, tap } from 'rxjs/operators'
 import { ValueObservable } from '../utils'
 import { Post } from '../models'
 import { SeaClient } from '../infra/seaClient'
 
 export class PublicTimelineBloc {
+  private _timelineSub: Subscription
+  
   // Input Controllers
   private _fetchLatestPosts$ = new Subject<number>()
   private _fetchMorePosts$ = new Subject<number>()
@@ -41,7 +43,7 @@ export class PublicTimelineBloc {
   }
 
   constructor(seaClient: SeaClient, firstLoad: number = 20) {
-    seaClient.publicTimeline$.subscribe(post => {
+    this._timelineSub = seaClient.publicTimeline$.subscribe(post => {
       this._posts$.next([post, ...this._posts$.value])
     })
 
@@ -78,7 +80,7 @@ export class PublicTimelineBloc {
             const posts = this._posts$.value
 
             const maxId = posts[posts.length - 1].id
-            if (fetchingMaxId === maxId) return posts
+            if (fetchingMaxId > maxId) return posts
             fetchingMaxId = maxId
             this._isFetchingMorePosts$.next(true)
 
@@ -107,6 +109,7 @@ export class PublicTimelineBloc {
   }
 
   dispose(): void {
+    this._timelineSub.unsubscribe()
     this._fetchLatestPosts$.unsubscribe()
     this._fetchMorePosts$.unsubscribe()
     this._isFetchingLatestPosts$.unsubscribe()
