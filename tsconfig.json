@@ -6,6 +6,10 @@
     "jsx": "react-native",
     "moduleResolution": "node",
     "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   }

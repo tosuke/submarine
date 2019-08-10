@@ -31,7 +31,7 @@ export class SeaClient {
   }
 
   async doPost(text: string, fileIds?: number[]): Promise<void> {
-    const json = await this.http.post('v1/posts', {
+    await this.http.post('v1/posts', {
       json: {
         text,
         fileIds,
