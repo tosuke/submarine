@@ -1,15 +1,48 @@
 import ky from 'ky'
 import * as $ from 'transform-ts'
 import { Post, $Post } from '../models'
+import { RxWebSocket } from './rxWebSocket'
+import { Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators'
+
+const $PostMessage = $.obj({
+  type: $.string,
+  content: $Post
+})
 
 export class SeaClient {
   private http: typeof ky
+  private publicTimelineSocket: RxWebSocket
+  readonly publicTimeline$: Observable<Post>
 
   constructor(readonly restEndpoint: string, readonly wsEndpoint: string, readonly seaToken: string) {
     this.http = ky.create({
       prefixUrl: restEndpoint,
       headers: [['Authorization', `Bearer ${seaToken}`]],
     })
+
+    this.publicTimelineSocket = new RxWebSocket(() => {
+      const ws = new WebSocket(wsEndpoint)
+      ws.addEventListener('open', () => {
+        ws.send(JSON.stringify({
+          type: 'connect',
+          stream: 'v1/timelines/public',
+          token: seaToken
+        }))
+      })
+      return ws
+    }, 60 * 1000)
+
+    this.publicTimeline$ = this.publicTimelineSocket.messages$.pipe(
+      mergeMap(message => {
+        const result = $PostMessage.transform(message)
+        if(result.type === 'ok') {
+          return [result.value.content]
+        } else {
+          return []
+        }
+      })
+    )
   }
 
   async fetchLatestPostsFromPublicTimeline(count: number = 20, sinceId?: number): Promise<Post[]> {

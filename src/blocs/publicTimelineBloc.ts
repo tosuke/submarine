@@ -41,6 +41,10 @@ export class PublicTimelineBloc {
   }
 
   constructor(seaClient: SeaClient, firstLoad: number = 20) {
+    seaClient.publicTimeline$.subscribe(post => {
+      this._posts$.next([post, ...this._posts$.value])
+    })
+
     this._fetchLatestPosts$
       .pipe(
         debounceTime(200),
