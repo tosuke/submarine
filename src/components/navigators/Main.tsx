@@ -32,15 +32,3 @@ const MainTabImpl: React.FC = () => {
 }
 
 export const MainTab = withNavigationOptions({ header: null })(MainTabImpl)
-
-export const _MainTab = withNavigationOptions(props => {
-  const state = props.navigation.state
-  const route = routeConfig[state.routes[state.index].routeName]
-  const options = (route.screen ? route.screen : route).navigationOptions
-  return typeof options === 'function' ? options(props) : options
-})(
-  createBottomTabNavigator(routeConfig, {
-    initialRouteName: 'Home',
-    tabBarComponent: TabBar,
-  }),
-)
