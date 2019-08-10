@@ -76,9 +76,9 @@ export class PublicTimelineBloc {
             return [...this._posts$.value, ...newPosts]
           } catch(e) {
             console.error(e)
-            fetchingMaxId = -1
             throw e
           } finally {
+            fetchingMaxId = -1
             this._isFetchingMorePosts$.next(false)
           }
         }),
