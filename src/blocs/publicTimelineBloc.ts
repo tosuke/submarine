@@ -1,5 +1,5 @@
 import { Observer, BehaviorSubject, Subject, Observable, Subscription } from 'rxjs'
-import { switchMap, debounceTime, map, distinctUntilChanged } from 'rxjs/operators'
+import { switchMap, debounceTime, map, distinctUntilChanged, filter } from 'rxjs/operators'
 import { ValueObservable } from '../utils'
 import { Post } from '../models'
 import { SeaClient } from '../infra/seaClient'
@@ -72,6 +72,7 @@ export class PublicTimelineBloc {
     this._fetchMorePosts$
       .pipe(
         debounceTime(200),
+        filter(() => !this._isFetchingLatestPosts$.value), // when refreshing
         switchMap(async count => {
           try {
             const posts = this._posts$.value
