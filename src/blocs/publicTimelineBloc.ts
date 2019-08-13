@@ -6,6 +6,7 @@ import { SeaClient } from '../infra/seaClient'
 
 export class PublicTimelineBloc {
   private _timelineSub: Subscription
+  private _connectedSub: Subscription
 
   // Input Controllers
   private _fetchLatestPosts$ = new Subject<number>()
@@ -52,6 +53,17 @@ export class PublicTimelineBloc {
       map(state => state === 'OPEN'),
       distinctUntilChanged(),
     )
+
+    this._connectedSub = this.connectedToSocket$.pipe(
+      filter(b => b),
+      filter(() => !this._isFetchingLatestPosts$.value),
+      switchMap(async () => {
+        const posts = this._posts$.value
+        if(posts.length === 0) return
+        const sinceId = posts[0].id
+        this.insertPosts(await seaClient.fetchLatestPostsFromPublicTimeline(100, sinceId))
+      })
+    ).subscribe()
 
     this._fetchLatestPosts$
       .pipe(
@@ -105,6 +117,7 @@ export class PublicTimelineBloc {
 
   dispose(): void {
     this._timelineSub.unsubscribe()
+    this._connectedSub.unsubscribe()
     this._fetchLatestPosts$.unsubscribe()
     this._fetchMorePosts$.unsubscribe()
     this._isFetchingLatestPosts$.unsubscribe()
