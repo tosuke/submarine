@@ -29,7 +29,7 @@ const HomeScreenImpl: React.FC = () => {
         <Appbar.Action icon="wifi" disabled={!connected} />
       </Appbar.Header>
       <PrimaryFAB icon="send" onPress={onPostButtonPressed} />
-      <View style={{ flex: 1, paddingHorizontal: 5 }}>
+      <View style={{ flex: 1, marginHorizontal: 10 }}>
         <PublicTimeline />
       </View>
     </ScreenView>
