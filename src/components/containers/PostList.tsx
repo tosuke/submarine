@@ -17,7 +17,7 @@ const Footer: React.FC = () => (
 )
 
 export const PostList: React.FC<{
-  posts: PostType[]
+  posts: readonly PostType[]
   refreshing?: boolean
   onRefresh?: () => void
   loadMore?: () => void

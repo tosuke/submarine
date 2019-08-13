@@ -13,7 +13,7 @@ export class PublicTimelineBloc {
   private _scrollToTop$ = new Subject<void>()
 
   // Output Controllers
-  private _posts$ = new BehaviorSubject<Post[]>([])
+  private _posts$ = new BehaviorSubject<readonly Post[]>([])
   private _isFetchingLatestPosts$ = new BehaviorSubject(false)
   private _isFetchingMorePosts$ = new BehaviorSubject(false)
 
@@ -29,7 +29,7 @@ export class PublicTimelineBloc {
   }
 
   // Outputs
-  get posts$(): ValueObservable<Post[]> {
+  get posts$(): ValueObservable<readonly Post[]> {
     return this._posts$
   }
   get isFetchingLatestPosts$(): ValueObservable<boolean> {
@@ -45,12 +45,12 @@ export class PublicTimelineBloc {
 
   constructor(seaClient: SeaClient, firstLoad: number = 20) {
     this._timelineSub = seaClient.publicTimeline$.subscribe(post => {
-      this._posts$.next([post, ...this._posts$.value])
+      this.insertPosts([post])
     })
 
     this.connectedToSocket$ = seaClient.publicTimelineConnectionState$.pipe(
       map(state => state === 'OPEN'),
-      distinctUntilChanged()
+      distinctUntilChanged(),
     )
 
     this._fetchLatestPosts$
@@ -60,7 +60,7 @@ export class PublicTimelineBloc {
           this._isFetchingLatestPosts$.next(true)
           try {
             const posts = await seaClient.fetchLatestPostsFromPublicTimeline(count)
-            this._posts$.next(posts)
+            this.insertPosts(posts)
           } finally {
             this._isFetchingLatestPosts$.next(false)
           }
@@ -77,13 +77,13 @@ export class PublicTimelineBloc {
             const posts = this._posts$.value
 
             const maxId = posts[posts.length - 1].id
-            if (fetchingMaxId > maxId) return posts
+            if (fetchingMaxId > maxId) return
             fetchingMaxId = maxId
             this._isFetchingMorePosts$.next(true)
 
             const newPosts = await seaClient.fetchMorePostsFromPublicTimeline(count, maxId)
 
-            return [...this._posts$.value, ...newPosts]
+            this.insertPosts(newPosts)
           } catch (e) {
             console.error(e)
             throw e
@@ -93,14 +93,11 @@ export class PublicTimelineBloc {
           }
         }),
       )
-      .subscribe(
-        posts => {
-          this._posts$.next(posts)
-        },
-        err => {
+      .subscribe({
+        error: err => {
           console.error(err)
         },
-      )
+      })
 
     this.fetchLatestPosts$.next(firstLoad)
   }
@@ -112,5 +109,41 @@ export class PublicTimelineBloc {
     this._isFetchingLatestPosts$.unsubscribe()
     this._isFetchingMorePosts$.unsubscribe()
     this._posts$.unsubscribe()
+  }
+
+  private insertPosts(newPosts: readonly Post[]) {
+    const posts = this._posts$.value
+    if (posts.length === 0) {
+      this._posts$.next(newPosts)
+      return
+    }
+    if (newPosts.length === 0) return
+
+    if (newPosts[newPosts.length - 1].id > posts[0].id) {
+      this._posts$.next([...newPosts, ...posts])
+    } else if (posts[posts.length - 1].id > newPosts[0].id) {
+      this._posts$.next([...posts, ...newPosts])
+    } else {
+      let results: Post[] = []
+      let i = 0,
+        j = 0
+      while (i < posts.length && j < newPosts.length) {
+        if (posts[i].id > newPosts[j].id) {
+          results.push(posts[i++])
+        } else if (posts[i].id === newPosts[j].id) {
+          i++
+          continue
+        } else {
+          results.push(newPosts[j++])
+        }
+      }
+      while (i < posts.length) {
+        results.push(posts[i++])
+      }
+      while (j < newPosts.length) {
+        results.push(newPosts[j++])
+      }
+      this._posts$.next(results)
+    }
   }
 }
