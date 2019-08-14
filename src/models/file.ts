@@ -1,20 +1,22 @@
 import * as $ from 'transform-ts'
 
-export type File = Readonly<{
-  id: number
-  name: string
-  variants: FileVariant[]
-}>
+export interface File
+  extends Readonly<{
+    id: number
+    name: string
+    variants: FileVariant[]
+  }> {}
 
-export type FileVariant = Readonly<{
-  id: number
-  score: number
-  extension: string
-  type: string
-  size: number
-  url: string
-  mime: string
-}>
+export interface FileVariant
+  extends Readonly<{
+    id: number
+    score: number
+    extension: string
+    type: string
+    size: number
+    url: string
+    mime: string
+  }> {}
 
 export const $FileVariant: $.Transformer<unknown, FileVariant> = $.obj({
   id: $.number,

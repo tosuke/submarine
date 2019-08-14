@@ -1,10 +1,11 @@
 import * as $ from 'transform-ts'
 
-export type Application = Readonly<{
-  id: number
-  name: string
-  isAutomated: boolean
-}>
+export interface Application
+  extends Readonly<{
+    id: number
+    name: string
+    isAutomated: boolean
+  }> {}
 
 export const $Application: $.Transformer<unknown, Application> = $.obj({
   id: $.number,
