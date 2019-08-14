@@ -52,7 +52,8 @@ const PostModalScreenImpl: React.FC = () => {
     },
     [postSendBloc],
   )
-
+  
+  // TODO: iOS では InputAccessoryView を用いるとよい？これはキーボードが消える時に消えるので UI の検討が必要そう
   return (
     <ScreenView style={screenStyle}>
       <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT + StatusBar.currentHeight!}>
