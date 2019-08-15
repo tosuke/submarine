@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { StyleSheet, Clipboard } from 'react-native'
+import { StyleSheet, Clipboard, Alert } from 'react-native'
 import { Title, Caption, Divider, TextInput, Button, Text } from 'react-native-paper'
 import { ScreenView } from '../atoms/ScreenView'
+import { Observable } from 'rxjs'
+import { useObservableEffect } from '../hooks/useObservableEffect'
 
 export const AuthorizeWithCodeScreenView: React.FC<{
   authorizing: boolean
   authorize: (code: string) => void
-}> = ({ authorizing, authorize }) => {
+  invalidCodeErrorEvent: Observable<void>
+}> = ({ authorizing, authorize, invalidCodeErrorEvent }) => {
   const [codeInput, updateCodeInput] = useState('')
 
   const onAuthorizeButtonPressed = useCallback(() => {
@@ -15,23 +18,26 @@ export const AuthorizeWithCodeScreenView: React.FC<{
 
   useEffect(() => {
     Clipboard.getString().then(str => {
-      if(/^[0-9a-f]{16}$/.test(str)) {
-        authorize(str)        
+      if (/^[0-9a-f]{16}$/.test(str)) {
+        authorize(str)
       }
     })
   }, [authorize])
+
+  useObservableEffect(
+    () => invalidCodeErrorEvent,
+    () => {
+      Alert.alert('コードが不正です。', '操作をやり直してください')
+    },
+    [invalidCodeErrorEvent],
+  )
 
   return (
     <ScreenView style={styles.view}>
       <Title>コードで認証</Title>
       <Caption>認証画面でコードを貼り付けるように指示が出たらこの下に貼り付け、ボタンを押してください。</Caption>
       <Divider style={styles.divider} />
-      <TextInput
-        style={styles.textInput}
-        placeholder="code"
-        value={codeInput}
-        onChangeText={updateCodeInput}
-      />
+      <TextInput style={styles.textInput} placeholder="code" value={codeInput} onChangeText={updateCodeInput} />
       <Button
         mode="contained"
         loading={authorizing}
@@ -52,10 +58,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   divider: {
-    marginVertical: 5
+    marginVertical: 5,
   },
   textInput: {
     width: '100%',
-    marginBottom: 5 
-  }
+    marginBottom: 5,
+  },
 })

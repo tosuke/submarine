@@ -1,5 +1,4 @@
 import React, { useCallback  } from 'react'
-import { Alert } from 'react-native'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useAuthBloc } from '../hooks/useAuthBloc'
 import { useNaviagtion } from '../hooks/useNavigation'
@@ -11,15 +10,6 @@ const AuthorizeWithCodeScreenImpl: React.FC = () => {
   const authBloc = useAuthBloc()
   const { navigate } = useNaviagtion()
   const authorizing = useValueObservable(() => authBloc.authorizing$)
-
-  useObservableEffect(
-    () => authBloc.invalidCodeError$,
-    () => {
-      // うまいことPresenterに移譲したいがうまい方法が思いつかない
-      Alert.alert('コードが不正です。', '操作をやり直してください。')
-    },
-    [authBloc],
-  )
 
   useObservableEffect(
     () => authBloc.seaClient$,
@@ -37,6 +27,7 @@ const AuthorizeWithCodeScreenImpl: React.FC = () => {
     <AuthorizeWithCodeScreenView
       authorizing={authorizing}
       authorize={authorize}
+      invalidCodeErrorEvent={authBloc.invalidCodeError$}
     />
   )
 }

@@ -1,11 +1,9 @@
 import React, { useCallback } from 'react'
-import { Appbar } from 'react-native-paper'
 import { ScreenView } from '../atoms/ScreenView'
+import { HomeScreenHeader, HomeScreenFAB, HomeScreenMainView } from '../presenters/HomeScreenView'
 import { PublicTimeline } from '../containers/PublicTimeline'
 import { PublicTimelineBlocProvider, usePublicTimelineBloc } from '../hooks/usePublicTimelineBloc'
-import { PrimaryFAB } from '../atoms/PrimaryFAB'
 import { useNaviagtion } from '../hooks/useNavigation'
-import { View } from 'react-native'
 import { useObservable } from '../hooks/useObservable'
 
 const HomeScreenImpl: React.FC = () => {
@@ -24,14 +22,11 @@ const HomeScreenImpl: React.FC = () => {
 
   return (
     <ScreenView>
-      <Appbar.Header onTouchEnd={scrollToTop}>
-        <Appbar.Content title="ホーム" />
-        <Appbar.Action icon="wifi" disabled={!connected} />
-      </Appbar.Header>
-      <PrimaryFAB icon="send" onPress={onPostButtonPressed} />
-      <View style={{ flex: 1, marginHorizontal: 10 }}>
+      <HomeScreenHeader onTouchEnd={scrollToTop} connectedToStream={connected} />
+      <HomeScreenFAB onPress={onPostButtonPressed} />
+      <HomeScreenMainView>
         <PublicTimeline />
-      </View>
+      </HomeScreenMainView>
     </ScreenView>
   )
 }

@@ -1,41 +1,20 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { View, ViewStyle, TextInput, TextStyle, StatusBar, ToastAndroid } from 'react-native'
-import { Header } from 'react-navigation'
-import { Appbar } from 'react-native-paper'
-import { KeyboardAvoidingView } from '../atoms/KeyboardAvoidingView'
-import { ScreenView } from '../atoms/ScreenView'
+import React, { useCallback, useState } from 'react'
+import { PostModalScreenView, PostModalScreenHeaderView } from '../presenters/PostModalScreenView'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useNaviagtion } from '../hooks/useNavigation'
-import { useTheme } from '../hooks/useTheme'
 import { usePostSendBloc } from '../hooks/usePostSendBloc'
 import { useObservableEffect } from '../hooks/useObservableEffect'
 
-const screenStyle: ViewStyle = {
-  flex: 1,
-  justifyContent: 'space-between',
-}
-
 const PostModalScreenImpl: React.FC = () => {
-  const theme = useTheme()
-  const textInputStyle = useMemo<TextStyle>(
-    () => ({
-      marginHorizontal: 10,
-      marginTop: 5,
-      color: theme.colors.text,
-      fontSize: 18,
-    }),
-    [theme],
-  )
-
   const { navigate } = useNaviagtion()
 
   const postSendBloc = usePostSendBloc()
   const [text, updateText] = useState('')
-  const onPostButtonPressed = useCallback(() => {
+  const onSendButtonPress = useCallback(() => {
     postSendBloc.send$.next(text)
     updateText('')
   }, [text])
-  const disabled = text.length === 0
+  const sendButtonIsDisabled = text.length === 0
 
   useObservableEffect(
     () => postSendBloc.sendComplete$,
@@ -45,48 +24,23 @@ const PostModalScreenImpl: React.FC = () => {
     [postSendBloc],
   )
 
-  useObservableEffect(
-    () => postSendBloc.emptyTextError$,
-    () => {
-      ToastAndroid.show('本文を入力してください', 0.5)
-    },
-    [postSendBloc],
-  )
-  
-  // TODO: iOS では InputAccessoryView を用いるとよい？これはキーボードが消える時に消えるので UI の検討が必要そう
   return (
-    <ScreenView style={screenStyle}>
-      <KeyboardAvoidingView style={{ flex: 1 }} keyboardVerticalOffset={Header.HEIGHT + StatusBar.currentHeight!}>
-        <View style={{ flex: 1 }}>
-          <TextInput
-            style={textInputStyle}
-            placeholder="What's up Otaku?"
-            autoFocus={true}
-            multiline={true}
-            value={text}
-            onChangeText={updateText}
-          />
-        </View>
-        <Appbar style={{ maxHeight: 44, backgroundColor: theme.colors.surface }}>
-          <Appbar.Content title="" />
-          <Appbar.Action icon="send" accessibilityLabel="Send" disabled={disabled} onPress={onPostButtonPressed} />
-        </Appbar>
-      </KeyboardAvoidingView>
-    </ScreenView>
+    <PostModalScreenView
+      text={text}
+      onChangeText={updateText}
+      sendButtonIsDisabled={sendButtonIsDisabled}
+      onSendButtonPress={onSendButtonPress}
+      emptyTextError$={postSendBloc.emptyTextError$}
+    />
   )
 }
 
 const PostModalScreenHeader: React.FC = () => {
   const { navigate } = useNaviagtion()
-  const onBackButtonPressed = useCallback(() => {
+  const onCloseButtonPress = useCallback(() => {
     navigate('Main')
   }, [navigate])
-  return (
-    <Appbar.Header>
-      <Appbar.Action icon="close" onPress={onBackButtonPressed} />
-      <Appbar.Content title="投稿" />
-    </Appbar.Header>
-  )
+  return <PostModalScreenHeaderView onCloseButtonPress={onCloseButtonPress} />
 }
 
 export const PostModalScreen = withNavigationOptions({
