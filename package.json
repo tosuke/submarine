@@ -5,7 +5,21 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "type-check": "tsc --noEmit",
+    "lint-staged": "lint-staged",
+    "pre-commit": "npm run type-check && npm run lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier --check"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit"
+    }
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.3",
@@ -32,6 +46,9 @@
     "@types/react": "^16.8.19",
     "@types/react-native": "^0.57.60",
     "babel-preset-expo": "^5.1.1",
+    "husky": "^3.0.3",
+    "lint-staged": "^9.2.1",
+    "prettier": "^1.18.2",
     "typescript": "^3.4.5"
   },
   "private": true

@@ -54,16 +54,18 @@ export class PublicTimelineBloc {
       distinctUntilChanged(),
     )
 
-    this._connectedSub = this.connectedToSocket$.pipe(
-      filter(b => b),
-      filter(() => !this._isFetchingLatestPosts$.value),
-      switchMap(async () => {
-        const posts = this._posts$.value
-        if(posts.length === 0) return
-        const sinceId = posts[0].id
-        this.insertPosts(await seaClient.fetchLatestPostsFromPublicTimeline(100, sinceId))
-      })
-    ).subscribe()
+    this._connectedSub = this.connectedToSocket$
+      .pipe(
+        filter(b => b),
+        filter(() => !this._isFetchingLatestPosts$.value),
+        switchMap(async () => {
+          const posts = this._posts$.value
+          if (posts.length === 0) return
+          const sinceId = posts[0].id
+          this.insertPosts(await seaClient.fetchLatestPostsFromPublicTimeline(100, sinceId))
+        }),
+      )
+      .subscribe()
 
     this._fetchLatestPosts$
       .pipe(

@@ -9,7 +9,9 @@ export type NavigationOptionType =
       navigationOptions: NavigationScreenOptions
     }) => NavigationScreenOptions)
 
-export function withNavigationOptions(options: NavigationOptionType): <P>(c: React.ComponentType<P>) => React.ComponentType<P> & { readonly navigationOptions: NavigationOptionType } {
+export function withNavigationOptions(
+  options: NavigationOptionType,
+): <P>(c: React.ComponentType<P>) => React.ComponentType<P> & { readonly navigationOptions: NavigationOptionType } {
   return <P>(C: React.ComponentType<P>) => {
     class WithNavigationOptions extends React.Component<P> {
       static navigationOptions = options

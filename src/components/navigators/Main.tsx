@@ -21,7 +21,14 @@ const MainTabImpl: React.FC = () => {
     [index],
   )
 
-  return <BottomNavigation keyboardHidesNavigationBar={false} navigationState={state} onIndexChange={updateIndex} renderScene={scenes} />
+  return (
+    <BottomNavigation
+      keyboardHidesNavigationBar={false}
+      navigationState={state}
+      onIndexChange={updateIndex}
+      renderScene={scenes}
+    />
+  )
 }
 
 export const MainTab = withNavigationOptions({ header: null })(MainTabImpl)

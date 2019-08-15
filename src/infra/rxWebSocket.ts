@@ -29,19 +29,21 @@ export class RxWebSocket {
         this.ws.send(JSON.stringify(data))
       }
     })
-    this._messages$.pipe(
-      bufferTime(pingDurationMs),
-      map(events => [events.length, this._connectionState$.value]),
-      filter(([num, state]) => num === 0 && state === 'OPEN'),
-    ).subscribe(() => {
-      this.close()
-      this.connect().catch((() => {}))
-    })
+    this._messages$
+      .pipe(
+        bufferTime(pingDurationMs),
+        map(events => [events.length, this._connectionState$.value]),
+        filter(([num, state]) => num === 0 && state === 'OPEN'),
+      )
+      .subscribe(() => {
+        this.close()
+        this.connect().catch(() => {})
+      })
   }
 
   private async openWS(): Promise<WebSocket> {
     const ws = await this.factory()
-    if(ws.readyState === 1 /* OPEN */) return ws
+    if (ws.readyState === 1 /* OPEN */) return ws
     return await new Promise((res, rej) => {
       ws.addEventListener('open', () => {
         res(ws)
@@ -53,7 +55,7 @@ export class RxWebSocket {
   }
 
   private async connect(retryNum: number = 10) {
-    if(this._connectionState$.value !== 'CLOSED' && this._connectionState$.value !== 'CLOSING') return
+    if (this._connectionState$.value !== 'CLOSED' && this._connectionState$.value !== 'CLOSING') return
     this._connectionState$.next('CONNECTING')
 
     let err: Error | null = null
@@ -82,7 +84,7 @@ export class RxWebSocket {
     })
 
     this.ws.addEventListener('close', () => {
-      if(closeWithError) return
+      if (closeWithError) return
       this._connectionState$.next('CLOSED')
       this.connect()
     })

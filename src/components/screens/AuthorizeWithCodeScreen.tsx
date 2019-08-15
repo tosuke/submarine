@@ -1,4 +1,4 @@
-import React, { useCallback  } from 'react'
+import React, { useCallback } from 'react'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useAuthBloc } from '../hooks/useAuthBloc'
 import { useNaviagtion } from '../hooks/useNavigation'
@@ -19,9 +19,12 @@ const AuthorizeWithCodeScreenImpl: React.FC = () => {
     [authBloc],
   )
 
-  const authorize = useCallback((code: string) => {
-    authBloc.authorizeWithCode$.next(code)
-  }, [authBloc])
+  const authorize = useCallback(
+    (code: string) => {
+      authBloc.authorizeWithCode$.next(code)
+    },
+    [authBloc],
+  )
 
   return (
     <AuthorizeWithCodeScreenView

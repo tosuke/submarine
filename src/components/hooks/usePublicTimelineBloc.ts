@@ -4,7 +4,7 @@ import { useSeaClient } from './useSeaClient'
 
 const PublicTLBlocCtx = React.createContext<PublicTimelineBloc | undefined>(undefined)
 
-export const PublicTimelineBlocProvider: React.FC<{ firstLoad?: number }> = ({ children, firstLoad = 20}) => {
+export const PublicTimelineBlocProvider: React.FC<{ firstLoad?: number }> = ({ children, firstLoad = 20 }) => {
   const seaClient = useSeaClient()
   const publicTLBloc = useMemo(() => new PublicTimelineBloc(seaClient, firstLoad), [])
   useEffect(() => () => publicTLBloc.dispose(), [publicTLBloc])

@@ -2,12 +2,12 @@ import ky from 'ky'
 import * as $ from 'transform-ts'
 import { Post, $Post } from '../models'
 import { RxWebSocket, ConnectionState } from './rxWebSocket'
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 
 const $PostMessage = $.obj({
   type: $.string,
-  content: $Post
+  content: $Post,
 })
 
 export class SeaClient {
@@ -25,11 +25,13 @@ export class SeaClient {
     this.publicTimelineSocket = new RxWebSocket(() => {
       const ws = new WebSocket(wsEndpoint)
       ws.addEventListener('open', () => {
-        ws.send(JSON.stringify({
-          type: 'connect',
-          stream: 'v1/timelines/public',
-          token: seaToken
-        }))
+        ws.send(
+          JSON.stringify({
+            type: 'connect',
+            stream: 'v1/timelines/public',
+            token: seaToken,
+          }),
+        )
       })
       return ws
     }, 60 * 1000)
@@ -37,12 +39,12 @@ export class SeaClient {
     this.publicTimeline$ = this.publicTimelineSocket.messages$.pipe(
       mergeMap(message => {
         const result = $PostMessage.transform(message)
-        if(result.type === 'ok') {
+        if (result.type === 'ok') {
           return [result.value.content]
         } else {
           return []
         }
-      })
+      }),
     )
 
     this.publicTimelineConnectionState$ = this.publicTimelineSocket.connectionState$

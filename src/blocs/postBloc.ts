@@ -41,13 +41,14 @@ export class PostBloc {
 
   constructor(post: Post) {
     this._relativeTime$ = new BehaviorSubject(relativeTime(new Date(), post.createdAt))
-    this._relativeTimeSub = interval(1000).pipe(
-      map(() => relativeTime(new Date(), post.createdAt)),
-      distinctUntilChanged()
-    ).
-    subscribe(time => {
-      this._relativeTime$.next(time)
-    })
+    this._relativeTimeSub = interval(1000)
+      .pipe(
+        map(() => relativeTime(new Date(), post.createdAt)),
+        distinctUntilChanged(),
+      )
+      .subscribe(time => {
+        this._relativeTime$.next(time)
+      })
   }
 
   dispose() {
