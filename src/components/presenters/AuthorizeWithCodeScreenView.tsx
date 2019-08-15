@@ -50,7 +50,13 @@ export const AuthorizeWithCodeScreenView: React.FC<{
       <Title>コードで認証</Title>
       <Caption>認証画面でコードを貼り付けるように指示が出たらこの下に貼り付け、ボタンを押してください。</Caption>
       <Divider style={styles.divider} />
-      <TextInput style={styles.textInput} placeholder="code" value={codeInput} onChangeText={updateCodeInput} />
+      <TextInput
+        style={styles.textInput}
+        placeholder="code"
+        value={codeInput}
+        onChangeText={updateCodeInput}
+        onSubmitEditing={onAuthorizeButtonPressed}
+      />
       <Button
         mode="contained"
         loading={authorizing}
