@@ -9,7 +9,7 @@ type Action = {
 type ActionFactory = (props: { dismiss: () => void }) => Action
 
 export function useSnackBar({ duration: defaultDuration, action: actionFactory }: Partial<{ duration: number, action: Action | ActionFactory }>) {
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState(false)
   const [duration, setDuration] = useState<number | undefined>(defaultDuration)
 
   const show = useCallback((duration?: number) => {
