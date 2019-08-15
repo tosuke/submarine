@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { StyleSheet, Clipboard, Alert } from 'react-native'
-import { Title, Caption, Divider, TextInput, Button, Text } from 'react-native-paper'
+import { StyleSheet, Clipboard } from 'react-native'
+import { Title, Caption, Divider, TextInput, Button, Text, Snackbar } from 'react-native-paper'
 import { ScreenView } from '../atoms/ScreenView'
 import { Observable } from 'rxjs'
 import { useObservableEffect } from '../hooks/useObservableEffect'
+import { useSnackBar } from '../hooks/useSnackBar'
 
 export const AuthorizeWithCodeScreenView: React.FC<{
   authorizing: boolean
@@ -16,6 +17,10 @@ export const AuthorizeWithCodeScreenView: React.FC<{
     authorize(codeInput)
   }, [authorize, codeInput])
 
+  const invalidCodeErrorBar = useSnackBar({
+    action: ({ dismiss }) => ({ label: 'OK', onPress: dismiss }),
+  })
+
   useEffect(() => {
     Clipboard.getString().then(str => {
       if (/^[0-9a-f]{16}$/.test(str)) {
@@ -27,13 +32,21 @@ export const AuthorizeWithCodeScreenView: React.FC<{
   useObservableEffect(
     () => invalidCodeErrorEvent,
     () => {
-      Alert.alert('コードが不正です。', '操作をやり直してください')
+      invalidCodeErrorBar.show()
     },
     [invalidCodeErrorEvent],
   )
 
   return (
     <ScreenView style={styles.view}>
+      <Snackbar
+        visible={invalidCodeErrorBar.visible}
+        duration={invalidCodeErrorBar.duration}
+        onDismiss={invalidCodeErrorBar.dismiss}
+        action={invalidCodeErrorBar.action}
+      >
+        コードが不正です。
+      </Snackbar>
       <Title>コードで認証</Title>
       <Caption>認証画面でコードを貼り付けるように指示が出たらこの下に貼り付け、ボタンを押してください。</Caption>
       <Divider style={styles.divider} />
