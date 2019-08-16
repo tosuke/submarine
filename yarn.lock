@@ -5825,10 +5825,10 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-transform-ts@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/transform-ts/-/transform-ts-0.1.2.tgz#a3316b7d99c0d659ca5cca7d071f541aeb6ea424"
-  integrity sha512-LWmAr+ATTMBckcN/Gkg1+fWqp4idJyn5z5TSkcdMijTOD/QH3mOXYJ+YC7l1+8nIAaHGIeNWolFnOPnUySW2Uw==
+transform-ts@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/transform-ts/-/transform-ts-0.2.2.tgz#c93b5a5ef2de163206c7c966fa5d97d70214698c"
+  integrity sha512-ZhK++xaal1Okh+dNJ2KTPfgwWgUip8nIefRwiUq5sxchAa66I9x6czbaUQWKsm5Ja43lbvucKpPv7Jn7ZJg27w==
 
 trim-right@^1.0.1:
   version "1.0.1"

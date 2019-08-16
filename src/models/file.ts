@@ -1,4 +1,4 @@
-import * as $ from 'transform-ts'
+import $, { Transformer } from 'transform-ts'
 
 export interface File
   extends Readonly<{
@@ -18,7 +18,7 @@ export interface FileVariant
     mime: string
   }> {}
 
-export const $FileVariant: $.Transformer<unknown, FileVariant> = $.obj({
+export const $FileVariant: Transformer<unknown, FileVariant> = $.obj({
   id: $.number,
   score: $.number,
   extension: $.string,
@@ -28,7 +28,7 @@ export const $FileVariant: $.Transformer<unknown, FileVariant> = $.obj({
   mime: $.string,
 })
 
-export const $File: $.Transformer<unknown, File> = $.obj({
+export const $File: Transformer<unknown, File> = $.obj({
   id: $.number,
   name: $.string,
   variants: $.array($FileVariant),

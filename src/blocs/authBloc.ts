@@ -3,7 +3,7 @@ import { BehaviorSubject, Subject, Observer, Observable } from 'rxjs'
 import { ValueObservable } from '../utils'
 import { map, tap, switchMap, debounceTime, catchError } from 'rxjs/operators'
 import ky, { HTTPError } from 'ky'
-import * as $ from 'transform-ts'
+import $ from 'transform-ts'
 import { SeaClient } from '../infra/seaClient'
 import { clientId, clientSecret, restEndpoint, wsEndpoint, endpoint } from '../config'
 

@@ -1,4 +1,4 @@
-import * as $ from 'transform-ts'
+import $, { Transformer } from 'transform-ts'
 import { $Date } from './utils'
 import { File, $File } from './file'
 
@@ -13,7 +13,7 @@ export interface User
     avatarFile: File | null
   }> {}
 
-export const $User: $.Transformer<unknown, User> = $.obj({
+export const $User: Transformer<unknown, User> = $.obj({
   id: $.number,
   name: $.string,
   screenName: $.string,

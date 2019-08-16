@@ -1,5 +1,5 @@
 import ky from 'ky'
-import * as $ from 'transform-ts'
+import $ from 'transform-ts'
 import { Post, $Post } from '../models'
 import { RxWebSocket, ConnectionState } from './rxWebSocket'
 import { Observable } from 'rxjs'

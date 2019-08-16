@@ -1,4 +1,4 @@
-import * as $ from 'transform-ts'
+import $, { Transformer } from 'transform-ts'
 import { $Date } from './utils'
 import { Application, $Application } from './application'
 import { File, $File } from './file'
@@ -15,7 +15,7 @@ export interface Post
     files: File[]
   }> {}
 
-export const $Post: $.Transformer<unknown, Post> = $.obj({
+export const $Post: Transformer<unknown, Post> = $.obj({
   id: $.number,
   text: $.string,
   user: $User,
