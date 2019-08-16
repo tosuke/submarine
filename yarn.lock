@@ -5020,11 +5020,6 @@ react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react-use-promise@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-use-promise/-/react-use-promise-0.2.0.tgz#ff7d906266162b2cf6de651e070933654ecf51b2"
-  integrity sha512-WWPlHKpgHNKOc9uxnVwUpOzcarQKy3DSgXdXvgxVMZkoB9oTeOmpFuEE/hayUjI4PDoPEeU5EuLZhlDlcFr4rg==
-
 react@16.8.3:
   version "16.8.3"
   resolved "https://registry.yarnpkg.com/react/-/react-16.8.3.tgz#c6f988a2ce895375de216edcfaedd6b9a76451d9"
