@@ -1,21 +1,10 @@
 import 'core-js/features/url'
 import React from 'react'
-import { Provider as PaperProvider, DarkTheme } from 'react-native-paper'
+import { DarkTheme } from 'react-native-paper'
 import { AppContainer } from './components/navigators/App'
 import { AuthBlocProvider } from './components/hooks/useAuthBloc'
 import { ThemeBlocProvider } from './components/hooks/useThemeBloc'
-import { useTheme } from './components/hooks/useTheme'
 import { PostSendBlocProvider } from './components/hooks/usePostSendBloc'
-
-const AppImpl: React.FC = () => {
-  const theme = useTheme()
-
-  return (
-    <PaperProvider theme={theme}>
-      <AppContainer />
-    </PaperProvider>
-  )
-}
 
 export default class App extends React.Component {
   render() {
@@ -23,7 +12,7 @@ export default class App extends React.Component {
       <ThemeBlocProvider defaultTheme={DarkTheme}>
         <AuthBlocProvider>
           <PostSendBlocProvider>
-            <AppImpl />
+            <AppContainer />
           </PostSendBlocProvider>
         </AuthBlocProvider>
       </ThemeBlocProvider>
