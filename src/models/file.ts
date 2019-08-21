@@ -1,7 +1,54 @@
 import $, { Transformer, ok } from 'transform-ts'
 
 export class File {
-  constructor(readonly id: number, readonly name: string, readonly variants: FileVariant[]) {}
+  constructor(readonly id: number, readonly name: string, readonly type: string, readonly variants: FileVariant[]) {}
+
+  isImageFile(): this is ImageFile {
+    return this.type === 'image'
+  }
+
+  isVideoFile(): this is VideoFile {
+    return this.type === 'video'
+  }
+
+  get thumbnailVariant(): FileVariant | null {
+    const thumbVariants = this.variants.filter(v => v.type === 'thumbnail')
+    if (thumbVariants.length === 0) return null
+
+    return findProperImageVariant(thumbVariants)
+  }
+
+  get imageVariant(): FileVariant | null {
+    const imageVariants = this.variants.filter(v => v.type === 'image')
+    if (imageVariants.length === 0) return null
+
+    return findProperImageVariant(imageVariants)
+  }
+
+  get videoVariant(): FileVariant | null {
+    const videoVariant = this.variants.find(v => v.type === 'video')
+    return videoVariant || null
+  }
+}
+
+function findProperImageVariant(variants: ReadonlyArray<FileVariant>): FileVariant {
+  if (true) {
+    const webpVariant = variants.find(v => v.mime === 'image/webp')
+    if (webpVariant) return webpVariant
+  }
+  return variants[0]
+}
+
+export interface ImageFile extends File {
+  isImageFile(): true
+  thumbnailVariant: FileVariant
+  imageVariant: FileVariant
+}
+
+export interface VideoFile extends File {
+  isVideoFile(): true
+  thumbnailVariant: FileVariant
+  videoVariant: FileVariant
 }
 
 export interface FileVariant {
@@ -27,5 +74,6 @@ export const $FileVariant: Transformer<unknown, FileVariant> = $.obj({
 export const $File: Transformer<unknown, File> = $.obj({
   id: $.number,
   name: $.string,
+  type: $.string,
   variants: $.array($FileVariant),
-}).compose(new Transformer(({ id, name, variants }) => ok(new File(id, name, variants)), ok))
+}).compose(new Transformer(({ id, name, type, variants }) => ok(new File(id, name, type, variants)), ok))
