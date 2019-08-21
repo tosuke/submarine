@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { BottomTabBar, BottomTabBarProps } from 'react-navigation'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 import { TextStyle, ViewStyle } from 'react-native'
 
 const labelStyle: TextStyle = {

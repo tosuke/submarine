@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
 import { Observable, EMPTY } from 'rxjs'
-import { useObservableEffect } from '../hooks/useObservableEffect'
+import { useObservableEffect } from '../../hooks/useObservableEffect'
 import { ToastAndroid, ViewStyle, StatusBar, TextInput, View, TextStyle } from 'react-native'
 import { ScreenView } from '../atoms/ScreenView'
 import { Header } from 'react-navigation'
 import { Appbar } from 'react-native-paper'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 import { KeyboardAvoidingView } from '../atoms/KeyboardAvoidingView'
 
 type Props = Partial<{

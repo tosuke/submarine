@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { ViewStyle } from 'react-native'
 import { FAB, FABProps } from 'react-native-paper'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 
 export const PrimaryFAB: React.FC<FABProps> = props => {
   const theme = useTheme()

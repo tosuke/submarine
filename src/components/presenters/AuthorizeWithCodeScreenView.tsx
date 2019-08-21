@@ -3,8 +3,8 @@ import { StyleSheet, Clipboard } from 'react-native'
 import { Title, Caption, Divider, TextInput, Button, Text, Snackbar } from 'react-native-paper'
 import { ScreenView } from '../atoms/ScreenView'
 import { Observable } from 'rxjs'
-import { useObservableEffect } from '../hooks/useObservableEffect'
-import { useSnackBar } from '../hooks/useSnackBar'
+import { useObservableEffect } from '../../hooks/useObservableEffect'
+import { useSnackBar } from '../../hooks/useSnackBar'
 
 export const AuthorizeWithCodeScreenView: React.FC<{
   authorizing: boolean

@@ -1,4 +1,4 @@
-import { SeaClient } from '../../infra/seaClient'
+import { SeaClient } from '../infra/seaClient'
 import { useAuthBloc } from './useAuthBloc'
 import { useValueObservable } from './useObservable'
 

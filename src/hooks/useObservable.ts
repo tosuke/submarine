@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Observable } from 'rxjs'
-import { ValueObservable } from '../../utils'
+import { ValueObservable } from '../utils'
 
 export function useObservable<A, B>(inputFactory: () => Observable<A>, initialValue: B, deps: unknown[] = []): A | B {
   const [state, setState] = useState<A | B>(initialValue)

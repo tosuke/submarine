@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useContext } from 'react'
-import { PublicTimelineBloc } from '../../blocs/publicTimelineBloc'
+import { PublicTimelineBloc } from '../blocs/publicTimelineBloc'
 import { useSeaClient } from './useSeaClient'
 
 const PublicTLBlocCtx = React.createContext<PublicTimelineBloc | undefined>(undefined)

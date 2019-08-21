@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { ScrollView, Alert } from 'react-native'
 import { List, Divider, Appbar } from 'react-native-paper'
 import { ScreenView } from '../atoms/ScreenView'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 
 export const PreferencesScreenView: React.FC<{
   doLogout: () => void

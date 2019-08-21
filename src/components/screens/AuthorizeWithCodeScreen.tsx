@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
-import { useAuthBloc } from '../hooks/useAuthBloc'
-import { useNaviagtion } from '../hooks/useNavigation'
-import { useValueObservable } from '../hooks/useObservable'
-import { useObservableEffect } from '../hooks/useObservableEffect'
+import { useAuthBloc } from '../../hooks/useAuthBloc'
+import { useNaviagtion } from '../../hooks/useNavigation'
+import { useValueObservable } from '../../hooks/useObservable'
+import { useObservableEffect } from '../../hooks/useObservableEffect'
 import { AuthorizeWithCodeScreenView } from '../presenters/AuthorizeWithCodeScreenView'
 
 const AuthorizeWithCodeScreenImpl: React.FC = () => {

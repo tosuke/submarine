@@ -2,10 +2,10 @@ import React, { useCallback, useRef } from 'react'
 import { FlatList, View } from 'react-native'
 import { Divider, Subheading } from 'react-native-paper'
 import { Post as PostType } from '../../models'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 import { PostContainer } from './PostContainer'
 import { Observable, EMPTY } from 'rxjs'
-import { useObservableEffect } from '../hooks/useObservableEffect'
+import { useObservableEffect } from '../../hooks/useObservableEffect'
 
 const Footer: React.FC = () => (
   <>

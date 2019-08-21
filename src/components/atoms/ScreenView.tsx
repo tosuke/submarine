@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, ViewProps } from 'react-native'
-import { useTheme } from '../hooks/useTheme'
+import { useTheme } from '../../hooks/useTheme'
 
 export const ScreenView: React.FC<ViewProps> = ({ ...props }) => {
   const theme = useTheme()
