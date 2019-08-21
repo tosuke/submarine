@@ -1,19 +1,20 @@
-import $, { Transformer } from 'transform-ts'
+import $, { Transformer, ok } from 'transform-ts'
 import { $Date } from './utils'
 import { Application, $Application } from './application'
 import { File, $File } from './file'
 import { User, $User } from './user'
 
-export interface Post
-  extends Readonly<{
-    id: number
-    text: string
-    user: User
-    application: Application
-    createdAt: Date
-    updatedAt: Date
-    files: File[]
-  }> {}
+export class Post {
+  constructor(
+    readonly id: number,
+    readonly text: string,
+    readonly user: User,
+    readonly application: Application,
+    readonly createdAt: Date,
+    readonly updatedAt: Date,
+    readonly files: File[],
+  ) {}
+}
 
 export const $Post: Transformer<unknown, Post> = $.obj({
   id: $.number,
@@ -23,4 +24,10 @@ export const $Post: Transformer<unknown, Post> = $.obj({
   createdAt: $Date,
   updatedAt: $Date,
   files: $.array($File),
-})
+}).compose(
+  new Transformer(
+    ({ id, text, user, application, createdAt, updatedAt, files }) =>
+      ok(new Post(id, text, user, application, createdAt, updatedAt, files)),
+    ok,
+  ),
+)
