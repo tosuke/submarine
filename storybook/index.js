@@ -1,11 +1,16 @@
+import React from 'react'
 import { AppRegistry } from 'react-native'
-import { getStorybookUI, configure } from '@storybook/react-native'
+import { getStorybookUI, configure, addDecorator } from '@storybook/react-native'
+import { DarkTheme } from 'react-native-paper'
+import { ThemeBlocProvider } from '../src/hooks/useThemeBloc'
 
 import './rn-addons'
 
 configure(() => {
-  require('./stories')
+  require('../src/components/molecules/Post/story')
 }, module)
+
+addDecorator(story => <ThemeBlocProvider defaultTheme={DarkTheme}>{story()}</ThemeBlocProvider>)
 
 const StoryBookUIRoot = getStorybookUI({})
 
