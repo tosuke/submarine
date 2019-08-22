@@ -1,6 +1,7 @@
 import React from 'react'
 import { ViewStyle, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
+import { MaterialIcons } from '@expo/vector-icons'
 import { PrimaryFAB } from '../atoms/PrimaryFAB'
 import { AppHeader } from '../atoms/AppHeader'
 
@@ -14,8 +15,12 @@ export const HomeScreenHeader: React.FC<{ onTouchEnd?: () => void; connectedToSt
   </AppHeader>
 )
 
+const SendIcon: React.FC<{ size?: number; color?: string }> = ({ size, color }) => (
+  <MaterialIcons style={{ paddingLeft: 3 }} name="send" size={size} color={color} />
+)
+
 export const HomeScreenFAB: React.FC<{ onPress?: () => void }> = ({ onPress }) => (
-  <PrimaryFAB icon="send" onPress={onPress} />
+  <PrimaryFAB icon={SendIcon} onPress={onPress} />
 )
 
 const HomeScreenMainViewStyle: ViewStyle = {
