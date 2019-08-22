@@ -1,8 +1,8 @@
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation'
 import { MainTab } from './Main'
 import { AuthStack } from './Auth'
-import { LoadingScreen } from '../screens/LoadingScreen'
-import { PostModalScreen } from '../screens/PostModalScreen'
+import { LoadingScreen } from '../components/pages/LoadingScreen'
+import { PostModalScreen } from '../components/pages/PostModalScreen'
 
 const AppStack = createStackNavigator(
   {

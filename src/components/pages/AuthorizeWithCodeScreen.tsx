@@ -4,7 +4,7 @@ import { useAuthBloc } from '../../hooks/useAuthBloc'
 import { useNaviagtion } from '../../hooks/useNavigation'
 import { useValueObservable } from '../../hooks/useObservable'
 import { useObservableEffect } from '../../hooks/useObservableEffect'
-import { AuthorizeWithCodeScreenView } from '../presenters/AuthorizeWithCodeScreenView'
+import { AuthorizeWithCodeScreenView } from '../templates/AuthorizeWithCodeScreenView'
 
 const AuthorizeWithCodeScreenImpl: React.FC = () => {
   const authBloc = useAuthBloc()

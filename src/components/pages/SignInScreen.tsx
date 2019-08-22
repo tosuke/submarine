@@ -3,7 +3,7 @@ import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useAuthBloc } from '../../hooks/useAuthBloc'
 import { useNaviagtion } from '../../hooks/useNavigation'
 import { endpoint } from '../../config'
-import { SignInScreenView } from '../presenters/SignInScreenView'
+import { SignInScreenView } from '../templates/SignInScreenView'
 
 const SignInScreenImpl: React.FC = () => {
   const authBloc = useAuthBloc()
