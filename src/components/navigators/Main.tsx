@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { BottomNavigation, SceneProps } from 'react-native-paper'
+import { AppBottomNavigation } from '../atoms/AppBottomNavigation'
 import { HomeScreen } from '../screens/HomeScreen'
 import { PreferencesScreen } from '../screens/Preferences'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
@@ -22,7 +23,7 @@ const MainTabImpl: React.FC = () => {
   )
 
   return (
-    <BottomNavigation
+    <AppBottomNavigation
       keyboardHidesNavigationBar={false}
       navigationState={state}
       onIndexChange={updateIndex}
