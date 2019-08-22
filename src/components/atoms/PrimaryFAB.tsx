@@ -12,7 +12,7 @@ export const PrimaryFAB: React.FC<FABProps> = props => {
       bottom: 0,
       margin: 16,
       zIndex: 100,
-      backgroundColor: theme.colors.accent,
+      backgroundColor: theme.colors.primary,
     }),
     [theme],
   )
