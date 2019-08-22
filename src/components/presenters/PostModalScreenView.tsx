@@ -7,6 +7,7 @@ import { Header } from 'react-navigation'
 import { Appbar } from 'react-native-paper'
 import { useTheme } from '../../hooks/useTheme'
 import { KeyboardAvoidingView } from '../atoms/KeyboardAvoidingView'
+import { AppHeader } from '../atoms/AppHeader'
 
 type Props = Partial<{
   text: string
@@ -90,8 +91,8 @@ export const PostModalScreenView: React.FC<Props> = ({
 }
 
 export const PostModalScreenHeaderView: React.FC<{ onCloseButtonPress?: () => void }> = ({ onCloseButtonPress }) => (
-  <Appbar.Header>
+  <AppHeader>
     <Appbar.Action icon="close" onPress={onCloseButtonPress} />
     <Appbar.Content title="投稿" />
-  </Appbar.Header>
+  </AppHeader>
 )

@@ -2,15 +2,16 @@ import React from 'react'
 import { ViewStyle, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { PrimaryFAB } from '../atoms/PrimaryFAB'
+import { AppHeader } from '../atoms/AppHeader'
 
 export const HomeScreenHeader: React.FC<{ onTouchEnd?: () => void; connectedToStream?: boolean }> = ({
   onTouchEnd,
   connectedToStream,
 }) => (
-  <Appbar.Header onTouchEnd={onTouchEnd}>
+  <AppHeader onTouchEnd={onTouchEnd}>
     <Appbar.Content title="ホーム" />
     <Appbar.Action icon="wifi" disabled={!connectedToStream} />
-  </Appbar.Header>
+  </AppHeader>
 )
 
 export const HomeScreenFAB: React.FC<{ onPress?: () => void }> = ({ onPress }) => (
