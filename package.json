@@ -5,6 +5,7 @@
     "start": "expo start",
     "prestorybook": "cp -r App.storybook.tsx App.tsx",
     "storybook": "expo start",
+    "publish-expo": "cp -r App.app.tsx App.tsx && expo publish",
     "eject": "expo eject",
     "format": "prettier --write \"{src,storybook}/**/*.{js,ts,tsx}\"",
     "type-check": "tsc --noEmit",
