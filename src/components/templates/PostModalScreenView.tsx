@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { Observable, EMPTY } from 'rxjs'
-import color from 'color'
 import { useObservableEffect } from '../../hooks/useObservableEffect'
 import { ToastAndroid, ViewStyle, StatusBar, TextInput, View, TextStyle } from 'react-native'
 import { ScreenView } from '../atoms/ScreenView'
@@ -9,6 +8,7 @@ import { Appbar } from 'react-native-paper'
 import { useTheme } from '../../hooks/useTheme'
 import { KeyboardAvoidingView } from '../atoms/KeyboardAvoidingView'
 import { AppHeader } from '../atoms/AppHeader'
+import { headerColor } from '../color'
 
 type Props = Partial<{
   text: string
@@ -58,10 +58,7 @@ export const PostModalScreenView: React.FC<Props> = ({
   const appbarStyle = useMemo<ViewStyle>(
     () => ({
       maxHeight: 44,
-      backgroundColor: color(theme.colors.background)
-        .lighten(0.1)
-        .mix(color(theme.colors.primary), 0.05)
-        .string(),
+      backgroundColor: headerColor(theme),
     }),
     [theme],
   )

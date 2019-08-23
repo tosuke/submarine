@@ -2,6 +2,7 @@ import React from 'react'
 import { ViewStyle } from 'react-native'
 import { BottomNavigation, BottomNavigationProps, Theme, withTheme } from 'react-native-paper'
 import color from 'color'
+import { headerColor } from '../color'
 
 const AppBottomNavigationImpl: React.FC<BottomNavigationProps<unknown> & { theme: Theme }> = ({
   theme,
@@ -9,18 +10,13 @@ const AppBottomNavigationImpl: React.FC<BottomNavigationProps<unknown> & { theme
   activeColor,
   ...props
 }) => {
-  const backgroundColor = color(theme.colors.background)
-    .lighten(0.1)
-    .mix(color(theme.colors.primary), 0.05)
-    .rgb()
-    .string()
   const borderColor = color(theme.colors.text)
     .alpha(0.1)
     .rgb()
     .string()
 
   const barStyle: ViewStyle = {
-    backgroundColor,
+    backgroundColor: headerColor(theme),
     borderColor,
     borderTopWidth: 0.3,
   }

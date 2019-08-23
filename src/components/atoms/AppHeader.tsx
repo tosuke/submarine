@@ -1,7 +1,7 @@
 import React from 'react'
 import { Appbar, AppbarHeaderProps, Theme, withTheme } from 'react-native-paper'
-import color from 'color'
 import { ViewStyle } from 'react-native'
+import { headerColor } from '../color'
 
 const AppHeaderImpl: React.FC<AppbarHeaderProps & { theme: Theme }> = ({
   children,
@@ -10,10 +10,7 @@ const AppHeaderImpl: React.FC<AppbarHeaderProps & { theme: Theme }> = ({
   ...props
 }) => {
   const style: ViewStyle = {
-    backgroundColor: color(theme.colors.background)
-      .lighten(0.1)
-      .mix(color(theme.colors.primary), 0.05)
-      .string(),
+    backgroundColor: headerColor(theme),
   }
   return (
     <Appbar.Header theme={theme} style={[style, defaultStyle]} {...props}>
