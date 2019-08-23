@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { Observable, EMPTY } from 'rxjs'
+import color from 'color'
 import { useObservableEffect } from '../../hooks/useObservableEffect'
 import { ToastAndroid, ViewStyle, StatusBar, TextInput, View, TextStyle } from 'react-native'
 import { ScreenView } from '../atoms/ScreenView'
@@ -57,7 +58,10 @@ export const PostModalScreenView: React.FC<Props> = ({
   const appbarStyle = useMemo<ViewStyle>(
     () => ({
       maxHeight: 44,
-      backgroundColor: theme.colors.surface,
+      backgroundColor: color(theme.colors.background)
+        .lighten(0.1)
+        .mix(color(theme.colors.primary), 0.05)
+        .string(),
     }),
     [theme],
   )
@@ -82,6 +86,7 @@ export const PostModalScreenView: React.FC<Props> = ({
             icon="send"
             accessibilityLabel="Send"
             disabled={sendButtonIsDisabled}
+            color={sendButtonIsDisabled ? theme.colors.disabled : theme.colors.primary}
             onPress={onSendButtonPress}
           />
         </Appbar>
@@ -90,9 +95,13 @@ export const PostModalScreenView: React.FC<Props> = ({
   )
 }
 
-export const PostModalScreenHeaderView: React.FC<{ onCloseButtonPress?: () => void }> = ({ onCloseButtonPress }) => (
-  <AppHeader>
-    <Appbar.Action icon="close" onPress={onCloseButtonPress} />
-    <Appbar.Content title="投稿" />
-  </AppHeader>
-)
+export const PostModalScreenHeaderView: React.FC<{ onCloseButtonPress?: () => void }> = ({ onCloseButtonPress }) => {
+  const theme = useTheme()
+
+  return (
+    <AppHeader>
+      <Appbar.Action icon="close" color={theme.colors.primary} onPress={onCloseButtonPress} />
+      <Appbar.Content title="投稿" />
+    </AppHeader>
+  )
+}
