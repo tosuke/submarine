@@ -1,8 +1,7 @@
 import React from 'react'
 import { View, Image, ImageStyle, ViewStyle, TextStyle, ScrollView, ImageBackground } from 'react-native'
-import { Text, TouchableRipple } from 'react-native-paper'
+import { Text, TouchableRipple, Theme, withTheme } from 'react-native-paper'
 import { Caption } from '../../atoms/Caption'
-import { useTheme } from '../../../hooks/useTheme'
 import { MaterialIcons } from '@expo/vector-icons'
 
 const PostHeader: React.FC<{ name?: string; screenName?: string; relativeTime?: string; style?: ViewStyle }> = ({
@@ -33,13 +32,12 @@ const PostHeader: React.FC<{ name?: string; screenName?: string; relativeTime?: 
   )
 }
 
-const PostAvatar: React.FC<{ userName?: string; thumbnailUri?: string; style?: ViewStyle }> = ({
+const PostAvatar: React.FC<{ userName?: string; thumbnailUri?: string; style?: ViewStyle; theme: Theme }> = ({
   userName,
   thumbnailUri,
   style,
+  theme,
 }) => {
-  const theme = useTheme()
-
   const backgroundColor = theme.dark ? '#000' : '#fff'
   const textColor = theme.dark ? '#fff' : '#000'
 
@@ -146,44 +144,45 @@ export type PostProps = Partial<{
   appIsAutomated: boolean
 }>
 
-export const Post: React.FC<PostProps> = React.memo(
-  ({
-    style,
-    userName,
-    userScreenName,
-    avatarThumbnailUri,
-    relativeTime,
-    text,
-    thumbnails,
-    appName,
-    appIsAutomated,
-  }) => {
-    return (
-      <View style={[{ flexDirection: 'row' }, style]}>
-        <PostAvatar style={{ marginRight: 6 }} userName={userName} thumbnailUri={avatarThumbnailUri} />
-        <View style={{ flex: 1 }}>
-          <PostHeader name={userName} screenName={userScreenName} relativeTime={relativeTime} />
-          <Text style={{ marginTop: 3 }} selectable={true}>
-            {text}
-          </Text>
+const PostImpl: React.FC<PostProps & { theme: Theme }> = ({
+  theme,
+  style,
+  userName,
+  userScreenName,
+  avatarThumbnailUri,
+  relativeTime,
+  text,
+  thumbnails,
+  appName,
+  appIsAutomated,
+}) => {
+  return (
+    <View style={[{ flexDirection: 'row' }, style]}>
+      <PostAvatar theme={theme} style={{ marginRight: 6 }} userName={userName} thumbnailUri={avatarThumbnailUri} />
+      <View style={{ flex: 1 }}>
+        <PostHeader name={userName} screenName={userScreenName} relativeTime={relativeTime} />
+        <Text style={{ marginTop: 3 }} selectable={true}>
+          {text}
+        </Text>
 
-          {thumbnails && thumbnails.length > 0 && (
-            <ScrollView style={{ marginTop: 3 }} horizontal>
-              {thumbnails.map(({ type, thumbnailUri, onPress }) => (
-                <PostThumbnail
-                  key={thumbnailUri}
-                  style={{ marginRight: 6 }}
-                  type={type}
-                  thumbnailUri={thumbnailUri}
-                  onPress={onPress}
-                />
-              ))}
-            </ScrollView>
-          )}
+        {thumbnails && thumbnails.length > 0 && (
+          <ScrollView style={{ marginTop: 3 }} horizontal>
+            {thumbnails.map(({ type, thumbnailUri, onPress }) => (
+              <PostThumbnail
+                key={thumbnailUri}
+                style={{ marginRight: 6 }}
+                type={type}
+                thumbnailUri={thumbnailUri}
+                onPress={onPress}
+              />
+            ))}
+          </ScrollView>
+        )}
 
-          <PostFooter style={{ marginTop: 3 }} appName={appName} appIsBot={appIsAutomated} />
-        </View>
+        <PostFooter style={{ marginTop: 3 }} appName={appName} appIsBot={appIsAutomated} />
       </View>
-    )
-  },
-)
+    </View>
+  )
+}
+
+export const Post = withTheme(React.memo(PostImpl))

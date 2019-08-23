@@ -1,20 +1,17 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { ViewStyle } from 'react-native'
-import { FAB, FABProps } from 'react-native-paper'
-import { useTheme } from '../../hooks/useTheme'
+import { FAB, FABProps, Theme, withTheme } from 'react-native-paper'
 
-export const PrimaryFAB: React.FC<FABProps> = props => {
-  const theme = useTheme()
-  const fabStyle = useMemo<ViewStyle>(
-    () => ({
-      position: 'absolute',
-      right: 0,
-      bottom: 0,
-      margin: 16,
-      zIndex: 100,
-      backgroundColor: theme.colors.primary,
-    }),
-    [theme],
-  )
-  return <FAB style={fabStyle} {...props} />
+const PrimaryFABImpl: React.FC<FABProps & { theme: Theme }> = ({ theme, style, ...props }) => {
+  const fabStyle: ViewStyle = {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    margin: 16,
+    zIndex: 100,
+    backgroundColor: theme.colors.primary,
+  }
+  return <FAB theme={theme} style={[fabStyle, style]} {...props} />
 }
+
+export const PrimaryFAB = withTheme(PrimaryFABImpl)
