@@ -4,6 +4,8 @@ import { PostBloc } from '../../blocs/postBloc'
 import { useValueObservable } from '../../hooks/useObservable'
 import { Post, ThumbnailProp } from '../molecules/Post'
 import { ImageFile, VideoFile } from '../../models/file'
+import { useNaviagtion } from '../../hooks/useNavigation'
+import { LayoutAnimation } from 'react-native'
 
 export const PostContainer: React.FC<{ post: PostType }> = ({ post }) => {
   const postBloc = useMemo(() => new PostBloc(post), [post])
@@ -13,6 +15,8 @@ export const PostContainer: React.FC<{ post: PostType }> = ({ post }) => {
   const avatarVariant = post.user.avatarFile && post.user.avatarFile.thumbnailVariant
   const avatarThumbnailUri = (avatarVariant && avatarVariant.url) || undefined
 
+  const { navigate } = useNaviagtion()
+
   const thumbnails = useMemo<readonly ThumbnailProp[]>(() => {
     return post.files
       .filter((file): file is ImageFile | VideoFile => file.isImageFile() || file.isVideoFile())
@@ -21,6 +25,10 @@ export const PostContainer: React.FC<{ post: PostType }> = ({ post }) => {
         return {
           type: file.type,
           thumbnailUri: v.url,
+          onPress: () => {
+            LayoutAnimation.easeInEaseOut()
+            navigate('FileModal', { file })
+          },
         }
       })
   }, [post.files])

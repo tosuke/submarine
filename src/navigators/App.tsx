@@ -3,11 +3,13 @@ import { MainTab } from './Main'
 import { AuthStack } from './Auth'
 import { LoadingScreen } from '../components/pages/LoadingScreen'
 import { PostModalScreen } from '../components/pages/PostModalScreen'
+import { FileModalScreen } from '../components/pages/FileModalScreen'
 
 const AppStack = createStackNavigator(
   {
     Main: MainTab,
     PostModal: PostModalScreen,
+    FileModal: FileModalScreen,
   },
   {
     initialRouteName: 'Main',
