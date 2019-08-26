@@ -1,18 +1,19 @@
 import React, { useCallback } from 'react'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useNaviagtion } from '../../hooks/useNavigation'
-import { ImageFile } from '../../models/file'
-import { FilemodalScreenView } from '../templates/FileModalScreenView'
+import { File } from '../../models'
+import { FileModalScreenView } from '../templates/FileModalScreenView'
 
 const FileModalScreenImpl: React.FC = () => {
   const { getParam, goBack } = useNaviagtion()
-  const file: ImageFile = getParam('file')
+  const files: File[] = getParam('files')
+  const index: number = getParam('index')
 
   const onBackButtonPress = useCallback(() => {
     goBack()
   }, [])
 
-  return <FilemodalScreenView file={file} onBackButtonPress={onBackButtonPress} />
+  return <FileModalScreenView files={files} initialIndex={index} onBackButtonPress={onBackButtonPress} />
 }
 
 export const FileModalScreen = withNavigationOptions({

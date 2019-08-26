@@ -18,19 +18,18 @@ export const PostContainer: React.FC<{ post: PostType }> = ({ post }) => {
   const { navigate } = useNaviagtion()
 
   const thumbnails = useMemo<readonly ThumbnailProp[]>(() => {
-    return post.files
-      .filter((file): file is ImageFile | VideoFile => file.isImageFile() || file.isVideoFile())
-      .map(file => {
-        const v = file.thumbnailVariant
-        return {
-          type: file.type,
-          thumbnailUri: v.url,
-          onPress: () => {
-            LayoutAnimation.easeInEaseOut()
-            navigate('FileModal', { file })
-          },
-        }
-      })
+    const files = post.files.filter((file): file is ImageFile | VideoFile => file.isImageFile() || file.isVideoFile())
+    return files.map((file, index) => {
+      const v = file.thumbnailVariant
+      return {
+        type: file.type,
+        thumbnailUri: v.url,
+        onPress: () => {
+          LayoutAnimation.easeInEaseOut()
+          navigate('FileModal', { files, index })
+        },
+      }
+    })
   }, [post.files])
 
   return (

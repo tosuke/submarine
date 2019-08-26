@@ -1,18 +1,34 @@
 import React from 'react'
 import { View, StatusBar, ViewStyle } from 'react-native'
 import { Theme, withTheme, Appbar } from 'react-native-paper'
-import { ImageFile } from '../../models/file'
-import { ScreenView } from '../atoms/ScreenView'
-import { ImageModal } from '../molecules/ImageModal'
+import { File } from '../../../models'
+import { ScreenView } from '../../atoms/ScreenView'
+import { ImageModal } from '../../molecules/ImageModal'
 import color from 'color'
-import { ScrollView } from 'react-native-gesture-handler'
+import { FlatList } from 'react-native-gesture-handler'
+
+const FileModal: React.FC<{ item: File }> = ({ item: file }) => {
+  if (file.isImageFile()) {
+    return <ImageModal key={file.id} imageUri={file.imageVariant.url} thumbnailUri={file.thumbnailVariant.url} />
+  } else {
+    return null
+  }
+}
+
+const keyExtractor = (file: File) => `${file.id}`
 
 type Props = {
-  file: ImageFile
+  files: File[]
+  initialIndex?: number
   onBackButtonPress?: () => void
 }
 
-const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({ theme, file, onBackButtonPress }) => {
+const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
+  theme,
+  files,
+  initialIndex,
+  onBackButtonPress,
+}) => {
   const backButtonStyle: ViewStyle = {
     width: 32,
     height: 32,
@@ -27,19 +43,19 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({ theme, fi
       <View style={{ position: 'absolute', top: StatusBar.currentHeight, zIndex: 100 }}>
         <Appbar.BackAction style={backButtonStyle} color={theme.colors.text} size={24} onPress={onBackButtonPress} />
       </View>
-      <ScrollView
+      <FlatList
         style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
         contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+        initialScrollIndex={initialIndex}
         pagingEnabled
         horizontal
         pinchGestureEnabled
-      >
-        {file.isImageFile() ? (
-          <ImageModal imageUri={file.imageVariant.url} thumbnailUri={file.thumbnailVariant.url} />
-        ) : null}
-      </ScrollView>
+        data={files}
+        renderItem={FileModal}
+        keyExtractor={keyExtractor}
+      />
     </ScreenView>
   )
 }
 
-export const FilemodalScreenView = withTheme(FileModalScreenViewImpl)
+export const FileModalScreenView = withTheme(FileModalScreenViewImpl)

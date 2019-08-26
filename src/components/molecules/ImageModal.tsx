@@ -28,6 +28,7 @@ function useImageSizeStyle(thumbnailUri?: string): ImageStyle {
 
 function usePinchGesture() {
   const scaleRef = useRef(new Value<number>(1))
+
   const handlePinch = useMemo(
     () =>
       event([
@@ -62,10 +63,12 @@ export const ImageModal: React.FC<{ style?: ImageStyle; imageUri?: string; thumb
 
   const { handlePinch, transformStyle } = usePinchGesture()
 
+  const { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
+
   return (
     <PinchGestureHandler onGestureEvent={handlePinch} onHandlerStateChange={handlePinch}>
       <Animated.View
-        style={[style, { width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }]}
+        style={[style, { width: screenWidth, height: screenHeight, justifyContent: 'center', alignItems: 'center' }]}
         collapsable={false}
       >
         <Animated.Image style={[imageSizeStyle, transformStyle]} source={{ uri: imageUri }} />
