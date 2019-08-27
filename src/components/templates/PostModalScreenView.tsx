@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { Observable, EMPTY } from 'rxjs'
 import { useObservableEffect } from '../../hooks/useObservableEffect'
 import { ToastAndroid, ViewStyle, StatusBar, TextInput, View, TextStyle } from 'react-native'
@@ -63,15 +63,22 @@ export const PostModalScreenView: React.FC<Props> = ({
     [theme],
   )
 
+  const onTextInputMounted = useCallback((textInput: TextInput) => {
+    if (textInput == null) return
+    setTimeout(() => {
+      textInput.focus()
+    }, 12)
+  }, [])
+
   // TODO: iOS では InputAccessoryView を用いるとよい？これはキーボードが消える時に消えるので UI の検討が必要そう
   return (
     <ScreenView style={screenViewStyle}>
       <KeyboardAvoidingView style={viewStyle} keyboardVerticalOffset={keyboardVerticalOffset}>
         <View style={viewStyle}>
           <TextInput
+            ref={onTextInputMounted}
             style={textInputStyle}
             placeholder="What's up Otaku?"
-            autoFocus
             multiline
             value={text}
             onChangeText={onChangeText}
