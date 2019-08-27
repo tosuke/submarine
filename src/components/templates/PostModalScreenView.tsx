@@ -67,7 +67,7 @@ export const PostModalScreenView: React.FC<Props> = ({
     if (textInput == null) return
     setTimeout(() => {
       textInput.focus()
-    }, 12)
+    }, 20)
   }, [])
 
   // TODO: iOS では InputAccessoryView を用いるとよい？これはキーボードが消える時に消えるので UI の検討が必要そう
