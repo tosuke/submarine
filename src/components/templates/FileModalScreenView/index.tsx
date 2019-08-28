@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { View, StatusBar, ViewStyle } from 'react-native'
 import { Theme, withTheme, Appbar } from 'react-native-paper'
 import { File } from '../../../models'
 import { ScreenView } from '../../atoms/ScreenView'
 import { ImageModal } from '../../molecules/ImageModal'
 import color from 'color'
-import { FlatList } from 'react-native-gesture-handler'
+import { FlatList, PanGestureHandler, State } from 'react-native-gesture-handler'
+import Animated from 'react-native-reanimated'
+
+const { Value, event, cond, eq, set } = Animated
 
 const FileModal: React.FC<{ item: File }> = ({ item: file }) => {
   if (file.isImageFile()) {
@@ -38,22 +41,48 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
       .string(),
   }
 
+  const panHandlerRef = useRef<PanGestureHandler>(null)
+
+  const translateYRef = useRef(new Value(0))
+
+  const handlePan = event([
+    {
+      nativeEvent: ({ state, translationY }: { state: State; translationY: number }) =>
+        cond(eq(state, State.ACTIVE), set(translateYRef.current, translationY), set(translateYRef.current, 0)),
+    },
+  ])
+
   return (
     <ScreenView>
       <View style={{ position: 'absolute', top: StatusBar.currentHeight, zIndex: 100 }}>
         <Appbar.BackAction style={backButtonStyle} color={theme.colors.text} size={24} onPress={onBackButtonPress} />
       </View>
-      <FlatList
-        style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}
-        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-        initialScrollIndex={initialIndex}
-        pagingEnabled
-        horizontal
-        pinchGestureEnabled
-        data={files}
-        renderItem={FileModal}
-        keyExtractor={keyExtractor}
-      />
+      <View style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}>
+        <PanGestureHandler
+          ref={panHandlerRef}
+          onGestureEvent={handlePan}
+          onHandlerStateChange={handlePan}
+          activeOffsetY={[-36, 36]}
+          maxPointers={1}
+        >
+          <Animated.View
+            style={{
+              transform: [{ translateY: translateYRef.current as any }],
+            }}
+          >
+            <FlatList
+              contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+              initialScrollIndex={initialIndex}
+              pagingEnabled
+              horizontal
+              data={files}
+              renderItem={FileModal}
+              keyExtractor={keyExtractor}
+              simultaneousHandlers={panHandlerRef}
+            />
+          </Animated.View>
+        </PanGestureHandler>
+      </View>
     </ScreenView>
   )
 }
