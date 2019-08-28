@@ -32,10 +32,9 @@ function usePinchGesture() {
   const { current: scale } = useRef(new Value(1))
   const { current: baseScale } = useRef(new Value(1))
 
+  const { current: flag } = useRef(new Value(0))
   const { current: originX } = useRef(new Value(0))
   const { current: originY } = useRef(new Value(0))
-  const { current: baseOriginX } = useRef(new Value(0))
-  const { current: baseOriginY } = useRef(new Value(0))
 
   const handlePinch = useMemo(
     () =>
@@ -47,37 +46,31 @@ function usePinchGesture() {
             focalX,
             focalY,
           }: {
-            state: State
-            scale: number
-            focalX: number
-            focalY: number
+            state: Animated.Node<State>
+            scale: Animated.Node<number>
+            focalX: Animated.Node<number>
+            focalY: Animated.Node<number>
           }) => {
             const x = sub(focalX, screenWidth / 2)
             const y = sub(focalY, screenHeight / 2)
-            const newOriginX = add(divide(sub(x, baseOriginX), scale), baseOriginX)
-            const newOriginY = add(divide(sub(y, baseOriginY), scale), baseOriginY)
+            const newOriginX = add(divide(sub(x, originX), scale), originX)
+            const newOriginY = add(divide(sub(y, originY), scale), originY)
 
             return block([
               cond(eq(state, State.ACTIVE), [
                 set(scale, multiply(curScale, baseScale)),
-                cond(lessOrEq(scale, 1), [], [set(originX, newOriginX), set(originY, newOriginY)]),
-              ]),
-              cond(eq(state, State.END), [
                 cond(
                   lessOrEq(scale, 1),
-                  [
-                    set(scale, 1),
-                    set(baseScale, 1),
-                    set(originX, 0),
-                    set(originY, 0),
-                    set(baseOriginX, 0),
-                    set(baseOriginY, 0),
-                  ],
-                  [
-                    set(baseScale, multiply(curScale, baseScale)),
-                    set(baseOriginX, newOriginX),
-                    set(baseOriginY, newOriginY),
-                  ],
+                  [],
+                  cond(eq(flag, 0), [set(originX, newOriginX), set(originY, newOriginY), set(flag, 1)]),
+                ),
+              ]),
+              cond(eq(state, State.END), [
+                set(flag, 0),
+                cond(
+                  lessOrEq(scale, 1),
+                  [set(scale, 1), set(baseScale, 1), set(originX, 0), set(originY, 0)],
+                  set(baseScale, multiply(curScale, baseScale)),
                 ),
               ]),
             ])
