@@ -61,7 +61,9 @@ const PostAvatar: React.FC<{ userName?: string; thumbnailUri?: string; style?: V
       {thumbnailUri ? (
         <Image style={imageStyle} source={{ uri: thumbnailUri, width: 32, height: 32 }}></Image>
       ) : (
-        <Text style={{ color: textColor, fontSize: 16, lineHeight: 32 }}>{(userName || ' ')[0]}</Text>
+        <Text style={{ color: textColor, fontSize: 16, lineHeight: 32 }}>
+          {String.fromCodePoint((userName || ' ').codePointAt(0)!)}
+        </Text>
       )}
     </View>
   )
