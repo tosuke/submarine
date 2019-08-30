@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { Image, Dimensions, ImageStyle } from 'react-native'
-import { PinchGestureHandler, State, PanGestureHandler } from 'react-native-gesture-handler'
+import { PinchGestureHandler, State, PanGestureHandler, TapGestureHandler } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 const {
   Value,
@@ -79,6 +79,7 @@ function useGesture(width: number, height: number) {
 
   const pinchHandlerRef = useRef<PinchGestureHandler>(null)
   const panHandlerRef = useRef<PanGestureHandler>(null)
+  const tapHandlerRef = useRef<TapGestureHandler>(null)
 
   const { current: scale } = useRef(new Value(1 as number))
 
@@ -90,6 +91,20 @@ function useGesture(width: number, height: number) {
   const { current: panX } = useRef(new Value(0 as number))
   const { current: panY } = useRef(new Value(0 as number))
 
+  const reset = useMemo(
+    () =>
+      block([
+        set(scale, 1),
+        set(focusImageX, 0),
+        set(focusImageY, 0),
+        set(pinchX, 0),
+        set(pinchY, 0),
+        set(panX, 0),
+        set(panY, 0),
+      ]),
+    [],
+  )
+
   const maxX = useMemo(() => Animated.max(sub(multiply(width / 2, scale), screenWidth / 2), 0), [])
   const minX = useMemo(() => multiply(-1, maxX), [])
   const maxY = useMemo(() => Animated.max(sub(multiply(height / 2, scale), screenHeight / 2), 0), [])
@@ -98,8 +113,8 @@ function useGesture(width: number, height: number) {
   const x = useMemo(() => add(pinchX, panX), [])
   const y = useMemo(() => add(pinchY, panY), [])
 
-  const { current: horizontalPanIsEnabled } = useRef(new Value<0 | 1>(0))
-  const { current: verticalPanIsEnabled } = useRef(new Value<0 | 1>(0))
+  const horizontalPanIsEnabled = useMemo(() => greaterThan(multiply(width, scale), screenWidth), [width, screenWidth])
+  const verticalPanIsEnabled = useMemo(() => greaterThan(multiply(height, scale), screenHeight), [height, screenHeight])
 
   const [panHandlerIsEnabled, setPanHandlerIsEnabled] = useState(false)
 
@@ -141,11 +156,7 @@ function useGesture(width: number, height: number) {
               call([scale], ([scale]) => {
                 setPanHandlerIsEnabled(scale > 1)
               }),
-              set(horizontalPanIsEnabled, greaterThan(multiply(width, scale), screenWidth)),
-              set(verticalPanIsEnabled, greaterThan(multiply(height, scale), screenHeight)),
-              cond(eq(state, State.END), [
-                cond(lessOrEq(scale, 1), [set(scale, 1), set(pinchX, 0), set(pinchY, 0), set(panX, 0), set(panY, 0)]),
-              ]),
+              cond(eq(state, State.END), [cond(lessOrEq(scale, 1), reset)]),
             ])
           },
         },
@@ -192,6 +203,14 @@ function useGesture(width: number, height: number) {
     [width, height, screenWidth, screenHeight, horizontalPanIsEnabled, verticalPanIsEnabled],
   )
 
+  const handleTap = event([
+    {
+      nativeEvent: {
+        state: (state: Animated.Node<State>) => cond(eq(state, State.END), reset),
+      },
+    },
+  ])
+
   const imageTransformStyle: ImageStyle = useMemo(
     () => ({
       transform: [{ translateX: x as any, translateY: y as any }, { scale: scale as any }],
@@ -202,8 +221,10 @@ function useGesture(width: number, height: number) {
   return {
     pinchHandlerRef,
     panHandlerRef,
+    tapHandlerRef,
     handlePinch,
     handlePan,
+    handleTap,
     panHandlerIsEnabled,
     imageTransformStyle,
   }
@@ -215,37 +236,43 @@ export const ImageModal: React.FC<{ style?: ImageStyle; imageUri?: string; thumb
     const {
       pinchHandlerRef,
       panHandlerRef,
+      tapHandlerRef,
       handlePinch,
       handlePan,
+      handleTap,
       panHandlerIsEnabled,
       imageTransformStyle,
     } = useGesture(imageSizeStyle.width, imageSizeStyle.height)
-    const { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
+    const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
     return (
       <PinchGestureHandler
         ref={pinchHandlerRef}
-        simultaneousHandlers={panHandlerRef}
+        simultaneousHandlers={[panHandlerRef, tapHandlerRef]}
         onGestureEvent={handlePinch}
         onHandlerStateChange={handlePinch}
       >
         <Animated.View>
           <PanGestureHandler
             ref={panHandlerRef}
-            simultaneousHandlers={pinchHandlerRef}
+            simultaneousHandlers={[pinchHandlerRef, tapHandlerRef]}
             maxPointers={1}
             enabled={panHandlerIsEnabled}
             onGestureEvent={handlePan}
             onHandlerStateChange={handlePan}
           >
-            <Animated.View
-              style={[
-                style,
-                { width: screenWidth, height: screenHeight, justifyContent: 'center', alignItems: 'center' },
-              ]}
-              collapsable={false}
-            >
-              <Animated.Image style={[imageSizeStyle, imageTransformStyle]} source={{ uri: imageUri }} />
+            <Animated.View>
+              <TapGestureHandler numberOfTaps={2} onHandlerStateChange={handleTap} enabled={panHandlerIsEnabled}>
+                <Animated.View
+                  style={[
+                    style,
+                    { width: screenWidth, height: screenHeight, justifyContent: 'center', alignItems: 'center' },
+                  ]}
+                  collapsable={false}
+                >
+                  <Animated.Image style={[imageSizeStyle, imageTransformStyle]} source={{ uri: imageUri }} />
+                </Animated.View>
+              </TapGestureHandler>
             </Animated.View>
           </PanGestureHandler>
         </Animated.View>
