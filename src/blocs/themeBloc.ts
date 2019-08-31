@@ -1,6 +1,6 @@
 import { Theme } from 'react-native-paper'
 import { BehaviorSubject } from 'rxjs'
-import { ValueObservable } from '../utils'
+import { ValueObservable } from '../utils/valueObservable'
 
 export class ThemeBloc {
   // Output Controllers

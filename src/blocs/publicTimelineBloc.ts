@@ -1,6 +1,6 @@
 import { Observer, BehaviorSubject, Subject, Observable, Subscription } from 'rxjs'
 import { switchMap, debounceTime, map, distinctUntilChanged, filter } from 'rxjs/operators'
-import { ValueObservable } from '../utils'
+import { ValueObservable } from '../utils/valueObservable'
 import { Post } from '../models'
 import { SeaClient } from '../infra/seaClient'
 

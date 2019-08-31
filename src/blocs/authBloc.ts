@@ -1,6 +1,6 @@
 import { AsyncStorage, Linking } from 'react-native'
 import { BehaviorSubject, Subject, Observer, Observable } from 'rxjs'
-import { ValueObservable } from '../utils'
+import { ValueObservable } from '../utils/valueObservable'
 import { map, tap, switchMap, debounceTime, catchError } from 'rxjs/operators'
 import ky, { HTTPError } from 'ky'
 import $ from 'transform-ts'

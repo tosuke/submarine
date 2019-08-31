@@ -9,7 +9,7 @@ import {
   differenceInMinutes,
   differenceInSeconds,
 } from 'date-fns'
-import { ValueObservable } from '../utils'
+import { ValueObservable } from '../utils/valueObservable'
 
 function relativeTime(now: Date, date: Date): string {
   if (differenceInWeeks(now, date) > 1) return format(date, 'YYYY-MM-DD')
