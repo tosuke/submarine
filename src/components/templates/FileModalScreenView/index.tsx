@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { View, StatusBar, ViewStyle } from 'react-native'
+import React, { useRef, useMemo } from 'react'
+import { View, StatusBar, ViewStyle, Dimensions } from 'react-native'
 import { Theme, withTheme, Appbar } from 'react-native-paper'
 import { File } from '../../../models'
 import { ScreenView } from '../../atoms/ScreenView'
@@ -8,7 +8,7 @@ import color from 'color'
 import { FlatList, PanGestureHandler, State } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 
-const { Value, event, cond, eq, set } = Animated
+const { Value, event, block, cond, eq, greaterThan, set, multiply, abs, call } = Animated
 
 const FileModal: React.FC<{ item: File }> = ({ item: file }) => {
   if (file.isImageFile()) {
@@ -19,6 +19,54 @@ const FileModal: React.FC<{ item: File }> = ({ item: file }) => {
 }
 
 const keyExtractor = (file: File) => `${file.id}`
+
+function useGestures({ back }: { back?: () => void }) {
+  const panGestureHandlerRef = useRef<PanGestureHandler>(null)
+  const { current: y } = useRef(new Value(0 as number))
+
+  const { height } = Dimensions.get('screen')
+
+  const handlePan = useMemo(
+    () =>
+      event([
+        {
+          nativeEvent: ({
+            state,
+            translationY,
+          }: {
+            state: Animated.Node<State>
+            translationY: Animated.Node<number>
+          }) =>
+            block([
+              cond(eq(state, State.ACTIVE), set(y, translationY)),
+              cond(
+                eq(state, State.END),
+                cond(greaterThan(abs(y), height * 0.15), call([y], () => back && back()), set(y, 0)),
+              ),
+            ]),
+        },
+      ]),
+    [height, back],
+  )
+
+  const headerAnimatedStyle = useMemo(
+    () => ({
+      transform: [{ translateY: multiply(-1, abs(y)) as any }],
+    }),
+    [],
+  )
+
+  const contentAnimatedStyle = {
+    transform: [{ translateY: y as any }],
+  }
+
+  return {
+    panGestureHandlerRef,
+    handlePan,
+    headerAnimatedStyle,
+    contentAnimatedStyle,
+  }
+}
 
 type Props = {
   files: File[]
@@ -41,16 +89,9 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
       .string(),
   }
 
-  const panHandlerRef = useRef<PanGestureHandler>(null)
-
-  const translateYRef = useRef(new Value(0))
-
-  const handlePan = event([
-    {
-      nativeEvent: ({ state, translationY }: { state: State; translationY: number }) =>
-        cond(eq(state, State.ACTIVE), set(translateYRef.current, translationY), set(translateYRef.current, 0)),
-    },
-  ])
+  const { panGestureHandlerRef, handlePan, headerAnimatedStyle, contentAnimatedStyle } = useGestures({
+    back: onBackButtonPress,
+  })
 
   return (
     <ScreenView>
@@ -65,22 +106,17 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
           backgroundColor: theme.colors.background,
         }}
       />
-      <View style={{ position: 'absolute', top: StatusBar.currentHeight, zIndex: 100 }}>
+      <Animated.View style={[{ position: 'absolute', top: StatusBar.currentHeight, zIndex: 100 }, headerAnimatedStyle]}>
         <Appbar.BackAction style={backButtonStyle} color={theme.colors.text} size={24} onPress={onBackButtonPress} />
-      </View>
+      </Animated.View>
       <View style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}>
         <PanGestureHandler
-          ref={panHandlerRef}
+          ref={panGestureHandlerRef}
           onGestureEvent={handlePan}
           onHandlerStateChange={handlePan}
-          activeOffsetY={[-36, 36]}
           maxPointers={1}
         >
-          <Animated.View
-            style={{
-              transform: [{ translateY: translateYRef.current as any }],
-            }}
-          >
+          <Animated.View style={contentAnimatedStyle}>
             <FlatList
               contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
               initialScrollIndex={initialIndex}
@@ -89,7 +125,7 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
               data={files}
               renderItem={FileModal}
               keyExtractor={keyExtractor}
-              simultaneousHandlers={panHandlerRef}
+              simultaneousHandlers={panGestureHandlerRef}
             />
           </Animated.View>
         </PanGestureHandler>
