@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { Image, Dimensions, ImageStyle } from 'react-native'
+import { Image, Dimensions, ImageStyle, StatusBar } from 'react-native'
 import { PinchGestureHandler, State, PanGestureHandler, TapGestureHandler } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 const {
@@ -20,6 +20,14 @@ const {
   divide,
 } = Animated
 
+function useBoxSize() {
+  const { width, height } = Dimensions.get('screen')
+  return {
+    boxWidth: width,
+    boxHeight: height - (StatusBar.currentHeight || 0),
+  }
+}
+
 function useImageSizeStyle(thumbnailUri?: string) {
   // width / height
   const [aspect, setAspect] = useState(1)
@@ -29,16 +37,16 @@ function useImageSizeStyle(thumbnailUri?: string) {
     Image.getSize(thumbnailUri, (w, h) => setAspect(w / h), () => {})
   }, [thumbnailUri])
 
-  const { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
-  const screenAspect = screenWidth / screenHeight
+  const { boxWidth, boxHeight } = useBoxSize()
+  const screenAspect = boxWidth / boxHeight
   return aspect > screenAspect
     ? {
-        width: screenWidth,
-        height: screenWidth / aspect,
+        width: boxWidth,
+        height: boxWidth / aspect,
       }
     : {
-        width: screenHeight * aspect,
-        height: screenHeight,
+        width: boxHeight * aspect,
+        height: boxHeight,
       }
 }
 
@@ -75,7 +83,7 @@ function ranged(
 }
 
 function useGesture(width: number, height: number) {
-  const { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
+  const { boxWidth, boxHeight } = useBoxSize()
 
   const pinchHandlerRef = useRef<PinchGestureHandler>(null)
   const panHandlerRef = useRef<PanGestureHandler>(null)
@@ -105,16 +113,16 @@ function useGesture(width: number, height: number) {
     [],
   )
 
-  const maxX = useMemo(() => Animated.max(sub(multiply(width / 2, scale), screenWidth / 2), 0), [])
+  const maxX = useMemo(() => Animated.max(sub(multiply(width / 2, scale), boxWidth / 2), 0), [])
   const minX = useMemo(() => multiply(-1, maxX), [])
-  const maxY = useMemo(() => Animated.max(sub(multiply(height / 2, scale), screenHeight / 2), 0), [])
+  const maxY = useMemo(() => Animated.max(sub(multiply(height / 2, scale), boxHeight / 2), 0), [])
   const minY = useMemo(() => multiply(-1, maxY), [])
 
   const x = useMemo(() => add(pinchX, panX), [])
   const y = useMemo(() => add(pinchY, panY), [])
 
-  const horizontalPanIsEnabled = useMemo(() => greaterThan(multiply(width, scale), screenWidth), [width, screenWidth])
-  const verticalPanIsEnabled = useMemo(() => greaterThan(multiply(height, scale), screenHeight), [height, screenHeight])
+  const horizontalPanIsEnabled = useMemo(() => greaterThan(multiply(width, scale), boxWidth), [width, boxWidth])
+  const verticalPanIsEnabled = useMemo(() => greaterThan(multiply(height, scale), boxHeight), [height, boxHeight])
 
   const [panHandlerIsEnabled, setPanHandlerIsEnabled] = useState(false)
 
@@ -138,20 +146,20 @@ function useGesture(width: number, height: number) {
               set(
                 focusImageX,
                 first(
-                  ranged(divide(sub(focalX, screenWidth / 2, x), scale), -width / 2, width / 2),
+                  ranged(divide(sub(focalX, boxWidth / 2, x), scale), -width / 2, width / 2),
                   eq(state, State.ACTIVE),
                 ),
               ),
               set(
                 focusImageY,
                 first(
-                  ranged(divide(sub(focalY, screenHeight / 2, y), scale), -height / 2, height / 2),
+                  ranged(divide(sub(focalY, boxHeight / 2, y), scale), -height / 2, height / 2),
                   eq(state, State.ACTIVE),
                 ),
               ),
               cond(and(eq(state, State.ACTIVE), greaterThan(scale, 1)), [
-                set(pinchX, sub(sub(focalX, screenWidth / 2), add(multiply(focusImageX, scale), panX))),
-                set(pinchY, sub(sub(focalY, screenHeight / 2), add(multiply(focusImageY, scale), panY))),
+                set(pinchX, sub(sub(focalX, boxWidth / 2), add(multiply(focusImageX, scale), panX))),
+                set(pinchY, sub(sub(focalY, boxHeight / 2), add(multiply(focusImageY, scale), panY))),
               ]),
               call([scale], ([scale]) => {
                 setPanHandlerIsEnabled(scale > 1)
@@ -161,7 +169,7 @@ function useGesture(width: number, height: number) {
           },
         },
       ]),
-    [width, height, screenWidth, screenHeight],
+    [width, height, boxWidth, boxHeight],
   )
 
   const handlePan = useMemo(
@@ -200,7 +208,7 @@ function useGesture(width: number, height: number) {
           },
         },
       ]),
-    [width, height, screenWidth, screenHeight, horizontalPanIsEnabled, verticalPanIsEnabled],
+    [width, height, boxWidth, boxHeight, horizontalPanIsEnabled, verticalPanIsEnabled],
   )
 
   const handleTap = event([
@@ -243,7 +251,7 @@ export const ImageModal: React.FC<{ style?: ImageStyle; imageUri?: string; thumb
       panHandlerIsEnabled,
       imageTransformStyle,
     } = useGesture(imageSizeStyle.width, imageSizeStyle.height)
-    const { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
+    const { boxWidth, boxHeight } = useBoxSize()
 
     return (
       <PinchGestureHandler
@@ -266,7 +274,13 @@ export const ImageModal: React.FC<{ style?: ImageStyle; imageUri?: string; thumb
                 <Animated.View
                   style={[
                     style,
-                    { width: screenWidth, height: screenHeight, justifyContent: 'center', alignItems: 'center' },
+                    {
+                      marginTop: StatusBar.currentHeight,
+                      width: boxWidth,
+                      height: boxHeight,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    },
                   ]}
                   collapsable={false}
                 >
