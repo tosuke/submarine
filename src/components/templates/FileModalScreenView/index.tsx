@@ -54,6 +54,17 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
 
   return (
     <ScreenView>
+      <View
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: StatusBar.currentHeight,
+          zIndex: 200,
+          backgroundColor: theme.colors.background,
+        }}
+      />
       <View style={{ position: 'absolute', top: StatusBar.currentHeight, zIndex: 100 }}>
         <Appbar.BackAction style={backButtonStyle} color={theme.colors.text} size={24} onPress={onBackButtonPress} />
       </View>
