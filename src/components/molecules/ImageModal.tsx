@@ -243,7 +243,7 @@ export const ImageModal: React.FC<{ style?: ImageStyle; imageUri?: string; thumb
       panHandlerIsEnabled,
       imageTransformStyle,
     } = useGesture(imageSizeStyle.width, imageSizeStyle.height)
-    const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
+    const { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
 
     return (
       <PinchGestureHandler
