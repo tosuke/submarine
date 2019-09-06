@@ -9,6 +9,7 @@ import './rn-addons'
 configure(() => {
   require('../src/components/molecules/Post/story')
   require('../src/components/templates/FileModalScreenView/story')
+  require('../src/components/templates/PostModalScreenView/story')
 }, module)
 
 addDecorator(story => <ThemeBlocProvider defaultTheme={DarkTheme}>{story()}</ThemeBlocProvider>)

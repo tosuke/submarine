@@ -1,14 +1,14 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo, useRef, useEffect, useState } from 'react'
 import { Observable, EMPTY } from 'rxjs'
-import { useObservableEffect } from '../../hooks/useObservableEffect'
+import { useObservableEffect } from '../../../hooks/useObservableEffect'
 import { ToastAndroid, ViewStyle, StatusBar, TextInput, View, TextStyle } from 'react-native'
-import { ScreenView } from '../atoms/ScreenView'
+import { ScreenView } from '../../atoms/ScreenView'
 import { Header } from 'react-navigation'
 import { Appbar } from 'react-native-paper'
-import { useTheme } from '../../hooks/useTheme'
-import { KeyboardAvoidingView } from '../atoms/KeyboardAvoidingView'
-import { AppHeader } from '../atoms/AppHeader'
-import { headerColor } from '../color'
+import { useTheme } from '../../../hooks/useTheme'
+import { KeyboardAvoidingView } from '../../atoms/KeyboardAvoidingView'
+import { AppHeader } from '../../atoms/AppHeader'
+import { headerColor } from '../../color'
 
 type Props = Partial<{
   text: string
@@ -63,11 +63,14 @@ export const PostModalScreenView: React.FC<Props> = ({
     [theme],
   )
 
-  const onTextInputMounted = useCallback((textInput: TextInput) => {
-    if (textInput == null) return
+  const [editable, setEdidable] = useState(false)
+  const ref = useRef<TextInput>(null)
+  useEffect(() => {
+    setEdidable(true)
     setTimeout(() => {
-      textInput.focus()
-    }, 20)
+      if (ref.current == null) return
+      ref.current.focus()
+    }, 100)
   }, [])
 
   // TODO: iOS では InputAccessoryView を用いるとよい？これはキーボードが消える時に消えるので UI の検討が必要そう
@@ -76,10 +79,12 @@ export const PostModalScreenView: React.FC<Props> = ({
       <KeyboardAvoidingView style={viewStyle} keyboardVerticalOffset={keyboardVerticalOffset}>
         <View style={viewStyle}>
           <TextInput
-            ref={onTextInputMounted}
+            ref={ref}
             style={textInputStyle}
             placeholder="What's up Otaku?"
             multiline
+            autoFocus={editable}
+            editable={editable}
             value={text}
             onChangeText={onChangeText}
           />
