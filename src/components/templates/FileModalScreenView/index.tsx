@@ -4,6 +4,7 @@ import { Theme, withTheme, Appbar } from 'react-native-paper'
 import { File } from '../../../models'
 import { ScreenView } from '../../atoms/ScreenView'
 import { ImageModal } from '../../molecules/ImageModal'
+import { VideoModal } from '../../molecules/VideoModal'
 import color from 'color'
 import { FlatList, PanGestureHandler, State } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
@@ -13,6 +14,8 @@ const { Value, event, block, cond, eq, greaterThan, set, multiply, abs, call } =
 const FileModal: React.FC<{ item: File }> = ({ item: file }) => {
   if (file.isImageFile()) {
     return <ImageModal key={file.id} imageUri={file.imageVariant.url} thumbnailUri={file.thumbnailVariant.url} />
+  } else if (file.isVideoFile()) {
+    return <VideoModal key={file.id} videoUri={file.videoVariant.url} thumbnailUri={file.thumbnailVariant.url} />
   } else {
     return null
   }
@@ -119,6 +122,7 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
           <Animated.View style={contentAnimatedStyle}>
             <FlatList
               contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+              initialNumToRender={1}
               initialScrollIndex={initialIndex}
               pagingEnabled
               horizontal

@@ -35,6 +35,21 @@ const imageFile2 = new File(2, 'iona_v4.png', 'image', [
   },
 ])
 
-storiesOf('FileModalScreenView', module).add('image', () => (
-  <FileModalScreenView files={[imageFile1, imageFile2]} initialIndex={1} />
-))
+const videoFile = new File(3, 'stack.mp4', 'video', [
+  {
+    type: 'thumbnail',
+    size: 0,
+    mime: 'image/png',
+    url: 'https://i.imgur.com/3AHexTe.png',
+  },
+  {
+    type: 'video',
+    size: 0,
+    mime: 'video/mp4',
+    url: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+  },
+])
+
+storiesOf('FileModalScreenView', module)
+  .add('image', () => <FileModalScreenView files={[imageFile1, imageFile2]} initialIndex={1} />)
+  .add('video', () => <FileModalScreenView files={[videoFile]} initialIndex={0} />)
