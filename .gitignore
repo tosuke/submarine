@@ -12,4 +12,5 @@ web-build/
 web-report/
 *.log
 /app.json
+/env.json
 /App.tsx
