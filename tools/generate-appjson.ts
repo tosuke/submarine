@@ -20,6 +20,6 @@ if (!fs.existsSync('./env.json')) {
 const appTemplate = JSON.parse(fs.readFileSync('./app.base.json', { encoding: 'utf8' }))
 const env = Env.transformOrThrow(JSON.parse(fs.readFileSync('./env.json', { encoding: 'utf8' })))
 
-const app = { ...appTemplate, extra: env }
+const app = { expo: { ...appTemplate.expo, extra: env } }
 
 fs.writeFileSync('./app.json', JSON.stringify(app))
