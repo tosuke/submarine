@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { View, Image, ImageStyle, ViewStyle, TextStyle, ScrollView, ImageBackground } from 'react-native'
 import { Text, TouchableRipple, Theme, withTheme } from 'react-native-paper'
 import { Caption } from '../../atoms/Caption'
 import { MaterialIcons } from '@expo/vector-icons'
+import { NodeType } from '@linkage-community/bottlemail'
+import * as pictograph from 'pictograph'
+import * as punycode from 'punycode'
 
 const PostHeader: React.FC<{ name?: string; screenName?: string; relativeTime?: string; style?: ViewStyle }> = ({
   name,
@@ -140,10 +143,11 @@ export type PostProps = Partial<{
   userScreenName: string
   avatarThumbnailUri: string
   relativeTime: string
-  text: string
+  tokens: readonly NodeType[]
   thumbnails: readonly ThumbnailProp[]
   appName: string
   appIsAutomated: boolean
+  openUrl: (url: string) => void
 }>
 
 const PostImpl: React.FC<PostProps & { theme: Theme }> = ({
@@ -153,19 +157,62 @@ const PostImpl: React.FC<PostProps & { theme: Theme }> = ({
   userScreenName,
   avatarThumbnailUri,
   relativeTime,
-  text,
+  tokens,
   thumbnails,
   appName,
   appIsAutomated,
+  openUrl,
 }) => {
+  const bodyText = useMemo(() => {
+    if (tokens == null || tokens.length === 0) return null
+    const mentionTextStyle: TextStyle = {
+      fontWeight: 'bold',
+    }
+    const linkTextStyle: TextStyle = {
+      color: theme.colors.primary,
+    }
+    return (
+      <Text style={{ marginTop: 3 }}>
+        {tokens.map((node, i) => {
+          switch (node.kind) {
+            case 'Text':
+              return node.value
+            case 'EmojiName':
+              return pictograph.dic[node.value] || node.raw
+            case 'Mention':
+              return (
+                <Text key={i} style={mentionTextStyle}>
+                  {node.raw}
+                </Text>
+              )
+            case 'Link':
+              try {
+                const url = new URL(node.value)
+                const onPress = openUrl && (() => openUrl(url.href))
+                const originLength = url.origin.length
+                const origin = `${url.protocol}//${punycode.toUnicode(url.host)}`
+                const rest = decodeURI(node.value.slice(originLength))
+                return (
+                  <Text key={i} style={linkTextStyle} onPress={onPress}>
+                    {origin}
+                    {rest}
+                  </Text>
+                )
+              } catch {
+                return node.raw
+              }
+          }
+        })}
+      </Text>
+    )
+  }, [theme, tokens, openUrl])
+
   return (
     <View style={[{ flexDirection: 'row' }, style]}>
       <PostAvatar theme={theme} style={{ marginRight: 6 }} userName={userName} thumbnailUri={avatarThumbnailUri} />
       <View style={{ flex: 1 }}>
         <PostHeader name={userName} screenName={userScreenName} relativeTime={relativeTime} />
-        <Text style={{ marginTop: 3 }} selectable={true}>
-          {text}
-        </Text>
+        {bodyText}
 
         {thumbnails && thumbnails.length > 0 && (
           <ScrollView style={{ marginTop: 3 }} horizontal>

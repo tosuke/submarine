@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useMemo, useEffect, useCallback } from 'react'
 import { Post as PostType } from '../../models'
 import { PostBloc } from '../../blocs/postBloc'
 import { useValueObservable } from '../../hooks/useObservable'
@@ -32,6 +32,15 @@ export const PostContainer: React.FC<{ post: PostType }> = ({ post }) => {
     })
   }, [post.files])
 
+  const tokens = useMemo(() => post.parse(), [post])
+
+  const openUrl = useCallback(
+    (url: string) => {
+      postBloc.openUrl$.next(url)
+    },
+    [postBloc],
+  )
+
   return (
     <Post
       style={{ paddingVertical: 6 }}
@@ -39,7 +48,8 @@ export const PostContainer: React.FC<{ post: PostType }> = ({ post }) => {
       userScreenName={post.user.screenName}
       avatarThumbnailUri={avatarThumbnailUri}
       relativeTime={relativeTime}
-      text={post.text}
+      tokens={tokens}
+      openUrl={openUrl}
       thumbnails={thumbnails}
       appName={post.application.name}
       appIsAutomated={post.application.isAutomated}

@@ -1,5 +1,6 @@
-import { interval, BehaviorSubject, Subscription } from 'rxjs'
+import { interval, BehaviorSubject, Subscription, Observer, Subject } from 'rxjs'
 import { map, distinctUntilChanged } from 'rxjs/operators'
+import { ValueObservable } from '../utils/valueObservable'
 import { Post } from '../models'
 import {
   format,
@@ -9,7 +10,7 @@ import {
   differenceInMinutes,
   differenceInSeconds,
 } from 'date-fns'
-import { ValueObservable } from '../utils/valueObservable'
+import { openBrowserAsync } from 'expo-web-browser'
 
 function relativeTime(now: Date, date: Date): string {
   if (differenceInWeeks(now, date) > 1) return format(date, 'YYYY-MM-DD')
@@ -30,9 +31,17 @@ function relativeTime(now: Date, date: Date): string {
 }
 
 export class PostBloc {
+  // Input Controllers
+  private _openUrl$ = new Subject<string>()
+
   // Output Controllers
   private _relativeTime$: BehaviorSubject<string>
   private _relativeTimeSub: Subscription
+
+  // Inputs
+  get openUrl$(): Observer<string> {
+    return this._openUrl$
+  }
 
   // Outputs
   get relativeTime$(): ValueObservable<string> {
@@ -49,6 +58,10 @@ export class PostBloc {
       .subscribe(time => {
         this._relativeTime$.next(time)
       })
+
+    this._openUrl$.subscribe(url => {
+      openBrowserAsync(url)
+    })
   }
 
   dispose() {

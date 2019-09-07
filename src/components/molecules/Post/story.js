@@ -1,6 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react-native'
 import { withKnobs, text, boolean } from '@storybook/addon-knobs'
+import parse from '@linkage-community/bottlemail'
 import { ScreenView } from '../../atoms/ScreenView'
 import { Post } from '.'
 
@@ -9,6 +10,8 @@ const style = {
   justifyContent: 'center',
   paddingHorizontal: 12,
 }
+
+const testText = '@otofune Yo! :smile: https://github.com/ http://[fe80::a1b3:125d:c1f8:4780]/ @ @test'
 
 storiesOf('Post', module)
   .addDecorator(withKnobs)
@@ -19,6 +22,7 @@ storiesOf('Post', module)
         userScreenName={text("User's screen name", 'foobar')}
         relativeTime={text('Relative Time', '17m')}
         text={text('Text', 'Hello!')}
+        tokens={parse(text('Text', 'Hello!'))}
         appName={text("Application's name", 'Test App')}
         appIsAutomated={boolean('Is Application Bot?', false)}
       />
@@ -31,7 +35,7 @@ storiesOf('Post', module)
         userScreenName="foobar"
         avatarThumbnailUri="https://static.tosukeapps.tk/iona_v2_x128.png"
         relativeTime="17m"
-        text="Hello!"
+        tokens={parse(testText)}
         thumbnails={[
           { type: 'image', onPress: () => {}, thumbnailUri: 'https://static.tosukeapps.tk/iona_v2_x128.png' },
           { type: 'image', onPress: () => {}, thumbnailUri: 'https://static.tosukeapps.tk/iona_v4_x128.png' },

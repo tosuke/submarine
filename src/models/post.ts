@@ -1,4 +1,5 @@
 import $, { Transformer, ok } from 'transform-ts'
+import parseText, { NodeType } from '@linkage-community/bottlemail'
 import { $Date } from './utils'
 import { Application, $Application } from './application'
 import { File, $File } from './file'
@@ -14,6 +15,10 @@ export class Post {
     readonly updatedAt: Date,
     readonly files: File[],
   ) {}
+
+  parse(): NodeType[] {
+    return parseText(this.text)
+  }
 }
 
 export const $Post: Transformer<unknown, Post> = $.obj({
