@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
-import { Image, Dimensions, ImageStyle, StatusBar } from 'react-native'
+import React, { useState, useRef, useMemo } from 'react'
+import { Dimensions, ImageStyle, StatusBar } from 'react-native'
 import { PinchGestureHandler, State, PanGestureHandler, TapGestureHandler } from 'react-native-gesture-handler'
+import { useFullScreenImageSize } from '../../hooks/useFullScreenImageSize'
 import Animated from 'react-native-reanimated'
 import { first, panDiff, pinchDiff, ranged } from '../../utils/animated'
 const { Value, event, block, set, call, cond, eq, lessOrEq, greaterThan, and, add, sub, multiply, divide } = Animated
@@ -11,28 +12,6 @@ function useBoxSize() {
     boxWidth: width,
     boxHeight: height - (StatusBar.currentHeight || 0),
   }
-}
-
-function useImageSizeStyle(thumbnailUri?: string) {
-  // width / height
-  const [aspect, setAspect] = useState(1)
-
-  useEffect(() => {
-    if (thumbnailUri == null) return
-    Image.getSize(thumbnailUri, (w, h) => setAspect(w / h), () => {})
-  }, [thumbnailUri])
-
-  const { boxWidth, boxHeight } = useBoxSize()
-  const screenAspect = boxWidth / boxHeight
-  return aspect > screenAspect
-    ? {
-        width: boxWidth,
-        height: boxWidth / aspect,
-      }
-    : {
-        width: boxHeight * aspect,
-        height: boxHeight,
-      }
 }
 
 function useGesture(width: number, height: number) {
@@ -191,9 +170,9 @@ function useGesture(width: number, height: number) {
   }
 }
 
-export const ImageModal: React.FC<{ style?: ImageStyle; imageUri?: string; thumbnailUri?: string }> = React.memo(
+export const ImageModal: React.FC<{ style?: ImageStyle; imageUri: string; thumbnailUri?: string }> = React.memo(
   ({ style, imageUri, thumbnailUri }) => {
-    const imageSizeStyle = useImageSizeStyle(thumbnailUri)
+    const imageSizeStyle = useFullScreenImageSize(thumbnailUri || imageUri)
     const {
       pinchHandlerRef,
       panHandlerRef,
