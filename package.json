@@ -11,7 +11,7 @@
     "type-check": "tsc --noEmit",
     "generate-app": "ts-node tools/generate-appjson.ts",
     "lint-staged": "lint-staged",
-    "pre-commit": "npm run type-check && npm run lint-staged"
+    "pre-commit": "npm run lint-staged"
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
