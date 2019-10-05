@@ -9,7 +9,7 @@ export const HomeScreenHeader: React.FC<{ onTouchEnd?: () => void; connectedToSt
   onTouchEnd,
   connectedToStream,
 }) => (
-  <AppHeader onTouchEnd={onTouchEnd}>
+  <AppHeader style={{ zIndex: 1 }} onTouchEnd={onTouchEnd}>
     <Appbar.Content title="ホーム" />
     <Appbar.Action icon="wifi" disabled={!connectedToStream} />
   </AppHeader>

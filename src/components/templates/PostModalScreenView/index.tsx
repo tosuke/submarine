@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 import { Observable, EMPTY } from 'rxjs'
 import { useObservableEffect } from '../../../hooks/useObservableEffect'
-import { ToastAndroid, ViewStyle, StatusBar, View, TextStyle } from 'react-native'
+import { ToastAndroid, ViewStyle, View, TextStyle } from 'react-native'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { ScreenView } from '../../atoms/ScreenView'
 import { Header } from 'react-navigation'
 import { Appbar } from 'react-native-paper'
@@ -44,7 +45,7 @@ export const PostModalScreenView: React.FC<Props> = ({
     [emptyTextError$],
   )
 
-  const keyboardVerticalOffset = Header.HEIGHT + StatusBar.currentHeight!
+  const keyboardVerticalOffset = Header.HEIGHT + getStatusBarHeight()
 
   const theme = useTheme()
   const textInputStyle = useMemo<TextStyle>(

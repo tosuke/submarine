@@ -1,5 +1,6 @@
 import React, { useRef, useMemo } from 'react'
 import { View, StatusBar, ViewStyle, Dimensions } from 'react-native'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { Theme, withTheme, Appbar } from 'react-native-paper'
 import { File } from '../../../models'
 import { ScreenView } from '../../atoms/ScreenView'
@@ -109,7 +110,7 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
           backgroundColor: theme.colors.background,
         }}
       />
-      <Animated.View style={[{ position: 'absolute', top: StatusBar.currentHeight, zIndex: 100 }, headerAnimatedStyle]}>
+      <Animated.View style={[{ position: 'absolute', top: getStatusBarHeight(), zIndex: 100 }, headerAnimatedStyle]}>
         <Appbar.BackAction style={backButtonStyle} color={theme.colors.text} size={24} onPress={onBackButtonPress} />
       </Animated.View>
       <View style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}>

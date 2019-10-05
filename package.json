@@ -43,6 +43,7 @@
     "react-native-paper": "^2.16.0",
     "react-native-reanimated": "~1.2.0",
     "react-native-screens": "~1.0.0-alpha.23",
+    "react-native-status-bar-height": "^2.4.0",
     "react-native-web": "^0.11.7",
     "react-navigation": "^3.11.0",
     "rxjs": "^6.5.2",

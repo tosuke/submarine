@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { StyleSheet, StatusBar } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { Title, Caption, Divider, Button, Text, Snackbar } from 'react-native-paper'
 import { ScreenView } from '../atoms/ScreenView'
 import { Observable } from 'rxjs'
@@ -34,7 +35,7 @@ export const AuthorizeWithCodeScreenView: React.FC<{
 
   return (
     <ScreenView>
-      <KeyboardAvoidingView style={styles.view} keyboardVerticalOffset={Header.HEIGHT + StatusBar.currentHeight!}>
+      <KeyboardAvoidingView style={styles.view} keyboardVerticalOffset={Header.HEIGHT + getStatusBarHeight()}>
         <Snackbar
           visible={invalidCodeErrorBar.visible}
           duration={invalidCodeErrorBar.duration}
