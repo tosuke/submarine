@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { StyleSheet, Clipboard } from 'react-native'
-import { Title, Caption, Divider, TextInput, Button, Text, Snackbar } from 'react-native-paper'
+import React, { useState, useCallback } from 'react'
+import { StyleSheet } from 'react-native'
+import { Title, Caption, Divider, Button, Text, Snackbar } from 'react-native-paper'
 import { ScreenView } from '../atoms/ScreenView'
 import { Observable } from 'rxjs'
 import { useObservableEffect } from '../../hooks/useObservableEffect'
 import { useSnackBar } from '../../hooks/useSnackBar'
+import { PaperTextInput } from '../atoms/TextInput'
 
 export const AuthorizeWithCodeScreenView: React.FC<{
   authorizing: boolean
@@ -20,14 +21,6 @@ export const AuthorizeWithCodeScreenView: React.FC<{
   const invalidCodeErrorBar = useSnackBar({
     action: ({ dismiss }) => ({ label: 'OK', onPress: dismiss }),
   })
-
-  useEffect(() => {
-    Clipboard.getString().then(str => {
-      if (/^[0-9a-f]{16}$/.test(str)) {
-        authorize(str)
-      }
-    })
-  }, [authorize])
 
   useObservableEffect(
     () => invalidCodeErrorEvent,
@@ -50,7 +43,7 @@ export const AuthorizeWithCodeScreenView: React.FC<{
       <Title>コードで認証</Title>
       <Caption>認証画面でコードを貼り付けるように指示が出たらこの下に貼り付け、ボタンを押してください。</Caption>
       <Divider style={styles.divider} />
-      <TextInput
+      <PaperTextInput
         style={styles.textInput}
         placeholder="code"
         value={codeInput}

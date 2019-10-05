@@ -1,12 +1,13 @@
-import React, { useMemo, useRef, useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Observable, EMPTY } from 'rxjs'
 import { useObservableEffect } from '../../../hooks/useObservableEffect'
-import { ToastAndroid, ViewStyle, StatusBar, TextInput, View, TextStyle } from 'react-native'
+import { ToastAndroid, ViewStyle, StatusBar, View, TextStyle } from 'react-native'
 import { ScreenView } from '../../atoms/ScreenView'
 import { Header } from 'react-navigation'
 import { Appbar } from 'react-native-paper'
 import { useTheme } from '../../../hooks/useTheme'
 import { KeyboardAvoidingView } from '../../atoms/KeyboardAvoidingView'
+import { TextInput } from '../../atoms/TextInput'
 import { AppHeader } from '../../atoms/AppHeader'
 import { headerColor } from '../../color'
 
@@ -50,7 +51,6 @@ export const PostModalScreenView: React.FC<Props> = ({
     () => ({
       marginHorizontal: 10,
       marginTop: 5,
-      color: theme.colors.text,
       fontSize: 18,
     }),
     [theme],
@@ -63,28 +63,17 @@ export const PostModalScreenView: React.FC<Props> = ({
     [theme],
   )
 
-  const [editable, setEdidable] = useState(false)
-  const ref = useRef<TextInput>(null)
-  useEffect(() => {
-    setEdidable(true)
-    setTimeout(() => {
-      if (ref.current == null) return
-      ref.current.focus()
-    }, 100)
-  }, [])
-
   // TODO: iOS では InputAccessoryView を用いるとよい？これはキーボードが消える時に消えるので UI の検討が必要そう
   return (
     <ScreenView style={screenViewStyle}>
       <KeyboardAvoidingView style={viewStyle} keyboardVerticalOffset={keyboardVerticalOffset}>
         <View style={viewStyle}>
           <TextInput
-            ref={ref}
             style={textInputStyle}
             placeholder="What's up Otaku?"
             multiline
-            autoFocus={editable}
-            editable={editable}
+            autoFocus
+            editable
             value={text}
             onChangeText={onChangeText}
           />
