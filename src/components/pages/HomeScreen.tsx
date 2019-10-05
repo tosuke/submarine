@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { Platform } from 'react-native'
 import { ScreenView } from '../atoms/ScreenView'
 import { HomeScreenHeader, HomeScreenFAB, HomeScreenMainView } from '../templates/HomeScreenView'
 import { PublicTimeline } from '../organisms/PublicTimeline'
@@ -6,7 +7,7 @@ import { PublicTimelineBlocProvider, usePublicTimelineBloc } from '../../hooks/u
 import { useNaviagtion } from '../../hooks/useNavigation'
 import { useObservable } from '../../hooks/useObservable'
 
-const HomeScreenImpl: React.FC = () => {
+const HomeScreenImpl = () => {
   const tlBloc = usePublicTimelineBloc()
   const { navigate } = useNaviagtion()
 
@@ -20,14 +21,23 @@ const HomeScreenImpl: React.FC = () => {
 
   const connected = useObservable(() => tlBloc.connectedToSocket$, false, [tlBloc])
 
-  return (
-    <ScreenView>
+  const HeaderAndFAB = (
+    <>
       <HomeScreenHeader onTouchEnd={scrollToTop} connectedToStream={connected} />
       <HomeScreenFAB onPress={onPostButtonPressed} />
-      <HomeScreenMainView>
-        <PublicTimeline />
-      </HomeScreenMainView>
-    </ScreenView>
+    </>
+  )
+
+  return (
+    <>
+      {Platform.OS !== 'android' && HeaderAndFAB}
+      <ScreenView>
+        {Platform.OS === 'android' && HeaderAndFAB}
+        <HomeScreenMainView>
+          <PublicTimeline />
+        </HomeScreenMainView>
+      </ScreenView>
+    </>
   )
 }
 

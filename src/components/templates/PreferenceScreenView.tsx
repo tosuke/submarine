@@ -24,19 +24,21 @@ export const PreferencesScreenView: React.FC<{
   }, [doLogout])
 
   return (
-    <ScreenView>
+    <>
       <AppHeader>
         <Appbar.Content title="設定" />
       </AppHeader>
-      <ScrollView>
-        <List.Section title="アカウント">
-          <Divider />
-          <List.Item title="名前" description="今: :q!" />
-          <Divider />
-          <List.Item title="ログアウト" titleStyle={{ color: theme.colors.error }} onPress={onLogoutButtonPressed} />
-          <Divider />
-        </List.Section>
-      </ScrollView>
-    </ScreenView>
+      <ScreenView>
+        <ScrollView>
+          <List.Section title="アカウント">
+            <Divider />
+            <List.Item title="名前" description="今: :q!" />
+            <Divider />
+            <List.Item title="ログアウト" titleStyle={{ color: theme.colors.error }} onPress={onLogoutButtonPressed} />
+            <Divider />
+          </List.Section>
+        </ScrollView>
+      </ScreenView>
+    </>
   )
 }
