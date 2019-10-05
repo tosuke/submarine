@@ -1,4 +1,5 @@
 import $, { Transformer, ok } from 'transform-ts'
+import { Platform } from 'react-native'
 
 export class File {
   constructor(readonly id: number, readonly name: string, readonly type: string, readonly variants: FileVariant[]) {}
@@ -32,11 +33,13 @@ export class File {
 }
 
 function findProperImageVariant(variants: ReadonlyArray<FileVariant>): FileVariant {
-  if (true) {
+  if (Platform.OS === 'android') {
     const webpVariant = variants.find(v => v.mime === 'image/webp')
     if (webpVariant) return webpVariant
   }
-  return variants[0]
+  const pngOrJpegVariant = variants.find(v => ['image/png', 'image/jpeg'].includes(v.mime))
+  if (pngOrJpegVariant) return pngOrJpegVariant
+  throw 'Invalid File'
 }
 
 export interface ImageFile extends File {
