@@ -1,4 +1,5 @@
 import { AsyncStorage, Linking } from 'react-native'
+import { openBrowserAsync } from 'expo-web-browser'
 import { BehaviorSubject, Subject, Observer, Observable } from 'rxjs'
 import { ValueObservable } from '../utils/valueObservable'
 import { map, tap, switchMap, debounceTime, catchError } from 'rxjs/operators'
@@ -58,7 +59,7 @@ export class AuthBloc {
       this._loading$.next(false)
     })
 
-    this._linkToSignInURL$.pipe(switchMap(() => Linking.openURL(endpoint))).subscribe()
+    this._linkToSignInURL$.pipe(switchMap(() => openBrowserAsync(endpoint))).subscribe()
 
     this._linkToAuthzURL$
       .pipe(
@@ -66,7 +67,7 @@ export class AuthBloc {
           const state = 'aaa'
           return new URL(`/oauth/authorize?state=${state}&response_type=code&client_id=${clientId}`, endpoint)
         }),
-        switchMap(url => Linking.openURL(url.href)),
+        switchMap(async url => openBrowserAsync(url.href)),
       )
       .subscribe()
 
