@@ -9,6 +9,7 @@ import { VideoModal } from '../../molecules/VideoModal'
 import color from 'color'
 import { FlatList, PanGestureHandler, State } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
+import { Platform } from '@unimodules/core'
 
 const { Value, event, block, cond, eq, greaterThan, set, multiply, abs, call } = Animated
 
@@ -99,6 +100,7 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
 
   return (
     <ScreenView>
+      {Platform.OS === 'ios' && <StatusBar hidden />}
       <View
         style={{
           position: 'absolute',
