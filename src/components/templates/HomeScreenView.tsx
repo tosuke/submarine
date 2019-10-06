@@ -25,7 +25,6 @@ export const HomeScreenFAB: React.FC<{ onPress?: () => void }> = ({ onPress }) =
 
 const HomeScreenMainViewStyle: ViewStyle = {
   flex: 1,
-  marginHorizontal: 10,
 }
 
 export const HomeScreenMainView: React.FC = ({ children }) => <View style={HomeScreenMainViewStyle}>{children}</View>
