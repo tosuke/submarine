@@ -108,12 +108,22 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
           left: 0,
           right: 0,
           height: StatusBar.currentHeight,
-          zIndex: 200,
+          zIndex: 2,
           backgroundColor: theme.colors.background,
         }}
       />
-      <Animated.View style={[{ position: 'absolute', top: getStatusBarHeight(), zIndex: 100 }, headerAnimatedStyle]}>
-        <Appbar.BackAction style={backButtonStyle} color={theme.colors.text} size={24} onPress={onBackButtonPress} />
+      <Animated.View style={[{ position: 'absolute', top: getStatusBarHeight(), zIndex: 1 }, headerAnimatedStyle]}>
+        {Platform.OS === 'android' ? (
+          <Appbar.BackAction style={backButtonStyle} color={theme.colors.text} size={24} onPress={onBackButtonPress} />
+        ) : (
+          <Appbar.Action
+            style={backButtonStyle}
+            icon="close"
+            color={theme.colors.text}
+            size={24}
+            onPress={onBackButtonPress}
+          />
+        )}
       </Animated.View>
       <View style={{ position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 }}>
         <PanGestureHandler
