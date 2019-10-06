@@ -1,11 +1,12 @@
 import React, { useCallback, useRef } from 'react'
-import { FlatList, View } from 'react-native'
+import { View, FlatList, RefreshControl } from 'react-native'
 import { Divider, Subheading } from 'react-native-paper'
 import { Post as PostType } from '../../models'
 import { useTheme } from '../../hooks/useTheme'
 import { PostContainer } from './PostContainer'
 import { Observable, EMPTY } from 'rxjs'
 import { useObservableEffect } from '../../hooks/useObservableEffect'
+import { headerColor } from '../color'
 
 const Footer: React.FC = () => (
   <>
@@ -39,9 +40,20 @@ export const PostList: React.FC<{
     [scrollToTopEvent],
   )
 
+  const refreshControl = (
+    <RefreshControl
+      tintColor={theme.colors.text}
+      progressBackgroundColor={headerColor(theme)}
+      colors={[theme.colors.primary]}
+      refreshing={refreshing || false}
+      onRefresh={onRefresh}
+    />
+  )
+
   return (
     <FlatList
       ref={flatListEl}
+      refreshControl={refreshControl}
       contentContainerStyle={{ backgroundColor: theme.colors.background }}
       removeClippedSubviews={true}
       data={posts}
@@ -49,8 +61,6 @@ export const PostList: React.FC<{
       ItemSeparatorComponent={Divider}
       ListFooterComponent={Footer}
       keyExtractor={keyExtractor}
-      refreshing={refreshing}
-      onRefresh={onRefresh}
       onEndReached={loadMore}
     />
   )
