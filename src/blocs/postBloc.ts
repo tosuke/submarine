@@ -10,7 +10,7 @@ import {
   differenceInMinutes,
   differenceInSeconds,
 } from 'date-fns'
-import { openBrowserAsync } from 'expo-web-browser'
+import { openUrl } from '../infra/openUrl'
 
 function relativeTime(now: Date, date: Date): string {
   if (differenceInWeeks(now, date) > 1) return format(date, 'YYYY-MM-DD')
@@ -60,7 +60,7 @@ export class PostBloc {
       })
 
     this._openUrl$.subscribe(url => {
-      openBrowserAsync(url)
+      openUrl(url)
     })
   }
 
