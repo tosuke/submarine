@@ -18,6 +18,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "me.tosuke.submarine",
       "supportsTablet": true
     },
     "android": {
