@@ -53,8 +53,9 @@ export const PostList: React.FC<{
   return (
     <FlatList
       ref={flatListEl}
+      indicatorStyle={theme.dark ? 'white' : 'black'}
       refreshControl={refreshControl}
-      contentContainerStyle={{ backgroundColor: theme.colors.background }}
+      contentContainerStyle={{ backgroundColor: theme.colors.background, marginHorizontal: 10 }}
       removeClippedSubviews={true}
       data={posts}
       renderItem={renderItem}
