@@ -14,6 +14,12 @@ export const VideoModal: React.FC<{ style?: ViewStyle; videoUri: string; thumbna
   const [usePoster, setUsePoster] = useState(true)
   const readyForDisplay = useCallback(() => setUsePoster(false), [])
 
+  const [error, setError] = useState<string | undefined>(undefined)
+  const onError = useCallback((err: string) => {
+    setError(err)
+  }, [])
+
+  // TODO: エラーが発生した旨を表示する
   return (
     <View
       style={[
@@ -26,17 +32,20 @@ export const VideoModal: React.FC<{ style?: ViewStyle; videoUri: string; thumbna
         },
       ]}
     >
-      <Video
-        style={videoSizeStyle}
-        source={{ uri: videoUri }}
-        posterSource={{ uri: thumbnailUri }}
-        resizeMode="stretch"
-        useNativeControls
-        usePoster={usePoster}
-        onReadyForDisplay={readyForDisplay}
-        isLooping
-        shouldPlay
-      />
+      {error == null && (
+        <Video
+          style={videoSizeStyle}
+          source={{ uri: videoUri }}
+          posterSource={{ uri: thumbnailUri }}
+          resizeMode="stretch"
+          useNativeControls
+          usePoster={usePoster}
+          onReadyForDisplay={readyForDisplay}
+          onError={onError}
+          isLooping
+          shouldPlay
+        />
+      )}
     </View>
   )
 }
