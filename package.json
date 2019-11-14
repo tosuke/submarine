@@ -36,7 +36,7 @@
     "expo-constants": "^7.0.0",
     "expo-web-browser": "~7.0.0",
     "hoist-non-react-statics": "^3.3.0",
-    "ky": "^0.11.1",
+    "ky": "^0.15.0",
     "pictograph": "^2.2.0",
     "punycode": "^2.1.1",
     "react": "16.8.3",
