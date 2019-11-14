@@ -12,11 +12,6 @@ if (!fs.existsSync('./app.base.json')) {
   process.exit(1)
 }
 
-if (!fs.existsSync('./env.json')) {
-  console.error('"env.json" is required')
-  process.exit(1)
-}
-
 const appTemplate = JSON.parse(fs.readFileSync('./app.base.json', { encoding: 'utf8' }))
 const env = Env.transformOrThrow(process.env)
 
