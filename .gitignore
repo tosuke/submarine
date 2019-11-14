@@ -2,6 +2,7 @@
 node_modules/**/*
 .expo/*
 .expo-shared/*
+dist/
 npm-debug.*
 *.jks
 *.p12
@@ -12,5 +13,5 @@ web-build/
 web-report/
 *.log
 /app.json
-/env.json
 /App.tsx
+.envrc
