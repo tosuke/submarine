@@ -10,6 +10,7 @@
     "format": "prettier --write \"{src,storybook}/**/*.{js,ts,tsx}\"",
     "type-check": "tsc --noEmit",
     "generate-app": "ts-node tools/generate-appjson.ts",
+    "export": "cp -r App.app.tsx App.tsx && yarn generate:app && expo export",
     "lint-staged": "lint-staged",
     "pre-commit": "npm run lint-staged"
   },
