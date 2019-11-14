@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Submarine Preview</title>
+  </head>
+  <body>
+    <main>
+      <section id="top">
+        <h1>Submarine Preview</h1>
+        <p>
+          Open the URL on a device with <a href="https://expo.io/tools#client">Expo</a> or Read the QR Code on such
+          device.
+        </p>
+      </section>
+      <section id="android">
+        <h2>Android</h2>
+        <p>URL: <a href="{{androidUrl}}">{{androidUrl}}</a></p>
+        <img
+          src="https://chart.googleapis.com/chart?cht=qr&chl={{encodedAndroidUrl}}&chs=180x180&choe=UTF-8&chld=L|2"
+          alt=""
+        />
+      </section>
+      <section id="ios">
+        <h2>iOS</h2>
+        <p>URL: <a href="{{iosUrl}}">{{iosUrl}}</a></p>
+        <img
+          src="https://chart.googleapis.com/chart?cht=qr&chl={{encodedIosUrl}}&chs=180x180&choe=UTF-8&chld=L|2"
+          alt=""
+        />
+      </section>
+    </main>
+  </body>
+</html>

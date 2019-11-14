@@ -10,6 +10,7 @@
     "format": "prettier --write \"{src,storybook}/**/*.{js,ts,tsx}\"",
     "type-check": "tsc --noEmit",
     "generate:app": "ts-node tools/generate-appjson.ts",
+    "generate:preview-page": "ts-node tools/generate-preview-page.ts",
     "export": "cp -r App.app.tsx App.tsx && yarn generate:app && expo export",
     "lint-staged": "lint-staged",
     "pre-commit": "npm run lint-staged"
@@ -62,6 +63,7 @@
     "@types/react-native": "^0.57.65",
     "babel-preset-expo": "^7.0.0",
     "emotion-theming": "^10.0.14",
+    "handlebars": "^4.5.2",
     "husky": "^3.0.3",
     "lint-staged": "^9.2.1",
     "prettier": "^1.18.2",
