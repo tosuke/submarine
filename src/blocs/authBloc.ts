@@ -1,4 +1,4 @@
-import { AsyncStorage, Linking } from 'react-native'
+import { AsyncStorage } from 'react-native'
 import { openBrowserAsync } from 'expo-web-browser'
 import { BehaviorSubject, Subject, Observer, Observable } from 'rxjs'
 import { ValueObservable } from '../utils/valueObservable'
