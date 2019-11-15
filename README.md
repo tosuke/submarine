@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/23502d7e-ad8d-476c-b548-5d153ad97ca1/deploy-status)](https://app.netlify.com/sites/submarine-preview/deploys)
+![](https://github.com/Tosuke/Submarine/workflows/CI/badge.svg)
 
 # Submarine
 
@@ -15,10 +15,6 @@ See [DeployGate](https://deploygate.com/users/tosuke/apps/me.tosuke.submarine)
 ### iOS User
 
 See [Expo](https://expo.io/@tosuke/submarine)
-
-### Preview Version(master)
-
-See [Preview Page](https://submarine-preview.netlify.com)
 
 ## Dev Infomation
 
