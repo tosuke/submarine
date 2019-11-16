@@ -1,4 +1,4 @@
-name: Publish Expo
+name: CD/Publish
 
 on:
   push:
@@ -16,22 +16,22 @@ jobs:
         with:
           node-version: '12.x'
 
+      - name: Cache Dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn
+          key: ${{ runner.OS }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-yarn-${{ env.cache-name }}-
+            ${{ runner.OS }}-yarn-
+            ${{ runner.OS }}-
+
       - name: Setup Expo
         uses: expo/expo-github-action@v4
         with:
           expo-packager: yarn
           expo-username: ${{ secrets.EXPO_USERNAME }}
           expo-password: ${{ secrets.EXPO_PASSWORD }}
-
-      - name: Cache Dependencies
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-${{ env.cache-name }}-
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
 
       - name: Install Dependencies
         run: yarn install

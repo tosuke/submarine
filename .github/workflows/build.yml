@@ -1,0 +1,67 @@
+name: CD/Build
+
+on:
+  push:
+    # tags:
+    #  - 'v*'
+
+env:
+  TURTLE_VERSION: 0.12.10
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '1.8.0'
+
+      - name: Cache Dependencies
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-turtle-${{ env.TURTLE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-turtle-${{ env.cache-name }}-
+            ${{ runner.OS }}-turtle-
+            ${{ runner.OS }}-
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Install Turtle
+        run: yarn add turtle-cli@${{ env.TURTLE_VERSION }}
+
+      - name: Build APK
+        run: |
+          cp App.app.tsx App.tsx
+          yarn generate:app
+          echo "$EXPO_ANDROID_KEYSTORE_BASE64" | base64 --decode > submarine.jks
+          yarn run turtle build:android \
+            --keystore-path ./submarine.jks \
+            --keystore-alias "$EXPO_ANDROID_KEYSTORE_ALIAS" \
+            --type apk \
+            -o ./submarine.apk
+        env:
+          SEA_URL: ${{ secrets.SEA_URL }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          EXPO_USERNAME: ${{ secrets.EXPO_USERNAME }}
+          EXPO_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
+          EXPO_ANDROID_KEYSTORE_BASE64: ${{ secrets.EXPO_ANDROID_KEYSTORE_BASE64 }}
+          EXPO_ANDROID_KEYSTORE_ALIAS: ${{ secrets.EXPO_ANDROID_KEYSTORE_ALIAS }}
+          EXPO_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.EXPO_ANDROID_KEYSTORE_PASSWORD }}
+          EXPO_ANDROID_KEY_PASSWORD: ${{ secrets.EXPO_ANDROID_KEY_PASSWORD }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: submarine.apk
+          path: ./submarine.apk
