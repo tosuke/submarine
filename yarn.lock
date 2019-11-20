@@ -843,16 +843,6 @@
     hoist-non-react-statics "^2.5.0"
     prop-types "^15.6.0"
 
-"@emotion/cache@^10.0.15":
-  version "10.0.15"
-  resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.15.tgz#b81767b48015aae2689c60373992145c67b8de02"
-  integrity sha512-8VthgeKhlGeTXSW1JN7I14AnAaiFPbOrqNqg3dPoGCZ3bnMjkrmRU0zrx0BtBw9esBaPaQgDB9y0tVgAGT2Mrg==
-  dependencies:
-    "@emotion/sheet" "0.9.3"
-    "@emotion/stylis" "0.8.4"
-    "@emotion/utils" "0.11.2"
-    "@emotion/weak-memoize" "0.2.3"
-
 "@emotion/cache@^10.0.17", "@emotion/cache@^10.0.9":
   version "10.0.19"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.19.tgz#d258d94d9c707dcadaf1558def968b86bb87ad71"
@@ -863,7 +853,7 @@
     "@emotion/utils" "0.11.2"
     "@emotion/weak-memoize" "0.2.4"
 
-"@emotion/core@^10.0.14":
+"@emotion/core@^10.0.14", "@emotion/core@^10.0.9":
   version "10.0.22"
   resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.0.22.tgz#2ac7bcf9b99a1979ab5b0a876fbf37ab0688b177"
   integrity sha512-7eoP6KQVUyOjAkE6y4fdlxbZRA4ILs7dqkkm6oZUJmihtHv0UBq98VgPirq9T8F9K2gKu0J/au/TpKryKMinaA==
@@ -874,27 +864,6 @@
     "@emotion/serialize" "^0.11.12"
     "@emotion/sheet" "0.9.3"
     "@emotion/utils" "0.11.2"
-
-"@emotion/core@^10.0.9":
-  version "10.0.16"
-  resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.0.16.tgz#e43630b65c84e31e81f34db3286eab584b08cfaa"
-  integrity sha512-whbiiA7FfPreBY4BqWky2qRfAZvq+4dKQ1WNJuiYQwPCNmb0pEYDgNheSbZoNKtGTtfPaM28hBbZAKWD5EZXmQ==
-  dependencies:
-    "@babel/runtime" "^7.4.3"
-    "@emotion/cache" "^10.0.15"
-    "@emotion/css" "^10.0.14"
-    "@emotion/serialize" "^0.11.9"
-    "@emotion/sheet" "0.9.3"
-    "@emotion/utils" "0.11.2"
-
-"@emotion/css@^10.0.14":
-  version "10.0.14"
-  resolved "https://registry.yarnpkg.com/@emotion/css/-/css-10.0.14.tgz#95dacabdd0e22845d1a1b0b5968d9afa34011139"
-  integrity sha512-MozgPkBEWvorcdpqHZE5x1D/PLEHUitALQCQYt2wayf4UNhpgQs2tN0UwHYS4FMy5ROBH+0ALyCFVYJ/ywmwlg==
-  dependencies:
-    "@emotion/serialize" "^0.11.8"
-    "@emotion/utils" "0.11.2"
-    babel-plugin-emotion "^10.0.14"
 
 "@emotion/css@^10.0.22", "@emotion/css@^10.0.9":
   version "10.0.22"
@@ -939,17 +908,17 @@
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.3.tgz#5b6b1c11d6a6dddf1f2fc996f74cf3b219644d78"
   integrity sha512-2Md9mH6mvo+ygq1trTeVp2uzAKwE2P7In0cRpD/M9Q70aH8L+rxMLbb3JCN2JoSWsV2O+DdFjfbbXoMoLBczow==
 
-"@emotion/native@^10.0.10":
-  version "10.0.14"
-  resolved "https://registry.yarnpkg.com/@emotion/native/-/native-10.0.14.tgz#5cb7688bb677990c949ed06e22af925741d32310"
-  integrity sha512-de01O1GvP6Qq8zWbCPOhTZ7GLkaYO6WhDXddVjVIx/16Ax360AotNBs9nBdkTrEExq1cSDa9vj5178Vw3R2x3w==
+"@emotion/native@^10.0.14":
+  version "10.0.22"
+  resolved "https://registry.yarnpkg.com/@emotion/native/-/native-10.0.22.tgz#db1495b4bb46263734d9a737e5a4c8017211eb14"
+  integrity sha512-4Hlb2KSVGTqwQjHIgojdYUPlf660MpVS8kh77EcrOe/MUmKtqNvZVFp/MAdejfX/c0RyzmiZq19WdPQLaWm/LQ==
   dependencies:
-    "@emotion/primitives-core" "10.0.14"
+    "@emotion/primitives-core" "10.0.22"
 
-"@emotion/primitives-core@10.0.14":
-  version "10.0.14"
-  resolved "https://registry.yarnpkg.com/@emotion/primitives-core/-/primitives-core-10.0.14.tgz#bfade06bb8221d5348215c2a64b338bc2aaebc5c"
-  integrity sha512-ROpEf0ISDUKXiGT73fE55xYa+VCrcZWKrjRNgT/AFTT1v6unHNHaUTKGchGumI3lUv19dvZXs/oSQWBLnMDRWA==
+"@emotion/primitives-core@10.0.22":
+  version "10.0.22"
+  resolved "https://registry.yarnpkg.com/@emotion/primitives-core/-/primitives-core-10.0.22.tgz#a2b2e49cd4762337251ade33e3056ff53216ee6f"
+  integrity sha512-T2zPYmOabfm2DzG6LMcNRfBSFyBGwa5yHaM5pGhFpwufd7PiSirI7LuyUpFNQyHRn3XvgfSPIWynRRWOKduM6g==
   dependencies:
     css-to-react-native "^2.2.1"
 
@@ -964,7 +933,7 @@
     "@emotion/utils" "0.11.2"
     csstype "^2.5.7"
 
-"@emotion/serialize@^0.11.8", "@emotion/serialize@^0.11.9":
+"@emotion/serialize@^0.11.9":
   version "0.11.9"
   resolved "https://registry.yarnpkg.com/@emotion/serialize/-/serialize-0.11.9.tgz#123e0f51d2dee9693fae1057bd7fc27b021d6868"
   integrity sha512-/Cn4V81z3ZyFiDQRw8nhGFaHkxHtmCSSBUit4vgTuLA1BqxfJUYiqSq97tq/vV8z9LfIoqs6a9v6QrUFWZpK7A==
@@ -1298,12 +1267,12 @@
     global "^4.3.2"
     telejson "^3.0.2"
 
-"@storybook/channel-websocket@5.1.11":
-  version "5.1.11"
-  resolved "https://registry.yarnpkg.com/@storybook/channel-websocket/-/channel-websocket-5.1.11.tgz#856863b7be1d275d6cffc4f7bc47225a5fa8e62c"
-  integrity sha512-/KFvLOEqj4GERzy9VgcCJ5dSwy7g2Bu4wt8zHCfJWz37PKH5lUq6mxBXPJEm++CPSVw0R67asPeCx7aqxrjNvw==
+"@storybook/channel-websocket@5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@storybook/channel-websocket/-/channel-websocket-5.2.6.tgz#517c3782344a8f6136b206bf73ebb9406c020f4c"
+  integrity sha512-kA1D/UC3eSspka3+J5Lif574Silj0orCt+NPe8wdJofj/oQNb+fR1dot1zbnpEi9tX8kd0y46EMdEZYKeGw8nA==
   dependencies:
-    "@storybook/channels" "5.1.11"
+    "@storybook/channels" "5.2.6"
     core-js "^3.0.1"
     global "^4.3.2"
     json-fn "^1.1.1"
@@ -1321,24 +1290,6 @@
   integrity sha512-/UsktYsXuvb1efjVPCEivhh5ywRhm7hl73pQnpJLJHRqyLMM2I5nGPFELTTNuU9yWy7sP9QL5gRqBBPe1sqjZQ==
   dependencies:
     core-js "^3.0.1"
-
-"@storybook/client-api@5.1.11":
-  version "5.1.11"
-  resolved "https://registry.yarnpkg.com/@storybook/client-api/-/client-api-5.1.11.tgz#30d82c09c6c40aa70d932e77b1d1e65526bddc0c"
-  integrity sha512-znzSxZ1ZCqtEKrFoW7xT8iBbdiAXaQ8RNxQFKHuYPqWX+RLol6S3duEOxu491X2SzUg0StUmrX5qL9Rnth8dRQ==
-  dependencies:
-    "@storybook/addons" "5.1.11"
-    "@storybook/client-logger" "5.1.11"
-    "@storybook/core-events" "5.1.11"
-    "@storybook/router" "5.1.11"
-    common-tags "^1.8.0"
-    core-js "^3.0.1"
-    eventemitter3 "^3.1.0"
-    global "^4.3.2"
-    is-plain-object "^3.0.0"
-    lodash "^4.17.11"
-    memoizerific "^1.11.3"
-    qs "^6.6.0"
 
 "@storybook/client-api@5.2.6":
   version "5.2.6"
@@ -1414,18 +1365,20 @@
   dependencies:
     core-js "^3.0.1"
 
-"@storybook/react-native@^5.1.11":
-  version "5.1.11"
-  resolved "https://registry.yarnpkg.com/@storybook/react-native/-/react-native-5.1.11.tgz#0c7ebeb2271f4269cbafcec777346694f0f2fea3"
-  integrity sha512-ZiiQxQg7nv8bF6ekA+/CUGbesNRNGyN6aPtPZBJiSEAskTVY//3JTdzkqYUMGTKnAYupdKuSmYZep1N/AWPGTA==
+"@storybook/react-native@^5.2.6":
+  version "5.2.6"
+  resolved "https://registry.yarnpkg.com/@storybook/react-native/-/react-native-5.2.6.tgz#7ebc2133afd5396d59759590ef4e535da96a470f"
+  integrity sha512-JYToC6OIl0boRZZ4oWZRbmUnZ+3olpH8/2KBdktzFTgqa71vZAqTCzaZYriiOXejnei8l7zDYovxh1FdV27VkQ==
   dependencies:
-    "@emotion/native" "^10.0.10"
-    "@storybook/addons" "5.1.11"
-    "@storybook/channel-websocket" "5.1.11"
-    "@storybook/channels" "5.1.11"
-    "@storybook/client-api" "5.1.11"
-    "@storybook/core-events" "5.1.11"
+    "@emotion/core" "^10.0.14"
+    "@emotion/native" "^10.0.14"
+    "@storybook/addons" "5.2.6"
+    "@storybook/channel-websocket" "5.2.6"
+    "@storybook/channels" "5.2.6"
+    "@storybook/client-api" "5.2.6"
+    "@storybook/core-events" "5.2.6"
     core-js "^3.0.1"
+    emotion-theming "^10.0.14"
     react-native-swipe-gestures "^1.0.3"
     rn-host-detect "^1.1.5"
 
@@ -1901,7 +1854,7 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-babel-plugin-emotion@^10.0.14, babel-plugin-emotion@^10.0.15:
+babel-plugin-emotion@^10.0.15:
   version "10.0.16"
   resolved "https://registry.yarnpkg.com/babel-plugin-emotion/-/babel-plugin-emotion-10.0.16.tgz#cb306798058b102a634ca80e69b012caa345bb09"
   integrity sha512-a01Xrourr/VRpw4KicX9drDwfVGHmw8HmlQk++N4fv0j73EfHKWC1Ah4Vu8s1cTGVvTiwum+UhVpJenV8j03FQ==
@@ -2894,7 +2847,7 @@ event-target-shim@^1.0.5:
   resolved "https://registry.yarnpkg.com/event-target-shim/-/event-target-shim-1.1.1.tgz#a86e5ee6bdaa16054475da797ccddf0c55698491"
   integrity sha1-qG5e5r2qFgVEddp5fM3fDFVphJE=
 
-eventemitter3@^3.0.0, eventemitter3@^3.1.0:
+eventemitter3@^3.0.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
   integrity sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==
