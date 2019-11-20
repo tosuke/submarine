@@ -5,7 +5,10 @@ import { HomeScreen } from '../components/pages/HomeScreen'
 import { PreferencesScreen } from '../components/pages/Preferences'
 import { withNavigationOptions } from '../components/hocs/withNavigationOption'
 
-const routes = [{ key: 'home', title: 'ホーム', icon: 'home' }, { key: 'preferences', title: '設定', icon: 'settings' }]
+const routes = [
+  { key: 'home', title: 'ホーム', icon: 'home' },
+  { key: 'preferences', title: '設定', icon: 'settings' },
+]
 
 const scenes = BottomNavigation.SceneMap({
   home: HomeScreen as React.ComponentType<SceneProps<unknown>>,
