@@ -8,7 +8,11 @@ export function useFullScreenImageSize(srcUri: string) {
   const [aspectRatio, setAspectRatio] = useState(1)
 
   useEffect(() => {
-    Image.getSize(srcUri, (w, h) => setAspectRatio(w / h), e => console.error(e))
+    Image.getSize(
+      srcUri,
+      (w, h) => setAspectRatio(w / h),
+      e => console.error(e),
+    )
   }, [srcUri])
 
   return aspectRatio > screenAspectRatio

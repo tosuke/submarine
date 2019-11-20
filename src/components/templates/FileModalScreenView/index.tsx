@@ -46,7 +46,11 @@ function useGestures({ back }: { back?: () => void }) {
               cond(eq(state, State.ACTIVE), set(y, translationY)),
               cond(
                 eq(state, State.END),
-                cond(greaterThan(abs(y), height * 0.15), call([y], () => back && back()), set(y, 0)),
+                cond(
+                  greaterThan(abs(y), height * 0.15),
+                  call([y], () => back && back()),
+                  set(y, 0),
+                ),
               ),
             ]),
         },
