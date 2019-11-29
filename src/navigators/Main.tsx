@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react'
 import { BottomNavigation, SceneProps } from 'react-native-paper'
-import { AppBottomNavigation } from '../components/atoms/AppBottomNavigation'
-import { HomeScreen } from '../components/pages/HomeScreen'
-import { PreferencesScreen } from '../components/pages/Preferences'
-import { withNavigationOptions } from '../components/hocs/withNavigationOption'
+import { AppBottomNavigation } from '../view/atoms/AppBottomNavigation'
+import { HomeScreen } from '../view/pages/HomeScreen'
+import { PreferencesScreen } from '../view/pages/Preferences'
+import { withNavigationOptions } from '../view/hocs/withNavigationOption'
 
 const routes = [
   { key: 'home', title: 'ホーム', icon: 'home' },
