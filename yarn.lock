@@ -4165,10 +4165,10 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-ky@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/ky/-/ky-0.15.0.tgz#bea059d57cc179575adadbba2d8e15610d8fd75b"
-  integrity sha512-6IlJRPFHq4ZKRRa9lyh6YqHqlmddAkfyXI9CYvZpLQtg7fQvwncPHyHrmtXAHKCqHOilINPMT88eW6FTA3HwkA==
+ky@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-0.16.1.tgz#1b7e14b1a964525b270fca5faf3bbf9e47ac8c8a"
+  integrity sha512-olhyGihJ8XOxP8dhdXXDFu1FfowsmkQznI33KNTl4Woa3T/UDBEV/FR8Y8Pe1cJ3ofVnlflcXRUE8a3Phwr3Og==
 
 lcid@^1.0.0:
   version "1.0.0"
