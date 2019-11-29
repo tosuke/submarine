@@ -1,16 +1,14 @@
 import React, { useState, useCallback } from 'react'
-import { StyleSheet } from 'react-native'
+import { Header } from 'react-navigation'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { Title, Caption, Divider, Button, Text, Snackbar } from 'react-native-paper'
-import { ScreenView } from '../design/ScreenView'
+import { ScreenView, PaperTextInput, KeyboardAvoidingView } from '../../design'
 import { Observable } from 'rxjs'
-import { useObservableEffect } from '../../hooks/useObservableEffect'
-import { useSnackBar } from '../../hooks/useSnackBar'
-import { PaperTextInput } from '../design/TextInput'
-import { KeyboardAvoidingView } from '../design/KeyboardAvoidingView'
-import { Header } from 'react-navigation'
+import { useObservableEffect } from '../../../hooks/useObservableEffect'
+import { useSnackBar } from '../../../hooks/useSnackBar'
+import { styles } from './style'
 
-export const AuthorizeWithCodeScreenView: React.FC<{
+export const MainView: React.FC<{
   authorizing: boolean
   authorize: (code: string) => void
   invalidCodeErrorEvent: Observable<void>
@@ -66,19 +64,3 @@ export const AuthorizeWithCodeScreenView: React.FC<{
     </ScreenView>
   )
 }
-
-const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    paddingHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  divider: {
-    marginVertical: 5,
-  },
-  textInput: {
-    width: '100%',
-    marginBottom: 5,
-  },
-})

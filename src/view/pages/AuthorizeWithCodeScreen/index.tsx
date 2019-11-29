@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
-import { withNavigationOptions } from '../hocs/withNavigationOption'
-import { useAuthBloc } from '../../hooks/useAuthBloc'
-import { useNaviagtion } from '../../hooks/useNavigation'
-import { useValueObservable } from '../../hooks/useObservable'
-import { useObservableEffect } from '../../hooks/useObservableEffect'
-import { AuthorizeWithCodeScreenView } from '../templates/AuthorizeWithCodeScreenView'
+import { withNavigationOptions } from '../../hocs/withNavigationOption'
+import { useAuthBloc } from '../../../hooks/useAuthBloc'
+import { useNaviagtion } from '../../../hooks/useNavigation'
+import { useValueObservable } from '../../../hooks/useObservable'
+import { useObservableEffect } from '../../../hooks/useObservableEffect'
+import { MainView } from './MainView'
 
 const AuthorizeWithCodeScreenImpl: React.FC = () => {
   const authBloc = useAuthBloc()
@@ -26,13 +26,7 @@ const AuthorizeWithCodeScreenImpl: React.FC = () => {
     [authBloc],
   )
 
-  return (
-    <AuthorizeWithCodeScreenView
-      authorizing={authorizing}
-      authorize={authorize}
-      invalidCodeErrorEvent={authBloc.invalidCodeError$}
-    />
-  )
+  return <MainView authorizing={authorizing} authorize={authorize} invalidCodeErrorEvent={authBloc.invalidCodeError$} />
 }
 
 export const AuthorizeWithCodeScreen = withNavigationOptions({
