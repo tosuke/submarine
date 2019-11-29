@@ -2,7 +2,7 @@ import React from 'react'
 import { ViewStyle } from 'react-native'
 import { BottomNavigation, BottomNavigationProps, Theme, withTheme } from 'react-native-paper'
 import color from 'color'
-import { headerColor } from '../color'
+import { headerColor } from './color'
 
 const AppBottomNavigationImpl: React.FC<BottomNavigationProps<unknown> & { theme: Theme }> = ({
   theme,

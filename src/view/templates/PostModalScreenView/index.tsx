@@ -10,7 +10,7 @@ import { useTheme } from '../../../hooks/useTheme'
 import { KeyboardAvoidingView } from '../../design/KeyboardAvoidingView'
 import { TextInput } from '../../design/TextInput'
 import { AppHeader } from '../../design/AppHeader'
-import { headerColor } from '../../color'
+import { headerColor } from '../../design/color'
 
 type Props = Partial<{
   text: string

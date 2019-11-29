@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextProps, TextStyle } from 'react-native'
 import { Text, Theme, withTheme } from 'react-native-paper'
-import { captionColor } from '../color'
+import { captionColor } from './color'
 
 const CaptionImpl: React.FC<TextProps & { theme: Theme }> = ({ children, theme, style, ...props }) => {
   const cc = captionColor(theme)
