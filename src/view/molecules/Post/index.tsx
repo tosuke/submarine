@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { View, Image, ImageStyle, ViewStyle, TextStyle, ScrollView, ImageBackground } from 'react-native'
 import { Text, TouchableRipple, Theme, withTheme } from 'react-native-paper'
-import { Caption } from '../../atoms/Caption'
+import { Caption } from '../../design/Caption'
 import { MaterialIcons } from '@expo/vector-icons'
 import { NodeType } from '@linkage-community/bottlemail'
 import * as pictograph from 'pictograph'

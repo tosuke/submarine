@@ -2,8 +2,8 @@ import React from 'react'
 import { ViewStyle, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { MaterialIcons } from '@expo/vector-icons'
-import { PrimaryFAB } from '../atoms/PrimaryFAB'
-import { AppHeader } from '../atoms/AppHeader'
+import { PrimaryFAB } from '../design/PrimaryFAB'
+import { AppHeader } from '../design/AppHeader'
 
 export const HomeScreenHeader: React.FC<{ onTouchEnd?: () => void; connectedToStream?: boolean }> = ({
   onTouchEnd,

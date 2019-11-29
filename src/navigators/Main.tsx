@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { BottomNavigation, SceneProps } from 'react-native-paper'
-import { AppBottomNavigation } from '../view/atoms/AppBottomNavigation'
+import { AppBottomNavigation } from '../view/design/AppBottomNavigation'
 import { HomeScreen } from '../view/pages/HomeScreen'
 import { PreferencesScreen } from '../view/pages/Preferences'
 import { withNavigationOptions } from '../view/hocs/withNavigationOption'

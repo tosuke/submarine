@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { ScrollView, Alert } from 'react-native'
 import { List, Divider, Appbar } from 'react-native-paper'
-import { ScreenView } from '../atoms/ScreenView'
-import { AppHeader } from '../atoms/AppHeader'
+import { ScreenView } from '../design/ScreenView'
+import { AppHeader } from '../design/AppHeader'
 import { useTheme } from '../../hooks/useTheme'
 
 export const PreferencesScreenView: React.FC<{
