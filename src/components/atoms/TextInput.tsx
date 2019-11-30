@@ -19,27 +19,25 @@ export const TextInput = withTheme(({ theme, ...rest }: TextInputProps & { theme
 
   // https://github.com/facebook/react-native/issues/20887
   const textInputRef = useRef<NativeTextInput>(null)
-  const [editable, setEditable] = useState(rest.editable || true)
+  const [editable, setEditable] = useState(rest.editable !== false)
+
   useEffect(() => {
-    if (Platform.OS !== 'android') return
-    setEditable(!(rest.editable || true))
-    const callback = () => {
-      if (textInputRef.current == null) {
-        setTimeout(callback, 100)
-        return
-      }
-      textInputRef.current.forceUpdate()
-      if (rest.autoFocus) textInputRef.current.focus()
-    }
-    setTimeout(() => {
-      setEditable(rest.editable || true)
-      callback()
+    const initial = rest.editable !== false
+    setEditable(!initial)
+    const id = setTimeout(() => {
+      setEditable(initial)
+      if (textInputRef.current && rest.autoFocus) textInputRef.current.focus()
     }, 100)
-  }, [rest.editable, rest.autoFocus])
+    return () => {
+      setEditable(initial)
+      clearTimeout(id)
+    }
+  }, [rest.editable])
 
   return (
     <NativeTextInput
       {...rest}
+      autoFocus={false}
       ref={textInputRef}
       editable={editable}
       style={[textInputStyle, rest.style]}
