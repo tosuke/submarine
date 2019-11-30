@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { TextInput as NativeTextInput, TextInputProps as NativeTextInputProps, Platform, TextStyle } from 'react-native'
+import { TextInput as NativeTextInput, TextInputProps as NativeTextInputProps, TextStyle } from 'react-native'
 import {
   withTheme,
   Theme,
