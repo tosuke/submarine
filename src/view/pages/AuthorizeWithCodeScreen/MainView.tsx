@@ -4,7 +4,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { Title, Caption, Divider, Button, Text, Snackbar } from 'react-native-paper'
 import { ScreenView, PaperTextInput, KeyboardAvoidingView } from '../../design'
 import { Observable } from 'rxjs'
-import { useObservableEffect } from '../../../hooks/useObservableEffect'
+import { useObservableEffect } from '../../../hooks/useObservable'
 import { useSnackBar } from '../../../hooks/useSnackBar'
 import { styles } from './style'
 

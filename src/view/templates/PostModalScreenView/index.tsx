@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Observable, EMPTY } from 'rxjs'
-import { useObservableEffect } from '../../../hooks/useObservableEffect'
+import { useObservableEffect } from '../../../hooks/useObservable'
 import { ToastAndroid, ViewStyle, View, TextStyle } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { ScreenView } from '../../design/ScreenView'

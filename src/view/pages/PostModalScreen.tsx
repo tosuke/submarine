@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { PostModalScreenView, PostModalScreenHeaderView } from '../templates/PostModalScreenView'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useNaviagtion, usePostSendBloc } from '../../hooks/inject'
-import { useObservableEffect } from '../../hooks/useObservableEffect'
+import { useObservableEffect } from '../../hooks/useObservable'
 
 const PostModalScreenImpl: React.FC = () => {
   const { navigate } = useNaviagtion()

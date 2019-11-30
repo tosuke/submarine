@@ -25,3 +25,10 @@ export function useValueObservable<A>(inputFactory: () => ValueObservable<A>, de
 
   return state
 }
+
+export function useObservableEffect<A>(factory: () => Observable<A>, effect: (x: A) => void, deps: unknown[] = []) {
+  useEffect(() => {
+    const sub = factory().subscribe(effect)
+    return () => sub.unsubscribe()
+  }, deps)
+}

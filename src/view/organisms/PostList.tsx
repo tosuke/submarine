@@ -5,7 +5,7 @@ import { Post as PostType } from '../../models'
 import { useTheme } from '../../hooks/useTheme'
 import { PostContainer } from './PostContainer'
 import { Observable, EMPTY } from 'rxjs'
-import { useObservableEffect } from '../../hooks/useObservableEffect'
+import { useObservableEffect } from '../../hooks/useObservable'
 import { headerColor } from '../design/color'
 
 const Footer: React.FC = () => (

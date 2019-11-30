@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react'
 import { withNavigationOptions } from '../../hocs/withNavigationOption'
 import { useAuthBloc, useNaviagtion } from '../../../hooks/inject'
-import { useValueObservable } from '../../../hooks/useObservable'
-import { useObservableEffect } from '../../../hooks/useObservableEffect'
+import { useValueObservable, useObservableEffect } from '../../../hooks/useObservable'
 import { MainView } from './MainView'
 
 const AuthorizeWithCodeScreenImpl: React.FC = () => {
