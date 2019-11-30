@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
-import { useAuthBloc } from '../../hooks/useAuthBloc'
-import { useNaviagtion } from '../../hooks/useNavigation'
+import { useNaviagtion, useAuthBloc } from '../../hooks/inject'
 import { PreferencesScreenView } from '../templates/PreferenceScreenView'
 
 export const PreferencesScreen: React.FC = () => {

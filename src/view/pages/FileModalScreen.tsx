@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
-import { useNaviagtion } from '../../hooks/useNavigation'
+import { useNaviagtion } from '../../hooks/inject/useNavigation'
 import { File } from '../../models'
 import { FileModalScreenView } from '../templates/FileModalScreenView'
 

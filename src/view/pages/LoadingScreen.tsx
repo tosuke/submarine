@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import { AppLoading } from 'expo'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useValueObservable } from '../../hooks/useObservable'
-import { useAuthBloc } from '../../hooks/useAuthBloc'
-import { useNaviagtion } from '../../hooks/useNavigation'
+import { useAuthBloc, useNaviagtion } from '../../hooks/inject'
 
 const LoadingScreenImpl: React.FC = () => {
   const authBloc = useAuthBloc()

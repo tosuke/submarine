@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { PostList } from './PostList'
 import { useValueObservable } from '../../hooks/useObservable'
-import { usePublicTimelineBloc } from '../../hooks/usePublicTimelineBloc'
+import { usePublicTimelineBloc } from '../../hooks/inject'
 
 export const PublicTimeline: React.FC = () => {
   const publicTLBloc = usePublicTimelineBloc()

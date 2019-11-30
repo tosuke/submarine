@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useContext } from 'react'
-import { AuthBloc } from '../blocs/authBloc'
+import { AuthBloc } from '../../blocs/authBloc'
 
 const AuthBlocCtx = React.createContext<AuthBloc | undefined>(undefined)
 

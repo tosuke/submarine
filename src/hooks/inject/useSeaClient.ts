@@ -1,6 +1,6 @@
-import { SeaClient } from '../infra/seaClient'
+import { SeaClient } from '../../infra/seaClient'
 import { useAuthBloc } from './useAuthBloc'
-import { useValueObservable } from './useObservable'
+import { useValueObservable } from '../useObservable'
 
 export function useSeaClient(): SeaClient {
   const authBloc = useAuthBloc()

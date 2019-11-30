@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import { withNavigationOptions } from '../../hocs/withNavigationOption'
-import { useAuthBloc } from '../../../hooks/useAuthBloc'
-import { useNaviagtion } from '../../../hooks/useNavigation'
+import { useAuthBloc, useNaviagtion } from '../../../hooks/inject'
 import { useValueObservable } from '../../../hooks/useObservable'
 import { useObservableEffect } from '../../../hooks/useObservableEffect'
 import { MainView } from './MainView'

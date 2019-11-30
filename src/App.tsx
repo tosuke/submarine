@@ -4,9 +4,7 @@ import { DarkTheme } from 'react-native-paper'
 import { enableScreens } from 'react-native-screens'
 import { AppContainer } from './navigators/App'
 import { StatusBar } from './view/design/StatusBar'
-import { AuthBlocProvider } from './hooks/useAuthBloc'
-import { ThemeBlocProvider } from './hooks/useThemeBloc'
-import { PostSendBlocProvider } from './hooks/usePostSendBloc'
+import { AuthBlocProvider, ThemeBlocProvider, PostSendBlocProvider } from './hooks/inject'
 
 enableScreens()
 

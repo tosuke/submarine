@@ -3,8 +3,8 @@ import { Platform } from 'react-native'
 import { ScreenView } from '../design/ScreenView'
 import { HomeScreenHeader, HomeScreenFAB, HomeScreenMainView } from '../templates/HomeScreenView'
 import { PublicTimeline } from '../organisms/PublicTimeline'
-import { PublicTimelineBlocProvider, usePublicTimelineBloc } from '../../hooks/usePublicTimelineBloc'
-import { useNaviagtion } from '../../hooks/useNavigation'
+import { PublicTimelineBlocProvider, usePublicTimelineBloc } from '../../hooks/inject/usePublicTimelineBloc'
+import { useNaviagtion } from '../../hooks/inject/useNavigation'
 import { useObservable } from '../../hooks/useObservable'
 
 const HomeScreenImpl = () => {

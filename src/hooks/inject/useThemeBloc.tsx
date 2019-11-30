@@ -1,7 +1,7 @@
 import React, { createContext, useMemo, useEffect, useContext } from 'react'
 import { Theme, Provider } from 'react-native-paper'
-import { ThemeBloc } from '../blocs/themeBloc'
-import { useValueObservable } from './useObservable'
+import { ThemeBloc } from '../../blocs/themeBloc'
+import { useValueObservable } from './../useObservable'
 
 const ThemeBlocCtx = createContext<ThemeBloc | undefined>(undefined)
 

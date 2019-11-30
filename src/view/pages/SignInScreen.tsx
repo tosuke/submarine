@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
-import { useAuthBloc } from '../../hooks/useAuthBloc'
-import { useNaviagtion } from '../../hooks/useNavigation'
+import { useNaviagtion, useAuthBloc } from '../../hooks/inject'
 import { endpoint } from '../../config'
 import { SignInScreenView } from '../templates/SignInScreenView'
 

@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import { PostModalScreenView, PostModalScreenHeaderView } from '../templates/PostModalScreenView'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
-import { useNaviagtion } from '../../hooks/useNavigation'
-import { usePostSendBloc } from '../../hooks/usePostSendBloc'
+import { useNaviagtion, usePostSendBloc } from '../../hooks/inject'
 import { useObservableEffect } from '../../hooks/useObservableEffect'
 
 const PostModalScreenImpl: React.FC = () => {
