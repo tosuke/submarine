@@ -1,4 +1,5 @@
 import Constants from 'expo-constants'
+import 'core-js/features/url'
 
 const config = Constants.manifest.extra
 

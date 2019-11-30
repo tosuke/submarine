@@ -3,7 +3,7 @@
   "scripts": {
     "prestart": "cp -r App.app.tsx App.tsx",
     "start": "expo start",
-    "prestorybook": "cp -r App.storybook.tsx App.tsx",
+    "prestorybook": "rnstl && cp -r App.storybook.tsx App.tsx",
     "storybook": "expo start",
     "format": "prettier --write \"{src,storybook}/**/*.{js,ts,tsx}\"",
     "type-check": "tsc --noEmit",
@@ -22,6 +22,15 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
+    }
+  },
+  "config": {
+    "react-native-storybook-loader": {
+      "searchDir": [
+        "./src"
+      ],
+      "pattern": "**/*.stories.tsx",
+      "outputFile": "./storybook/storyLoader.js"
     }
   },
   "dependencies": {
@@ -67,6 +76,7 @@
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
+    "react-native-storybook-loader": "^1.8.1",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   },
