@@ -4,7 +4,7 @@ import { useAuthBloc, useNaviagtion } from '../../../hooks/inject'
 import { useValueObservable, useObservableEffect } from '../../../hooks/useObservable'
 import { MainView } from './MainView'
 
-const AuthorizeWithCodeScreenImpl: React.FC = () => {
+const Screen = () => {
   const authBloc = useAuthBloc()
   const { navigate } = useNaviagtion()
   const authorizing = useValueObservable(() => authBloc.authorizing$)
@@ -29,4 +29,4 @@ const AuthorizeWithCodeScreenImpl: React.FC = () => {
 
 export const AuthorizeWithCodeScreen = withNavigationOptions({
   title: 'コード認証',
-})(AuthorizeWithCodeScreenImpl)
+})(Screen)
