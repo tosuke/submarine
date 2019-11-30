@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { Header } from 'react-navigation'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
-import { Title, Caption, Divider, Button, Text } from 'react-native-paper'
-import { ScreenView, PaperTextInput, KeyboardAvoidingView, Snackbar, useSnackBar } from '../../design'
+import { Title, Divider, Button, Text } from 'react-native-paper'
+import { ScreenView, PaperTextInput, KeyboardAvoidingView, Snackbar, useSnackBar, Caption } from '../../design'
 import { Observable } from 'rxjs'
 import { useObservableEffect } from '../../../hooks/useObservable'
 import { styles } from './style'
@@ -32,7 +30,7 @@ export const MainView: React.FC<{
 
   return (
     <ScreenView>
-      <KeyboardAvoidingView style={styles.view} keyboardVerticalOffset={Header.HEIGHT + getStatusBarHeight()}>
+      <KeyboardAvoidingView style={styles.view}>
         <Snackbar {...invalidCodeErrorBar.snackBarProps}>コードが不正です。</Snackbar>
         <Title>コードで認証</Title>
         <Caption>認証画面でコードを貼り付けるように指示が出たらこの下に貼り付け、ボタンを押してください。</Caption>
