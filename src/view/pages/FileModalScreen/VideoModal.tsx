@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
 import { ViewStyle, View, Dimensions, StatusBar } from 'react-native'
-import { useFullScreenImageSize } from '../../hooks/useFullScreenImageSize'
+import { useFullScreenImageSize } from '../../../hooks/useFullScreenImageSize'
 import { Video } from 'expo-av'
 
 export const VideoModal: React.FC<{ style?: ViewStyle; videoUri: string; thumbnailUri: string }> = ({

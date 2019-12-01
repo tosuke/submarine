@@ -1,9 +1,9 @@
 import React, { useState, useRef, useMemo } from 'react'
 import { Dimensions, ImageStyle, StatusBar } from 'react-native'
 import { PinchGestureHandler, State, PanGestureHandler, TapGestureHandler } from 'react-native-gesture-handler'
-import { useFullScreenImageSize } from '../../hooks/useFullScreenImageSize'
+import { useFullScreenImageSize } from '../../../hooks/useFullScreenImageSize'
 import Animated from 'react-native-reanimated'
-import { first, panDiff, pinchDiff, ranged } from '../../utils/animated'
+import { first, panDiff, pinchDiff, ranged } from '../../../utils/animated'
 const { Value, event, block, set, call, cond, eq, lessOrEq, greaterThan, and, add, sub, multiply, divide } = Animated
 
 function useGesture(width: number, height: number) {
