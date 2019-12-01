@@ -38,6 +38,7 @@ export const MainView: React.FC<{
         <PaperTextInput
           style={styles.textInput}
           placeholder="code"
+          disabled={authorizing}
           value={codeInput}
           onChangeText={updateCodeInput}
           onSubmitEditing={onAuthorizeButtonPressed}
