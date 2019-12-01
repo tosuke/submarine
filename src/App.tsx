@@ -1,4 +1,3 @@
-import 'core-js/features/url'
 import React from 'react'
 import { DarkTheme } from 'react-native-paper'
 import { enableScreens } from 'react-native-screens'
