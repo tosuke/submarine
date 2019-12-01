@@ -155,4 +155,4 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
   )
 }
 
-export const FileModalScreenView = withTheme(FileModalScreenViewImpl)
+export const MainView = withTheme(FileModalScreenViewImpl)
