@@ -28,7 +28,7 @@
     "@expo/vector-icons": "^10.0.0",
     "@linkage-community/bottlemail": "^0.1.5",
     "color": "^3.1.2",
-    "core-js": "^3.4.5",
+    "core-js": "^3.4.7",
     "date-fns": "^2.8.1",
     "expo": "^35.0.1",
     "expo-av": "^7.0.1",
