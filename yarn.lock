@@ -982,10 +982,10 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@linkage-community/bottlemail@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@linkage-community/bottlemail/-/bottlemail-0.1.5.tgz#a39e9a9a97902993607392c939fa272a38602691"
-  integrity sha512-mYa78ataQuAdhFdJs/MX9AMOwBNpLKxxMqTDkMawFoxa0K+yTqGFks6YM0F8x7yvfims2DHx8c21y5lCss1VUw==
+"@linkage-community/bottlemail@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@linkage-community/bottlemail/-/bottlemail-2.0.0.tgz#958d799b963e84aca7eeb9c226d06e16d5137aa6"
+  integrity sha512-1QAsNreZ6vncPk9mykefxqjKCj3oEIx72okR1lC3pE6y56vRw2dB+zk3Ks1TSsg6Yjdo45/OJpcWyeIaVCFAdg==
 
 "@nodelib/fs.scandir@2.1.1":
   version "2.1.1"
