@@ -43,12 +43,17 @@ function useGesture(width: number, height: number) {
   )
 
   Animated.useCode(
-    block([set(maxX, Animated.max(sub(multiply(width / 2, scale), boxWidth / 2), 0)), set(minX, multiply(-1, maxX))]),
+    () =>
+      block([set(maxX, Animated.max(sub(multiply(width / 2, scale), boxWidth / 2), 0)), set(minX, multiply(-1, maxX))]),
     [width, boxWidth],
   )
 
   Animated.useCode(
-    block([set(maxY, Animated.max(sub(multiply(height / 2, scale), boxHeight / 2), 0)), set(minY, multiply(-1, maxY))]),
+    () =>
+      block([
+        set(maxY, Animated.max(sub(multiply(height / 2, scale), boxHeight / 2), 0)),
+        set(minY, multiply(-1, maxY)),
+      ]),
     [height, boxHeight],
   )
 
