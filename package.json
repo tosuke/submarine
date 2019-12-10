@@ -55,7 +55,7 @@
   "devDependencies": {
     "@storybook/addon-knobs": "^5.2.8",
     "@storybook/addon-ondevice-knobs": "^5.2.8",
-    "@storybook/addon-ondevice-notes": "^5.2.6",
+    "@storybook/addon-ondevice-notes": "^5.2.8",
     "@storybook/react-native": "^5.2.8",
     "@types/color": "^3.0.0",
     "@types/hoist-non-react-statics": "^3.3.1",
