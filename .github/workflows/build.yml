@@ -63,65 +63,65 @@ jobs:
           name: apk
           path: ./submarine.apk
 
-  build-appbundle:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v1
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '1.8.0'
-
-      - name: Cache Dependencies
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-turtle-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.OS }}-turtle-${{ env.cache-name }}-
-            ${{ runner.OS }}-turtle-
-            ${{ runner.OS }}-
-
-      - name: Install Dependencies
-        run: yarn install
-
-      - name: Install Turtle
-        run: yarn add turtle-cli
-
-      - name: Build AppBundle
-        run: |
-          cp App.app.tsx App.tsx
-          yarn generate:app
-          echo "$EXPO_ANDROID_KEYSTORE_BASE64" | base64 --decode > submarine.jks
-          yarn run turtle build:android \
-            --keystore-path ./submarine.jks \
-            --keystore-alias "$EXPO_ANDROID_KEYSTORE_ALIAS" \
-            --type app-bundle \
-            -o ./submarine.aab
-        env:
-          SEA_URL: ${{ secrets.SEA_URL }}
-          CLIENT_ID: ${{ secrets.CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-          EXPO_USERNAME: ${{ secrets.EXPO_USERNAME }}
-          EXPO_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
-          EXPO_ANDROID_KEYSTORE_BASE64: ${{ secrets.EXPO_ANDROID_KEYSTORE_BASE64 }}
-          EXPO_ANDROID_KEYSTORE_ALIAS: ${{ secrets.EXPO_ANDROID_KEYSTORE_ALIAS }}
-          EXPO_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.EXPO_ANDROID_KEYSTORE_PASSWORD }}
-          EXPO_ANDROID_KEY_PASSWORD: ${{ secrets.EXPO_ANDROID_KEY_PASSWORD }}
-
-      - name: Upload AppBundle
-        uses: actions/upload-artifact@v1
-        with:
-          name: aab
-          path: ./submarine.aab
+  # build-appbundle:
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: '12.x'
+  #
+  #     - uses: actions/setup-java@v1
+  #       with:
+  #         java-version: '1.8.0'
+  #
+  #     - name: Cache Dependencies
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: node_modules
+  #         key: ${{ runner.OS }}-turtle-${{ hashFiles('yarn.lock') }}
+  #         restore-keys: |
+  #           ${{ runner.OS }}-turtle-${{ env.cache-name }}-
+  #           ${{ runner.OS }}-turtle-
+  #           ${{ runner.OS }}-
+  #
+  #     - name: Install Dependencies
+  #       run: yarn install
+  #
+  #     - name: Install Turtle
+  #       run: yarn add turtle-cli
+  #
+  #     - name: Build AppBundle
+  #       run: |
+  #         cp App.app.tsx App.tsx
+  #         yarn generate:app
+  #         echo "$EXPO_ANDROID_KEYSTORE_BASE64" | base64 --decode > submarine.jks
+  #         yarn run turtle build:android \
+  #           --keystore-path ./submarine.jks \
+  #           --keystore-alias "$EXPO_ANDROID_KEYSTORE_ALIAS" \
+  #           --type app-bundle \
+  #           -o ./submarine.aab
+  #       env:
+  #         SEA_URL: ${{ secrets.SEA_URL }}
+  #         CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  #         CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+  #         EXPO_USERNAME: ${{ secrets.EXPO_USERNAME }}
+  #         EXPO_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
+  #         EXPO_ANDROID_KEYSTORE_BASE64: ${{ secrets.EXPO_ANDROID_KEYSTORE_BASE64 }}
+  #         EXPO_ANDROID_KEYSTORE_ALIAS: ${{ secrets.EXPO_ANDROID_KEYSTORE_ALIAS }}
+  #         EXPO_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.EXPO_ANDROID_KEYSTORE_PASSWORD }}
+  #         EXPO_ANDROID_KEY_PASSWORD: ${{ secrets.EXPO_ANDROID_KEY_PASSWORD }}
+  #
+  #     - name: Upload AppBundle
+  #       uses: actions/upload-artifact@v1
+  #       with:
+  #         name: aab
+  #         path: ./submarine.aab
 
   create-release:
-    needs: [build-apk, build-appbundle]
+    needs: [build-apk]
     runs-on: ubuntu-latest
 
     steps:
@@ -132,10 +132,10 @@ jobs:
         with:
           name: apk
 
-      - name: Download AppBundle
-        uses: actions/download-artifact@v1
-        with:
-          name: aab
+      # - name: Download AppBundle
+      #   uses: actions/download-artifact@v1
+      #   with:
+      #     name: aab
 
       - name: Create Release
         id: create_release
@@ -156,13 +156,12 @@ jobs:
           asset_path: ./apk/submarine.apk
           asset_name: submarine-${{ steps.create_release.outputs.id }}.apk
           asset_content_type: application/vnd.android.package-archive
-
-      - name: Release AppBundle
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./aab/submarine.aab
-          asset_name: submarine-${{ steps.create_release.outputs.id }}.aab
-          asset_content_type: application/zip
+      # - name: Release AppBundle
+      #   uses: actions/upload-release-asset@v1.0.1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./aab/submarine.aab
+      #     asset_name: submarine-${{ steps.create_release.outputs.id }}.aab
+      #     asset_content_type: application/zip
