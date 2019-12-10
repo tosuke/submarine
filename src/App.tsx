@@ -1,14 +1,14 @@
 import 'core-js/features/url'
 import React from 'react'
 import { DarkTheme } from 'react-native-paper'
-import { useScreens } from 'react-native-screens'
+import { enableScreens } from 'react-native-screens'
 import { AppContainer } from './navigators/App'
 import { StatusBar } from './components/atoms/StatusBar'
 import { AuthBlocProvider } from './hooks/useAuthBloc'
 import { ThemeBlocProvider } from './hooks/useThemeBloc'
 import { PostSendBlocProvider } from './hooks/usePostSendBloc'
 
-useScreens()
+enableScreens()
 
 export default class App extends React.Component {
   render() {
