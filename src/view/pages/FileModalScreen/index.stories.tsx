@@ -11,7 +11,7 @@ const imageFile1 = new File(1, 'iona_v2.png', 'image', [
     type: 'thumbnail',
     size: 0,
     mime: 'image/png',
-    url: 'https://static.tosukeapps.tk/iona_v2_x128.png',
+    url: 'https://storage.googleapis.com/static.tosukeapps.tk/iona_v2_x128.png',
   },
   {
     id: 1,
@@ -20,7 +20,7 @@ const imageFile1 = new File(1, 'iona_v2.png', 'image', [
     type: 'image',
     size: 0,
     mime: 'image/png',
-    url: 'https://static.tosukeapps.tk/iona_v2.png',
+    url: 'https://storage.googleapis.com/static.tosukeapps.tk/iona_v2.png',
   },
 ])
 
@@ -32,7 +32,7 @@ const imageFile2 = new File(2, 'iona_v4.png', 'image', [
     type: 'thumbnail',
     size: 0,
     mime: 'image/png',
-    url: 'https://static.tosukeapps.tk/iona_v4_x128.png',
+    url: 'https://storage.googleapis.com/static.tosukeapps.tk/iona_v4_x128.png',
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ const imageFile2 = new File(2, 'iona_v4.png', 'image', [
     type: 'image',
     size: 0,
     mime: 'image/png',
-    url: 'https://static.tosukeapps.tk/iona_v4.png',
+    url: 'https://storage.googleapis.com/static.tosukeapps.tk/iona_v4.png',
   },
 ])
 
