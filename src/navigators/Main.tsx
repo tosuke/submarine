@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { BottomNavigation, SceneProps } from 'react-native-paper'
 import { AppBottomNavigation } from '../view/design/AppBottomNavigation'
 import { HomeScreen } from '../view/pages/HomeScreen'
-import { PreferencesScreen } from '../view/pages/Preferences'
+import { PreferenceScreen } from '../view/pages/PreferanceScreen'
 import { withNavigationOptions } from '../view/hocs/withNavigationOption'
 
 const routes = [
@@ -12,7 +12,7 @@ const routes = [
 
 const scenes = BottomNavigation.SceneMap({
   home: HomeScreen as React.ComponentType<SceneProps<unknown>>,
-  preferences: PreferencesScreen as React.ComponentType<SceneProps<unknown>>,
+  preferences: PreferenceScreen as React.ComponentType<SceneProps<unknown>>,
 })
 
 const MainTabImpl: React.FC = () => {
