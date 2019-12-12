@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react-native'
-import { PreferencesScreenView } from './PreferenceScreenView'
+import { MainView } from './View'
 
-const Simple = () => <PreferencesScreenView doLogout={() => {}} />
+const Simple = () => <MainView />
 
 storiesOf('PreferenceScreen', module).add('Simple', () => <Simple />)

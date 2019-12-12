@@ -1,18 +1,7 @@
 import React, { useMemo } from 'react'
 import { useNaviagtion, useAuthBloc } from '../../../hooks/inject'
 import { Preference, PreferenceContext } from './PreferenceContext'
-import { Header, Wrapper, AccountSection, Divider, NameItem, LogoutItem } from './View'
-
-const PreferenceContent: React.FC = () => (
-  <>
-    <AccountSection>
-      <Divider />
-      <NameItem />
-      <Divider />
-      <LogoutItem />
-    </AccountSection>
-  </>
-)
+import { MainView } from './View'
 
 export const PreferenceScreen: React.FC = () => {
   const authBloc = useAuthBloc()
@@ -29,13 +18,8 @@ export const PreferenceScreen: React.FC = () => {
   )
 
   return (
-    <>
-      <Header />
-      <PreferenceContext.Provider value={preference}>
-        <Wrapper>
-          <PreferenceContent />
-        </Wrapper>
-      </PreferenceContext.Provider>
-    </>
+    <PreferenceContext.Provider value={preference}>
+      <MainView />
+    </PreferenceContext.Provider>
   )
 }

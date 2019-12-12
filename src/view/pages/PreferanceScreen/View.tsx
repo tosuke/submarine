@@ -1,35 +1,33 @@
 import React, { useCallback } from 'react'
 import { ScrollView, Alert } from 'react-native'
-import { Appbar, List } from 'react-native-paper'
+import { Appbar, List, Divider } from 'react-native-paper'
 import { AppHeader } from '../../design/AppHeader'
 import { ScreenView } from '../../design/ScreenView'
 import { useTheme } from '../../../hooks/useTheme'
 import { usePreference } from './PreferenceContext'
 
-export const Header = () => (
+const Header = () => (
   <AppHeader>
     <Appbar.Content title="設定" />
   </AppHeader>
 )
 
-export const Wrapper: React.FC = ({ children }) => (
+const Wrapper: React.FC = ({ children }) => (
   <ScreenView>
     <ScrollView>{children}</ScrollView>
   </ScreenView>
 )
 
-export const AccountSection: React.FC = ({ children }) => (
+const AccountSection: React.FC = ({ children }) => (
   <List.Section>
     <List.Subheader>アカウント</List.Subheader>
     {children}
   </List.Section>
 )
 
-export { Divider } from 'react-native-paper'
+const NameItem = () => <List.Item title="名前" description="今: :q!" />
 
-export const NameItem = () => <List.Item title="名前" description="今: :q!" />
-
-export const LogoutItem = () => {
+const LogoutItem = () => {
   const theme = useTheme()
   const { logout } = usePreference()
 
@@ -48,3 +46,17 @@ export const LogoutItem = () => {
 
   return <List.Item title="ログアウト" titleStyle={{ color: theme.colors.error }} onPress={onLogoutButtonPressed} />
 }
+
+export const MainView = () => (
+  <>
+    <Header />
+    <Wrapper>
+      <AccountSection>
+        <Divider />
+        <NameItem />
+        <Divider />
+        <LogoutItem />
+      </AccountSection>
+    </Wrapper>
+  </>
+)
