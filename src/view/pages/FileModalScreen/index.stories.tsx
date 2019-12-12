@@ -66,6 +66,6 @@ const videoFile = new File(3, 'stack.mp4', 'video', [
   },
 ])
 
-storiesOf('FileModalScreenView', module)
-  .add('image', () => <MainView files={[imageFile1, imageFile2]} initialIndex={1} />)
-  .add('video', () => <MainView files={[videoFile]} initialIndex={0} />)
+storiesOf('FileModalScreen', module)
+  .add('Image', () => <MainView files={[imageFile1, imageFile2]} initialIndex={1} />)
+  .add('Video', () => <MainView files={[videoFile]} initialIndex={0} />)

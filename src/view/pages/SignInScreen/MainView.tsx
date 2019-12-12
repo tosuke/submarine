@@ -1,9 +1,33 @@
 import React from 'react'
-import { View } from 'react-native'
+import styled from 'styled-components/native'
 import { useTheme } from '../../../hooks/useTheme'
 import { ScreenView } from '../../design/ScreenView'
-import { Title, Caption, Text, Divider, Button } from 'react-native-paper'
-import { styles } from './styles'
+import { Title, Caption, Text, Divider as NativeDivider, Button } from 'react-native-paper'
+
+const ScreenWrapper = styled(ScreenView)`
+  flex: 1;
+  padding-horizontal: 10;
+  justify-content: center;
+  align-items: center;
+`
+
+const Divider = styled(NativeDivider)`
+  margin-vertical: 5;
+`
+
+const ButtonsView = styled.View`
+  flex-direction: row;
+  justify-content: space-evenly;
+`
+
+const SignInButton = styled(Button)`
+  flex: 1;
+`
+
+const AuthButton = styled(Button)`
+  flex: 1;
+  margin-left: 10;
+`
 
 export const MainView: React.FC<{
   serverName: string
@@ -13,23 +37,18 @@ export const MainView: React.FC<{
   const theme = useTheme()
 
   return (
-    <ScreenView style={styles.view}>
+    <ScreenWrapper>
       <Title>{serverName}で認証します。</Title>
       <Caption>現在のSeaでは、認証を行う前にログインしている必要があります。</Caption>
-      <Divider style={styles.divider} />
-      <View style={styles.buttonsView}>
-        <Button style={styles.signInToSeaButton} mode="contained" onPress={onSignInToSeaButtonPressed}>
+      <Divider />
+      <ButtonsView>
+        <SignInButton mode="contained" onPress={onSignInToSeaButtonPressed}>
           <Text>Seaにログイン</Text>
-        </Button>
-        <Button
-          style={styles.authButton}
-          mode="contained"
-          color={theme.colors.accent}
-          onPress={onAuthorizeButtonPressed}
-        >
+        </SignInButton>
+        <AuthButton mode="contained" color={theme.colors.accent} onPress={onAuthorizeButtonPressed}>
           <Text>Seaで認証する</Text>
-        </Button>
-      </View>
-    </ScreenView>
+        </AuthButton>
+      </ButtonsView>
+    </ScreenWrapper>
   )
 }

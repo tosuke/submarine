@@ -1,9 +1,25 @@
 import React, { useState, useCallback } from 'react'
-import { Title, Divider, Button, Text } from 'react-native-paper'
+import styled from 'styled-components/native'
+import { Title, Divider as NativeDivider, Button, Text } from 'react-native-paper'
 import { ScreenView, PaperTextInput, KeyboardAvoidingView, Snackbar, useSnackBar, Caption } from '../../design'
 import { Observable } from 'rxjs'
 import { useObservableEffect } from '../../../hooks/useObservable'
-import { styles } from './style'
+
+const Wrapper = styled(KeyboardAvoidingView)`
+  flex: 1;
+  padding-horizontal: 10;
+  justify-content: center;
+  align-items: center;
+`
+
+const Divider = styled(NativeDivider)`
+  margin-vertical: 5;
+`
+
+const CodeTextInput = styled(PaperTextInput)`
+  width: 100%;
+  margin-bottom: 5;
+`
 
 export const MainView: React.FC<{
   authorizing: boolean
@@ -30,13 +46,12 @@ export const MainView: React.FC<{
 
   return (
     <ScreenView>
-      <KeyboardAvoidingView style={styles.view}>
+      <Wrapper>
         <Snackbar {...invalidCodeErrorBar.snackBarProps}>コードが不正です。</Snackbar>
         <Title>コードで認証</Title>
         <Caption>認証画面でコードを貼り付けるように指示が出たらこの下に貼り付け、ボタンを押してください。</Caption>
-        <Divider style={styles.divider} />
-        <PaperTextInput
-          style={styles.textInput}
+        <Divider />
+        <CodeTextInput
           placeholder="code"
           disabled={authorizing}
           value={codeInput}
@@ -51,7 +66,7 @@ export const MainView: React.FC<{
         >
           <Text>認証する</Text>
         </Button>
-      </KeyboardAvoidingView>
+      </Wrapper>
     </ScreenView>
   )
 }
