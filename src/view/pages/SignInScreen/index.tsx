@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from 'react'
-import { withNavigationOptions } from '../hocs/withNavigationOption'
-import { useNaviagtion, useAuthBloc } from '../../hooks/inject'
-import { endpoint } from '../../config'
-import { SignInScreenView } from '../templates/SignInScreenView'
+import { withNavigationOptions } from '../../hocs/withNavigationOption'
+import { useNaviagtion, useAuthBloc } from '../../../hooks/inject'
+import { endpoint } from '../../../config'
+import { MainView } from './MainView'
 
-const SignInScreenImpl: React.FC = () => {
+const Screen: React.FC = () => {
   const authBloc = useAuthBloc()
   const { navigate } = useNaviagtion()
 
@@ -20,7 +20,7 @@ const SignInScreenImpl: React.FC = () => {
   }, [authBloc])
 
   return (
-    <SignInScreenView
+    <MainView
       serverName={serverName}
       onAuthorizeButtonPressed={onAuthorizeButtonClicked}
       onSignInToSeaButtonPressed={onSignInButtonClicked}
@@ -30,4 +30,4 @@ const SignInScreenImpl: React.FC = () => {
 
 export const SignInScreen = withNavigationOptions({
   title: 'ログイン',
-})(SignInScreenImpl)
+})(Screen)

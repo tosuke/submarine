@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { useTheme } from '../../hooks/useTheme'
-import { ScreenView } from '../design/ScreenView'
+import { View } from 'react-native'
+import { useTheme } from '../../../hooks/useTheme'
+import { ScreenView } from '../../design/ScreenView'
 import { Title, Caption, Text, Divider, Button } from 'react-native-paper'
+import { styles } from './styles'
 
-export const SignInScreenView: React.FC<{
+export const MainView: React.FC<{
   serverName: string
   onAuthorizeButtonPressed: () => void
   onSignInToSeaButtonPressed: () => void
@@ -32,26 +33,3 @@ export const SignInScreenView: React.FC<{
     </ScreenView>
   )
 }
-
-const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    paddingHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  divider: {
-    marginVertical: 5,
-  },
-  buttonsView: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-  },
-  signInToSeaButton: {
-    flex: 1,
-  },
-  authButton: {
-    flex: 1,
-    marginLeft: 10,
-  },
-})
