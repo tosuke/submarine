@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
 import { PostList } from './PostList'
 import { useValueObservable } from '../../hooks/useObservable'
-import { usePublicTimelineBloc } from '../../hooks/inject'
+import { useTimelineBloc } from '../../hooks/inject'
 
 export const PublicTimeline: React.FC<{ navigateToFileModal: (files: File[], index: number) => void }> = ({
   navigateToFileModal,
 }) => {
-  const publicTLBloc = usePublicTimelineBloc()
+  const publicTLBloc = useTimelineBloc()
   const posts = useValueObservable(() => publicTLBloc.posts$, [publicTLBloc])
   const refreshing = useValueObservable(() => publicTLBloc.isFetchingLatestPosts$, [publicTLBloc])
   const onRefresh = useCallback(() => publicTLBloc.fetchLatestPosts$.next(100), [publicTLBloc])

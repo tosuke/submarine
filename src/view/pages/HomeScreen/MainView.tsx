@@ -6,7 +6,7 @@ import { PublicTimeline } from '../../organisms/PublicTimeline'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { useObservable } from '../../../hooks/useObservable'
 import { ScreenView, AppHeader, PrimaryFAB } from '../../design'
-import { PublicTimelineBlocContext } from '../../../hooks/inject'
+import { TimelineBlocContext } from '../../../hooks/inject'
 
 export const Header: React.FC<{ onTouchEnd?: () => void; connectedToStream?: boolean }> = ({
   onTouchEnd,
@@ -58,11 +58,11 @@ export const MainView: React.FC<{
   )
 
   return (
-    <PublicTimelineBlocContext.Provider value={timelineBloc}>
+    <TimelineBlocContext.Provider value={timelineBloc}>
       {HeaderAndFAB}
       <ScreenView>
         <Timeline naviagateToFileModal={navigateToFileModal} />
       </ScreenView>
-    </PublicTimelineBlocContext.Provider>
+    </TimelineBlocContext.Provider>
   )
 }
