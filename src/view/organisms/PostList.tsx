@@ -23,10 +23,16 @@ export const PostList: React.FC<{
   onRefresh?: () => void
   loadMore?: () => void
   scrollToTopEvent?: Observable<void>
-}> = ({ posts, refreshing, onRefresh, loadMore, scrollToTopEvent }) => {
+  navigateToFileModal: (files: File[], index: number) => void
+}> = ({ posts, refreshing, onRefresh, loadMore, scrollToTopEvent, navigateToFileModal }) => {
   const theme = useTheme()
 
-  const renderItem = useCallback(({ item }: { item: PostType }) => <PostContainer key={item.id} post={item} />, [])
+  const renderItem = useCallback(
+    ({ item }: { item: PostType }) => (
+      <PostContainer key={item.id} post={item} navigateToFileModal={navigateToFileModal} />
+    ),
+    [],
+  )
   const keyExtractor = useCallback((item: PostType) => `${item.id}`, [])
 
   const flatListEl = useRef<FlatList<PostType> | null>(null)

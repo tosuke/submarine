@@ -3,7 +3,9 @@ import { PostList } from './PostList'
 import { useValueObservable } from '../../hooks/useObservable'
 import { usePublicTimelineBloc } from '../../hooks/inject'
 
-export const PublicTimeline: React.FC = () => {
+export const PublicTimeline: React.FC<{ navigateToFileModal: (files: File[], index: number) => void }> = ({
+  navigateToFileModal,
+}) => {
   const publicTLBloc = usePublicTimelineBloc()
   const posts = useValueObservable(() => publicTLBloc.posts$, [publicTLBloc])
   const refreshing = useValueObservable(() => publicTLBloc.isFetchingLatestPosts$, [publicTLBloc])
@@ -17,6 +19,7 @@ export const PublicTimeline: React.FC = () => {
       onRefresh={onRefresh}
       loadMore={loadMore}
       scrollToTopEvent={publicTLBloc.scrollToTopEvent$}
+      navigateToFileModal={navigateToFileModal}
     />
   )
 }

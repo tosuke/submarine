@@ -7,15 +7,16 @@ import { ImageFile, VideoFile } from '../../models/file'
 import { useNaviagtion } from '../../hooks/inject/useNavigation'
 import { LayoutAnimation } from 'react-native'
 
-export const PostContainer: React.FC<{ post: PostType }> = ({ post }) => {
+export const PostContainer: React.FC<{
+  post: PostType
+  navigateToFileModal: (files: File[], index: number) => void
+}> = ({ post, navigateToFileModal }) => {
   const postBloc = useMemo(() => new PostBloc(post), [post])
   useEffect(() => () => postBloc.dispose(), [post])
   const relativeTime = useValueObservable(() => postBloc.relativeTime$, [postBloc])
 
   const avatarVariant = post.user.avatarFile && post.user.avatarFile.thumbnailVariant
   const avatarThumbnailUri = (avatarVariant && avatarVariant.url) || undefined
-
-  const { navigate } = useNaviagtion()
 
   const thumbnails = useMemo<readonly ThumbnailProp[]>(() => {
     const files = post.files.filter((file): file is ImageFile | VideoFile => file.isImageFile() || file.isVideoFile())
@@ -26,7 +27,7 @@ export const PostContainer: React.FC<{ post: PostType }> = ({ post }) => {
         thumbnailUri: v.url,
         onPress: () => {
           LayoutAnimation.easeInEaseOut()
-          navigate('FileModal', { files, index })
+          navigateToFileModal((files as unknown) as File[], index)
         },
       }
     })

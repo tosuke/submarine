@@ -4,7 +4,19 @@ import { ValueObservable } from '../utils/valueObservable'
 import { Post } from '../models'
 import { SeaClient } from '../infra/seaClient'
 
-export class PublicTimelineBloc {
+export interface TimelineBloc {
+  readonly fetchLatestPosts$: Observer<number>
+  readonly fetchMorePosts$: Observer<number>
+  readonly scrollToTop$: Observer<void>
+
+  readonly posts$: ValueObservable<readonly Post[]>
+  readonly isFetchingLatestPosts$: ValueObservable<boolean>
+  readonly isFetchingMorePosts$: ValueObservable<boolean>
+  readonly scrollToTopEvent$: Observable<void>
+  readonly connectedToSocket$: Observable<boolean>
+}
+
+export class PublicTimelineBloc implements TimelineBloc {
   private _timelineSub: Subscription
   private _connectedSub: Subscription
 
