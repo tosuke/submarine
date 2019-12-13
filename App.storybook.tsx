@@ -1,9 +1,5 @@
 import React from 'react'
+import 'react-native-gesture-handler'
 import App from './storybook'
-import { SafeAreaView, StatusBar } from 'react-native'
 
-export default () => (
-  <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-    <App />
-  </SafeAreaView>
-)
+export default () => <App />

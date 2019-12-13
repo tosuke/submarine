@@ -1,12 +1,9 @@
-import 'core-js/features/url'
 import React from 'react'
 import { DarkTheme } from 'react-native-paper'
 import { enableScreens } from 'react-native-screens'
 import { AppContainer } from './navigators/App'
-import { StatusBar } from './components/atoms/StatusBar'
-import { AuthBlocProvider } from './hooks/useAuthBloc'
-import { ThemeBlocProvider } from './hooks/useThemeBloc'
-import { PostSendBlocProvider } from './hooks/usePostSendBloc'
+import { StatusBar } from './view/design/StatusBar'
+import { AuthBlocProvider, ThemeBlocProvider, PostSendBlocProvider } from './hooks/inject'
 
 enableScreens()
 

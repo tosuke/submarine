@@ -1,5 +1,5 @@
 import { Theme } from 'react-native-paper'
-import { useThemeBloc } from './useThemeBloc'
+import { useThemeBloc } from './inject/useThemeBloc'
 import { useValueObservable } from './useObservable'
 
 export function useTheme(): Theme {

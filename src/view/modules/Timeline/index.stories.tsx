@@ -1,0 +1,51 @@
+import React from 'react'
+import { storiesOf } from '@storybook/react-native'
+import { View, StyleSheet } from 'react-native'
+import { Timeline } from './'
+import { Post, User, Application, File } from '../../../models'
+import { Subject, BehaviorSubject } from 'rxjs'
+import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
+
+const avatar = new File(1, 'iona_v2.png', 'image', [
+  {
+    id: 0,
+    score: 0,
+    extension: 'png',
+    type: 'thumbnail',
+    size: 0,
+    mime: 'image/png',
+    url: 'https://storage.googleapis.com/static.tosukeapps.tk/iona_v2_x128.png',
+  },
+  {
+    id: 1,
+    score: 0,
+    extension: 'png',
+    type: 'image',
+    size: 0,
+    mime: 'image/png',
+    url: 'https://storage.googleapis.com/static.tosukeapps.tk/iona_v2.png',
+  },
+])
+
+const user = new User(0, 'John Doe', 'john', 100, new Date(), new Date(), avatar)
+
+const app = new Application(0, 'test', false)
+
+const post = (id: number) => new Post(id, 'test', user, app, new Date(), new Date(), [])
+
+const tlBloc: TimelineBloc = {
+  fetchLatestPosts$: new Subject<void>(),
+  fetchMorePosts$: new Subject<void>(),
+  scrollToTop$: new Subject<void>(),
+  posts$: new BehaviorSubject(Array.from(new Array(100), (_, i) => post(i))),
+  isFetchingLatestPosts$: new BehaviorSubject(false),
+  isFetchingMorePosts$: new BehaviorSubject(false),
+  connectedToSocket$: new BehaviorSubject(true),
+  scrollToTopEvent$: new Subject<void>(),
+}
+
+storiesOf('Timeline', module).add('Simple', () => (
+  <View style={StyleSheet.absoluteFill}>
+    <Timeline timelineBloc={tlBloc} navigateToFileModal={() => {}} openUrl={() => {}} />
+  </View>
+))
