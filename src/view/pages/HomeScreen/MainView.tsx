@@ -1,12 +1,13 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components/native'
+import { Platform } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { MaterialIcons } from '@expo/vector-icons'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { useObservable } from '../../../hooks/useObservable'
 import { ScreenView, AppHeader, PrimaryFAB } from '../../design'
 import { TimelineBlocContext } from '../../../hooks/inject'
-import { Timeline as TimelineComponent } from '../../modules/Timeline'
+import { Timeline } from '../../modules/Timeline'
 import { File } from '../../../models'
 
 export const Header: React.FC<{ onTouchEnd?: () => void; connectedToStream?: boolean }> = ({
@@ -54,10 +55,11 @@ export const MainView: React.FC<{
 
   return (
     <TimelineBlocContext.Provider value={timelineBloc}>
-      {HeaderAndFAB}
+      {Platform.OS !== 'android' && HeaderAndFAB}
       <ScreenView>
+        {Platform.OS === 'android' && HeaderAndFAB}
         <TimelineWrapper>
-          <TimelineComponent timelineBloc={timelineBloc} navigateToFileModal={navigateToFileModal} openUrl={openUrl} />
+          <Timeline timelineBloc={timelineBloc} navigateToFileModal={navigateToFileModal} openUrl={openUrl} />
         </TimelineWrapper>
       </ScreenView>
     </TimelineBlocContext.Provider>
