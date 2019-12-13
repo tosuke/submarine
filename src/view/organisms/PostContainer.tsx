@@ -4,7 +4,6 @@ import { PostBloc } from '../../blocs/postBloc'
 import { useValueObservable } from '../../hooks/useObservable'
 import { Post, ThumbnailProp } from '../molecules/Post'
 import { ImageFile, VideoFile } from '../../models/file'
-import { useNaviagtion } from '../../hooks/inject/useNavigation'
 import { LayoutAnimation } from 'react-native'
 
 export const PostContainer: React.FC<{

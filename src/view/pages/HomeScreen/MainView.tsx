@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components/native'
-import { ViewStyle, View, Platform } from 'react-native'
+import { ViewStyle, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { MaterialIcons } from '@expo/vector-icons'
 import { PublicTimeline } from '../../organisms/PublicTimeline'
