@@ -49,7 +49,8 @@ export const Body: React.FC<{ text: string }> = ({ text }) => {
               return node.raw
             }
           default:
-            const _exhaustiveCheck: never = node
+            const exhaustiveCheckedNode: never = node
+            throw new Error(`Invalid Case: ${exhaustiveCheckedNode}`)
         }
       })}
     </BodyText>

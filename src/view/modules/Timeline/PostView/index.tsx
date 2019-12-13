@@ -7,6 +7,7 @@ import { Avatar } from './Avatar'
 import { Thumbnail } from './Thumbnail'
 import { Body } from './Body'
 import { Footer } from './Footer'
+import { Platform, View } from 'react-native'
 
 const PostViewWrapper = styled.View`
   flex-direction: row;
@@ -32,9 +33,12 @@ const PostThumbnailWrapper = styled.View`
   margin-right: 6;
 `
 
-const PostFooterWrapper = styled.View`
-  margin-top: 3;
-`
+const PostFooterWrapper =
+  Platform.OS === 'android'
+    ? styled.View`
+        margin-top: 3;
+      `
+    : View
 
 export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
   const { navigateToFileModal } = useTimelineActions()

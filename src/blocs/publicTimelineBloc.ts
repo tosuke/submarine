@@ -125,6 +125,8 @@ export class PublicTimelineBloc implements TimelineBloc {
           console.error(err)
         },
       })
+
+    this._fetchLatestPosts$.next()
   }
 
   dispose(): void {
