@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components/native'
-import { ViewStyle, View } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { MaterialIcons } from '@expo/vector-icons'
 import { PublicTimeline } from '../../organisms/PublicTimeline'
@@ -28,10 +27,6 @@ const SendIcon: React.FC<{ size?: number; color?: string }> = ({ size, color }) 
 )
 
 export const FAB: React.FC<{ onPress?: () => void }> = ({ onPress }) => <PrimaryFAB icon={SendIcon} onPress={onPress} />
-
-const HomeScreenMainViewStyle: ViewStyle = {
-  flex: 1,
-}
 
 const TimelineWrapper = styled.View`
   flex: 1;
@@ -71,5 +66,3 @@ export const MainView: React.FC<{
     </PublicTimelineBlocContext.Provider>
   )
 }
-
-export const HomeScreenMainView: React.FC = ({ children }) => <View style={HomeScreenMainViewStyle}>{children}</View>
