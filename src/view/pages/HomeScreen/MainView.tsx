@@ -2,11 +2,12 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components/native'
 import { Appbar } from 'react-native-paper'
 import { MaterialIcons } from '@expo/vector-icons'
-import { PublicTimeline } from '../../organisms/PublicTimeline'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { useObservable } from '../../../hooks/useObservable'
 import { ScreenView, AppHeader, PrimaryFAB } from '../../design'
 import { TimelineBlocContext } from '../../../hooks/inject'
+import { Timeline as TimelineComponent } from '../../modules/Timeline'
+import { File } from '../../../models'
 
 export const Header: React.FC<{ onTouchEnd?: () => void; connectedToStream?: boolean }> = ({
   onTouchEnd,
@@ -31,19 +32,13 @@ export const FAB: React.FC<{ onPress?: () => void }> = ({ onPress }) => <Primary
 const TimelineWrapper = styled.View`
   flex: 1;
 `
-const Timeline: React.FC<{ naviagateToFileModal: (files: File[], index: number) => void }> = ({
-  naviagateToFileModal,
-}) => (
-  <TimelineWrapper>
-    <PublicTimeline navigateToFileModal={naviagateToFileModal} />
-  </TimelineWrapper>
-)
 
 export const MainView: React.FC<{
   timelineBloc: TimelineBloc
   onPostButtonPress: () => void
   navigateToFileModal: (files: File[], index: number) => void
-}> = ({ timelineBloc, onPostButtonPress, navigateToFileModal }) => {
+  openUrl: (url: string) => void
+}> = ({ timelineBloc, onPostButtonPress, navigateToFileModal, openUrl }) => {
   const scrollToTop = useCallback(() => {
     timelineBloc.scrollToTop$.next()
   }, [timelineBloc])
@@ -61,7 +56,9 @@ export const MainView: React.FC<{
     <TimelineBlocContext.Provider value={timelineBloc}>
       {HeaderAndFAB}
       <ScreenView>
-        <Timeline naviagateToFileModal={navigateToFileModal} />
+        <TimelineWrapper>
+          <TimelineComponent timelineBloc={timelineBloc} navigateToFileModal={navigateToFileModal} openUrl={openUrl} />
+        </TimelineWrapper>
       </ScreenView>
     </TimelineBlocContext.Provider>
   )

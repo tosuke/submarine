@@ -5,8 +5,8 @@ import { Post } from '../models'
 import { SeaClient } from '../infra/seaClient'
 
 export interface TimelineBloc {
-  readonly fetchLatestPosts$: Observer<number>
-  readonly fetchMorePosts$: Observer<number>
+  readonly fetchLatestPosts$: Observer<void>
+  readonly fetchMorePosts$: Observer<void>
   readonly scrollToTop$: Observer<void>
 
   readonly posts$: ValueObservable<readonly Post[]>
@@ -21,8 +21,8 @@ export class PublicTimelineBloc implements TimelineBloc {
   private _connectedSub: Subscription
 
   // Input Controllers
-  private _fetchLatestPosts$ = new Subject<number>()
-  private _fetchMorePosts$ = new Subject<number>()
+  private _fetchLatestPosts$ = new Subject<void>()
+  private _fetchMorePosts$ = new Subject<void>()
   private _scrollToTop$ = new Subject<void>()
 
   // Output Controllers
@@ -31,10 +31,10 @@ export class PublicTimelineBloc implements TimelineBloc {
   private _isFetchingMorePosts$ = new BehaviorSubject(false)
 
   // Inputs
-  get fetchLatestPosts$(): Observer<number> {
+  get fetchLatestPosts$(): Observer<void> {
     return this._fetchLatestPosts$
   }
-  get fetchMorePosts$(): Observer<number> {
+  get fetchMorePosts$(): Observer<void> {
     return this._fetchMorePosts$
   }
   get scrollToTop$(): Observer<void> {
@@ -56,7 +56,7 @@ export class PublicTimelineBloc implements TimelineBloc {
   }
   readonly connectedToSocket$: Observable<boolean>
 
-  constructor(seaClient: SeaClient, firstLoad: number = 20) {
+  constructor(seaClient: SeaClient, initialPostsNum: number, postsNumOnLoadMore: number) {
     this._timelineSub = seaClient.publicTimeline$.subscribe(post => {
       this.insertPosts([post])
     })
@@ -74,7 +74,7 @@ export class PublicTimelineBloc implements TimelineBloc {
           const posts = this._posts$.value
           if (posts.length === 0) return
           const sinceId = posts[0].id
-          this.insertPosts(await seaClient.fetchLatestPostsFromPublicTimeline(100, sinceId))
+          this.insertPosts(await seaClient.fetchLatestPostsFromPublicTimeline(initialPostsNum, sinceId))
         }),
       )
       .subscribe()
@@ -82,10 +82,10 @@ export class PublicTimelineBloc implements TimelineBloc {
     this._fetchLatestPosts$
       .pipe(
         debounceTime(200),
-        switchMap(async count => {
+        switchMap(async () => {
           this._isFetchingLatestPosts$.next(true)
           try {
-            const posts = await seaClient.fetchLatestPostsFromPublicTimeline(count)
+            const posts = await seaClient.fetchLatestPostsFromPublicTimeline(initialPostsNum)
             this.insertPosts(posts)
           } finally {
             this._isFetchingLatestPosts$.next(false)
@@ -99,7 +99,7 @@ export class PublicTimelineBloc implements TimelineBloc {
       .pipe(
         debounceTime(200),
         filter(() => !this._isFetchingLatestPosts$.value), // when refreshing
-        switchMap(async count => {
+        switchMap(async () => {
           try {
             const posts = this._posts$.value
 
@@ -108,7 +108,7 @@ export class PublicTimelineBloc implements TimelineBloc {
             fetchingMaxId = maxId
             this._isFetchingMorePosts$.next(true)
 
-            const newPosts = await seaClient.fetchMorePostsFromPublicTimeline(count, maxId)
+            const newPosts = await seaClient.fetchMorePostsFromPublicTimeline(postsNumOnLoadMore, maxId)
 
             this.insertPosts(newPosts)
           } catch (e) {
@@ -125,8 +125,6 @@ export class PublicTimelineBloc implements TimelineBloc {
           console.error(err)
         },
       })
-
-    this.fetchLatestPosts$.next(firstLoad)
   }
 
   dispose(): void {

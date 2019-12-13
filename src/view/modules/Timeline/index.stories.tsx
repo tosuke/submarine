@@ -1,9 +1,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react-native'
-import { MainView } from './MainView'
+import { View, StyleSheet } from 'react-native'
+import { Timeline } from './'
 import { Post, User, Application, File } from '../../../models'
-import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { Subject, BehaviorSubject } from 'rxjs'
+import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 
 const avatar = new File(1, 'iona_v2.png', 'image', [
   {
@@ -43,6 +44,8 @@ const tlBloc: TimelineBloc = {
   scrollToTopEvent$: new Subject<void>(),
 }
 
-storiesOf('HomeScreen', module).add('Simple', () => (
-  <MainView timelineBloc={tlBloc} onPostButtonPress={() => {}} navigateToFileModal={() => {}} openUrl={() => {}} />
+storiesOf('Timeline', module).add('Simple', () => (
+  <View style={StyleSheet.absoluteFill}>
+    <Timeline timelineBloc={tlBloc} navigateToFileModal={() => {}} openUrl={() => {}} />
+  </View>
 ))
