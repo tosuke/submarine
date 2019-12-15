@@ -33,13 +33,6 @@ const PostThumbnailWrapper = styled.View`
   margin-right: 6;
 `
 
-const PostFooterWrapper =
-  Platform.OS === 'android'
-    ? styled.View`
-        margin-top: 3;
-      `
-    : View
-
 export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
   const { navigateToFileModal } = useTimelineActions()
   const avatarVariant = post.user.avatarFile && post.user.avatarFile.thumbnailVariant
@@ -52,9 +45,12 @@ export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
       </PostAvatarWrapper>
       <PostContentWrapper>
         <Header name={post.user.name} screenName={post.user.screenName} createdAt={post.createdAt} />
-        <PostBodyWrapper>
-          <Body text={post.text} />
-        </PostBodyWrapper>
+
+        {post.text.length > 0 && (
+          <PostBodyWrapper>
+            <Body text={post.text} />
+          </PostBodyWrapper>
+        )}
 
         {post.files && post.files.length > 0 && (
           <PostThumbnailsWrapper horizontal>
@@ -70,9 +66,7 @@ export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
             })}
           </PostThumbnailsWrapper>
         )}
-        <PostFooterWrapper>
-          <Footer appName={post.application.name} appIsAutomated={post.application.isAutomated} />
-        </PostFooterWrapper>
+        <Footer appName={post.application.name} appIsAutomated={post.application.isAutomated} />
       </PostContentWrapper>
     </PostViewWrapper>
   )
