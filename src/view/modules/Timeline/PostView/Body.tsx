@@ -21,7 +21,7 @@ const BodyLinkText = styled(BodyText)`
 
 export const Body: React.FC<{ text: string }> = ({ text }) => {
   const { openUrl } = useTimelineActions()
-  const tokens = useMemo(() => parseText(text), [text])
+  const tokens = useMemo(() => parseText(text.trim()), [text])
   return (
     <BodyText>
       {tokens.map((node, i) => {
