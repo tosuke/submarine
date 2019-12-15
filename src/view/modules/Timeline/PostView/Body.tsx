@@ -8,7 +8,7 @@ import * as pictograph from 'pictograph'
 
 const BodyText = styled(Text)`
   font-size: 13;
-  line-height: 17;
+  line-height: ${13 * 1.2};
 `
 
 const BodyBoldText = styled(BodyText)`

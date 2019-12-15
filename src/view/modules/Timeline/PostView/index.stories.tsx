@@ -30,8 +30,8 @@ const thumbnailFile = (id: number, type: string, uri: string) =>
 storiesOf('Timeline/Post', module)
   .addDecorator(withKnobs)
   .add('Without Avatar', () => {
-    const postText = text('Text', 'Hello!')
-    const userName = text("User's name", 'John Doe')
+    const postText = text('Text', 'Hello!\nこんにちは\n😄👍')
+    const userName = text("User's name", 'John Doe✔️')
     const userScreenName = text("User's screen name", 'foobar')
     const appName = text("Application's name", 'Test App')
     const appIsAutomated = boolean('Is Application Bot?', false)

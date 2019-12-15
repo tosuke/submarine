@@ -33,6 +33,10 @@ const PostThumbnailWrapper = styled.View`
   margin-right: 6;
 `
 
+const PostFooterWrapper = styled.View`
+  margin-top: 3;
+`
+
 export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
   const { navigateToFileModal } = useTimelineActions()
   const avatarVariant = post.user.avatarFile && post.user.avatarFile.thumbnailVariant
@@ -66,7 +70,9 @@ export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
             })}
           </PostThumbnailsWrapper>
         )}
-        <Footer appName={post.application.name} appIsAutomated={post.application.isAutomated} />
+        <PostFooterWrapper>
+          <Footer appName={post.application.name} appIsAutomated={post.application.isAutomated} />
+        </PostFooterWrapper>
       </PostContentWrapper>
     </PostViewWrapper>
   )

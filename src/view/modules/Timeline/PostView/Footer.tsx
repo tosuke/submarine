@@ -8,6 +8,7 @@ const FooterView = styled.View`
 
 const FooterAppNameCaption = styled(Caption)`
   font-size: 12;
+  line-height: ${12 * 1.2};
 `
 
 const FooterBotCaption = styled(Caption)`
