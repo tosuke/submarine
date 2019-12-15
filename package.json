@@ -36,7 +36,7 @@
   "dependencies": {
     "@babel/core": "^7.7.5",
     "@expo/vector-icons": "^10.0.0",
-    "@linkage-community/bottlemail": "^0.1.5",
+    "@linkage-community/bottlemail": "^2.1.0",
     "@use-it/interval": "^0.1.3",
     "color": "^3.1.2",
     "core-js": "^3.5.0",
