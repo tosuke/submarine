@@ -24,8 +24,17 @@ const Footer = () => (
 )
 
 const PostViewWrapper = styled.View`
-  padding-vertical: 6;
+  margin-vertical: 6;
+  margin-horizontal: 10;
 `
+
+const PostItem = ({ item }: { item: Post }) => (
+  <PostViewWrapper>
+    <PostView post={item} />
+  </PostViewWrapper>
+)
+
+const postKeyExtractor = (item: Post) => `${item.id}`
 
 export const MainView: React.FC = () => {
   const timelineBloc = useTimelineBloc()
@@ -36,16 +45,6 @@ export const MainView: React.FC = () => {
   const loadMore = useCallback(() => timelineBloc.fetchMorePosts$.next(), [timelineBloc])
 
   const theme = useTheme()
-
-  const renderItem = useCallback(
-    ({ item }: { item: Post }) => (
-      <PostViewWrapper>
-        <PostView key={item.id} post={item} />
-      </PostViewWrapper>
-    ),
-    [],
-  )
-  const keyExtractor = useCallback((item: Post) => `${item.id}`, [])
 
   const flatList = useRef<FlatList<Post>>(null)
   useObservableEffect(
@@ -73,11 +72,11 @@ export const MainView: React.FC = () => {
       ref={flatList}
       indicatorStyle={theme.dark ? 'white' : 'black'}
       refreshControl={refreshControl}
-      contentContainerStyle={{ backgroundColor: theme.colors.background, marginHorizontal: 10 }}
+      contentContainerStyle={{ backgroundColor: theme.colors.background }}
       removeClippedSubviews
       data={posts}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
+      renderItem={PostItem}
+      keyExtractor={postKeyExtractor}
       ItemSeparatorComponent={Divider}
       ListFooterComponent={Footer}
       onEndReached={loadMore}
