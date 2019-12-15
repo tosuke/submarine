@@ -8,9 +8,9 @@ export function captionColor(theme: Theme): string {
     .string()
 }
 
-export function headerColor(theme: Theme): string {
-  return color(theme.colors.background)
-    .lighten(0.1)
-    .mix(color(theme.colors.primary), 0.05)
+export function dividerColor(theme: Theme): string {
+  return color(theme.dark ? '#ffffff' : '#000000')
+    .alpha(0.12)
+    .rgb()
     .string()
 }

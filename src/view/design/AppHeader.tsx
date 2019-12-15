@@ -1,22 +1,11 @@
-import React from 'react'
-import { Appbar, AppbarHeaderProps, Theme, withTheme } from 'react-native-paper'
-import { ViewStyle } from 'react-native'
-import { headerColor } from './color'
+import styled from 'styled-components/native'
+import { Appbar } from 'react-native-paper'
+import { StyleSheet } from 'react-native'
+import { dividerColor } from './color'
 
-const AppHeaderImpl: React.FC<AppbarHeaderProps & { theme: Theme }> = ({
-  children,
-  theme,
-  style: defaultStyle,
-  ...props
-}) => {
-  const style: ViewStyle = {
-    backgroundColor: headerColor(theme),
-  }
-  return (
-    <Appbar.Header theme={theme} style={[style, defaultStyle]} {...props}>
-      {children}
-    </Appbar.Header>
-  )
-}
-
-export const AppHeader = withTheme(AppHeaderImpl)
+export const AppHeader = styled(Appbar.Header)`
+  background-color: ${props => props.theme.colors.background};
+  elevation: 4;
+  border-bottom-color: ${props => dividerColor(props.theme)};
+  border-bottom-width: ${StyleSheet.hairlineWidth * 2};
+`

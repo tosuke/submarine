@@ -1,8 +1,7 @@
 import React from 'react'
-import { ViewStyle } from 'react-native'
+import { ViewStyle, StyleSheet } from 'react-native'
 import { BottomNavigation, BottomNavigationProps, Theme, withTheme } from 'react-native-paper'
-import color from 'color'
-import { headerColor } from './color'
+import { dividerColor } from './color'
 
 const AppBottomNavigationImpl: React.FC<BottomNavigationProps<unknown> & { theme: Theme }> = ({
   theme,
@@ -10,15 +9,10 @@ const AppBottomNavigationImpl: React.FC<BottomNavigationProps<unknown> & { theme
   activeColor,
   ...props
 }) => {
-  const borderColor = color(theme.colors.text)
-    .alpha(0.1)
-    .rgb()
-    .string()
-
   const barStyle: ViewStyle = {
-    backgroundColor: headerColor(theme),
-    borderColor,
-    borderTopWidth: 0.3,
+    backgroundColor: theme.colors.background,
+    borderColor: dividerColor(theme),
+    borderTopWidth: StyleSheet.hairlineWidth * 2,
   }
 
   return (

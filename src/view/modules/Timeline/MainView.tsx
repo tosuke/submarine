@@ -6,7 +6,6 @@ import { useTimelineBloc } from '../../../hooks/inject'
 import { useObservable, useObservableEffect } from '../../../hooks/useObservable'
 import { useTheme } from '../../../hooks/useTheme'
 import { Divider, Subheading } from 'react-native-paper'
-import { headerColor } from '../../design/color'
 import { PostView } from './PostView'
 
 const FooterView = styled.View`
@@ -62,7 +61,7 @@ export const MainView: React.FC = () => {
   const refreshControl = (
     <RefreshControl
       tintColor={theme.colors.text}
-      progressBackgroundColor={headerColor(theme)}
+      progressBackgroundColor={theme.colors.background}
       colors={[theme.colors.primary]}
       refreshing={refreshing || false}
       onRefresh={refresh}
