@@ -7,7 +7,6 @@ import { Avatar } from './Avatar'
 import { Thumbnail } from './Thumbnail'
 import { Body } from './Body'
 import { Footer } from './Footer'
-import { Platform, View } from 'react-native'
 
 const PostViewWrapper = styled.View`
   flex-direction: row;
