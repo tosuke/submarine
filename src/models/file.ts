@@ -45,14 +45,14 @@ function findProperImageVariant(variants: ReadonlyArray<FileVariant>): FileVaria
 export interface ImageFile extends File {
   readonly type: 'image'
   isImageFile(): true
-  thumbnailVariant: FileVariant
+  thumbnailVariant: FileVariant | null
   imageVariant: FileVariant
 }
 
 export interface VideoFile extends File {
   readonly type: 'video'
   isVideoFile(): true
-  thumbnailVariant: FileVariant
+  thumbnailVariant: FileVariant | null
   videoVariant: FileVariant
 }
 

@@ -59,7 +59,9 @@ export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
           <PostThumbnailsWrapper horizontal>
             {post.files.map((file, i) => {
               if (!file.isImageFile() && !file.isVideoFile()) return null
-              const thumbnailUrl = file.thumbnailVariant.url
+              const thumbnail = file.thumbnailVariant
+              if (thumbnail == null) return null
+              const thumbnailUrl = thumbnail.url
               const onPress = () => navigateToFileModal(post.files, i)
               return (
                 <PostThumbnailWrapper key={file.id}>
