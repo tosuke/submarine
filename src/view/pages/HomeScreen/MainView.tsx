@@ -1,13 +1,13 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components/native'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet, FlatList } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import { MaterialIcons } from '@expo/vector-icons'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { useObservable } from '../../../hooks/useObservable'
 import { ScreenView, AppHeader, PrimaryFAB } from '../../design'
 import { TimelineBlocContext } from '../../../hooks/inject'
-import { Timeline } from '../../modules/Timeline'
+import { useTimeline } from '../../modules/useTimeline'
 import { File } from '../../../models'
 
 export const Header: React.FC<{ onTouchEnd?: () => void; connectedToStream?: boolean }> = ({
@@ -40,9 +40,11 @@ export const MainView: React.FC<{
   navigateToFileModal: (files: File[], index: number) => void
   openUrl: (url: string) => void
 }> = ({ timelineBloc, onPostButtonPress, navigateToFileModal, openUrl }) => {
-  const scrollToTop = useCallback(() => {
-    timelineBloc.scrollToTop$.next()
-  }, [timelineBloc])
+  const { flatListRef, flatListProps, scrollToTop } = useTimeline({
+    timelineBloc,
+    navigateToFileModal,
+    openUrl,
+  })
 
   const connected = useObservable(() => timelineBloc.connectedToSocket$, false, [timelineBloc])
 
@@ -56,10 +58,10 @@ export const MainView: React.FC<{
   return (
     <TimelineBlocContext.Provider value={timelineBloc}>
       {Platform.OS !== 'android' && HeaderAndFAB}
-      <ScreenView>
+      <ScreenView style={StyleSheet.absoluteFill}>
         {Platform.OS === 'android' && HeaderAndFAB}
         <TimelineWrapper>
-          <Timeline timelineBloc={timelineBloc} navigateToFileModal={navigateToFileModal} openUrl={openUrl} />
+          <FlatList ref={flatListRef} {...flatListProps} />
         </TimelineWrapper>
       </ScreenView>
     </TimelineBlocContext.Provider>

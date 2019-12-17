@@ -27,7 +27,7 @@ const thumbnailFile = (id: number, type: string, uri: string) =>
     },
   ])
 
-storiesOf('Timeline/Post', module)
+storiesOf('useTimeline/PostView', module)
   .addDecorator(withKnobs)
   .add('Without Avatar', () => {
     const postText = text('Text', 'Hello!\nこんにちは\n😄👍')

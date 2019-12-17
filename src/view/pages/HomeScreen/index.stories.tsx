@@ -30,7 +30,7 @@ const user = new User(0, 'John Doe', 'john', 100, new Date(), new Date(), avatar
 
 const app = new Application(0, 'test', false)
 
-const post = (id: number) => new Post(id, 'test', user, app, new Date(), new Date(), [])
+const post = (id: number) => new Post(id, `test${id}`, user, app, new Date(), new Date(), [])
 
 const tlBloc: TimelineBloc = {
   fetchLatestPosts$: new Subject<void>(),

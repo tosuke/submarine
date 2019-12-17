@@ -1,10 +1,11 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react-native'
-import { View, StyleSheet } from 'react-native'
-import { Timeline } from './'
+import { StyleSheet, FlatList } from 'react-native'
 import { Post, User, Application, File } from '../../../models'
 import { Subject, BehaviorSubject } from 'rxjs'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
+import { useTimeline } from './'
+import { ScreenView } from '../../design'
 
 const avatar = new File(1, 'iona_v2.png', 'image', [
   {
@@ -31,7 +32,7 @@ const user = new User(0, 'John Doe', 'john', 100, new Date(), new Date(), avatar
 
 const app = new Application(0, 'test', false)
 
-const post = (id: number) => new Post(id, 'test', user, app, new Date(), new Date(), [])
+const post = (id: number) => new Post(id, `test${id}`, user, app, new Date(), new Date(), [])
 
 const tlBloc: TimelineBloc = {
   fetchLatestPosts$: new Subject<void>(),
@@ -44,8 +45,17 @@ const tlBloc: TimelineBloc = {
   scrollToTopEvent$: new Subject<void>(),
 }
 
-storiesOf('Timeline', module).add('Simple', () => (
-  <View style={StyleSheet.absoluteFill}>
-    <Timeline timelineBloc={tlBloc} navigateToFileModal={() => {}} openUrl={() => {}} />
-  </View>
-))
+const Simple = () => {
+  const { flatListRef, flatListProps } = useTimeline({
+    timelineBloc: tlBloc,
+    navigateToFileModal: () => {},
+    openUrl: () => {},
+  })
+  return (
+    <ScreenView style={StyleSheet.absoluteFill}>
+      <FlatList ref={flatListRef} {...flatListProps} />
+    </ScreenView>
+  )
+}
+
+storiesOf('useTimeline', module).add('Simple', () => <Simple />)
