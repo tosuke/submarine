@@ -15,9 +15,9 @@ const { Value, event, block, cond, eq, greaterThan, set, multiply, abs, call } =
 
 const FileModal: React.FC<{ item: File }> = ({ item: file }) => {
   if (file.isImageFile()) {
-    return <ImageModal key={file.id} imageUri={file.imageVariant.url} thumbnailUri={file.thumbnailVariant.url} />
+    return <ImageModal key={file.id} imageUri={file.imageVariant.url} thumbnailUri={file.thumbnailVariant!.url} />
   } else if (file.isVideoFile()) {
-    return <VideoModal key={file.id} videoUri={file.videoVariant.url} thumbnailUri={file.thumbnailVariant.url} />
+    return <VideoModal key={file.id} videoUri={file.videoVariant.url} thumbnailUri={file.thumbnailVariant!.url} />
   } else {
     return null
   }
