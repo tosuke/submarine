@@ -34,7 +34,7 @@
     }
   },
   "dependencies": {
-    "@babel/core": "^7.7.5",
+    "@babel/core": "^7.7.7",
     "@expo/vector-icons": "^10.0.0",
     "@linkage-community/bottlemail": "^2.1.0",
     "@use-it/interval": "^0.1.3",
