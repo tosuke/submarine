@@ -1,3 +1,4 @@
+import 'core-js/features/reflect'
 import { AppRegistry, Platform } from 'react-native'
 import App from './App'
 
