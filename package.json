@@ -3,7 +3,7 @@
     "prestart": "cp -r App.app.tsx App.tsx",
     "start": "react-native start",
     "prestorybook": "rnstl && cp -r App.storybook.tsx App.tsx",
-    "storybook": "expo start",
+    "storybook": "react-native start",
     "format": "prettier --write \"{src,storybook}/**/*.{js,ts,tsx}\"",
     "type-check": "tsc --noEmit",
     "generate:app": "ts-node tools/generate-appjson.ts",
