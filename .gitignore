@@ -12,6 +12,5 @@ npm-debug.*
 web-build/
 web-report/
 *.log
-/app.json
 /App.tsx
 .envrc

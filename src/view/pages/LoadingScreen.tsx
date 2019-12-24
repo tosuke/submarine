@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { AppLoading } from 'expo'
+// import { AppLoading } from 'expo'
 import { withNavigationOptions } from '../hocs/withNavigationOption'
 import { useValueObservable } from '../../hooks/useObservable'
 import { useAuthBloc, useNaviagtion } from '../../hooks/inject'
@@ -20,7 +20,7 @@ const LoadingScreenImpl: React.FC = () => {
     }
   }, [loading, seaClient])
 
-  return <AppLoading />
+  return null
 }
 
 export const LoadingScreen = withNavigationOptions({

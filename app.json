@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Submarine",
-    "slug": "submarine",
+    "slug": "Submarine",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": ["ios", "android"],
@@ -24,6 +24,9 @@
     "android": {
       "package": "me.tosuke.submarine",
       "permissions": []
-    }
-  }
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  },
+  "displayName": "Submarine",
+  "name": "Submarine"
 }
