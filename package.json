@@ -81,7 +81,7 @@
     "prettier": "^1.19.1",
     "react-native-storybook-loader": "^1.8.1",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.4"
   },
   "private": true
 }
