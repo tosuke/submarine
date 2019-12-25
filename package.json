@@ -71,7 +71,7 @@
     "@types/color": "^3.0.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/react": "^16.9.17",
-    "@types/react-native": "^0.60.25",
+    "@types/react-native": "^0.60.26",
     "@types/styled-components": "^4.4.1",
     "babel-preset-expo": "^8.0.0",
     "emotion-theming": "^10.0.27",
