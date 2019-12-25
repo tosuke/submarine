@@ -39,7 +39,7 @@
     "@linkage-community/bottlemail": "^2.1.0",
     "@use-it/interval": "^0.1.3",
     "color": "^3.1.2",
-    "core-js": "^3.5.0",
+    "core-js": "^3.6.0",
     "date-fns": "^2.8.1",
     "expo": "^36.0.1",
     "expo-av": "~8.0.0",
