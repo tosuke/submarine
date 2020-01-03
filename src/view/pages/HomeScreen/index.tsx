@@ -7,19 +7,21 @@ import { File } from '../../../models'
 
 export const HomeScreen = () => {
   const seaClient = useSeaClient()
-  const tlBloc = useMemo(() => new PublicTimelineBloc(seaClient, 40, 20), [seaClient])
-  useEffect(() => () => tlBloc.dispose(), [tlBloc])
+  const tlBloc = useMemo(() => seaClient && new PublicTimelineBloc(seaClient, 40, 20), [seaClient])
+  useEffect(() => () => tlBloc && tlBloc.dispose(), [tlBloc])
 
   const { navigate } = useNaviagtion()
   const onPostButtonPress = useCallback(() => navigate('PostModal'), [])
   const navigateToFileModal = useCallback((files: File[], index: number) => navigate('FileModal', { files, index }), [])
 
   return (
-    <MainView
-      timelineBloc={tlBloc}
-      onPostButtonPress={onPostButtonPress}
-      navigateToFileModal={navigateToFileModal}
-      openUrl={openUrl}
-    />
+    tlBloc && (
+      <MainView
+        timelineBloc={tlBloc}
+        onPostButtonPress={onPostButtonPress}
+        navigateToFileModal={navigateToFileModal}
+        openUrl={openUrl}
+      />
+    )
   )
 }
