@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, forwardRef, useMemo, useImperativeHandle } from 'react'
+import React, { useCallback, useRef, forwardRef, useMemo, useImperativeHandle, useEffect } from 'react'
 import styled from 'styled-components/native'
 import {
   Animated,
@@ -61,6 +61,17 @@ const AnimatedFlatList = forwardRef((props: FlatListProps<Post>, ref: React.Ref<
   return <Animated.FlatList ref={animatedRefCallback} {...props} />
 })
 
+const useAnimatedSnapshotRef = (node: Animated.AnimatedWithChildren) => {
+  const ref = useRef<number>()
+  useEffect(() => {
+    const id = node.addListener(({ value }) => {
+      ref.current = value
+    })
+    return () => node.removeListener(id)
+  }, [node])
+  return ref
+}
+
 export const MainView: React.FC<{
   timelineBloc: TimelineBloc
   onPostButtonPress: () => void
@@ -95,6 +106,9 @@ export const MainView: React.FC<{
   const { current: scrollY } = useRef(new Animated.Value(0))
   const { current: headerY } = useRef(Animated.diffClamp(Animated.multiply(-1, scrollY), -HEADER_HEIGHT, 0))
 
+  const scrollYRef = useAnimatedSnapshotRef(scrollY)
+  const headerYRef = useAnimatedSnapshotRef(headerY)
+
   const onScroll = useMemo(
     () =>
       Animated.event<NativeSyntheticEvent<NativeScrollEvent>>(
@@ -111,6 +125,45 @@ export const MainView: React.FC<{
       ),
     [scrollY],
   )
+
+  const moveHeader = useCallback(
+    (offset: number) => {
+      if (headerYRef.current == null || flatListRef.current == null) return
+      if (headerYRef.current > -HEADER_HEIGHT / 2) {
+        flatListRef.current.scrollToOffset({
+          offset: offset + headerYRef.current,
+          animated: true,
+        })
+      } else {
+        flatListRef.current.scrollToOffset({
+          offset: offset + (HEADER_HEIGHT + headerYRef.current),
+          animated: true,
+        })
+      }
+    },
+    [headerYRef, flatListRef],
+  )
+
+  const onMomentumScrollEnd = useCallback(
+    (ev: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const offset = ev.nativeEvent.contentOffset.y
+      moveHeader(offset)
+    },
+    [moveHeader],
+  )
+
+  const timerRef = useRef<number>()
+
+  const onScrollEndDrug = useCallback(() => {
+    // @types/node が依存関係に混入していて型が汚染されているので、無理矢理通す
+    timerRef.current = (setTimeout(() => {
+      moveHeader(scrollYRef.current!)
+    }, 200) as unknown) as number
+  }, [timerRef, scrollYRef, moveHeader])
+
+  const onMomentumScrollBegin = useCallback(() => {
+    clearTimeout(timerRef.current)
+  }, [timerRef])
 
   const theme = useTheme()
 
@@ -159,6 +212,9 @@ export const MainView: React.FC<{
           }}
           ListFooterComponentStyle={{ paddingBottom: HEADER_HEIGHT }}
           onScroll={onScroll}
+          onScrollEndDrag={onScrollEndDrug}
+          onMomentumScrollBegin={onMomentumScrollBegin}
+          onMomentumScrollEnd={onMomentumScrollEnd}
         />
       </ScreenView>
     </TimelineBlocContext.Provider>
