@@ -1,4 +1,3 @@
-/// <reference types="react-native" />
 import 'react-native'
 
 declare module 'react-native' {

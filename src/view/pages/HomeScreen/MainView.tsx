@@ -1,5 +1,4 @@
-import React, { useCallback, useRef, forwardRef, useMemo, useImperativeHandle, useEffect } from 'react'
-import styled from 'styled-components/native'
+import React, { useCallback, useRef, forwardRef, useMemo, useImperativeHandle } from 'react'
 import {
   Animated,
   Platform,
@@ -11,47 +10,31 @@ import {
   RefreshControlProps,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  ViewStyle,
 } from 'react-native'
-import { Appbar } from 'react-native-paper'
 import { Header as NavigationHeader } from 'react-navigation'
-import { MaterialIcons } from '@expo/vector-icons'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { useObservable } from '../../../hooks/useObservable'
-import { ScreenView, AppHeader, PrimaryFAB } from '../../design'
+import { ScreenView } from '../../design'
 import { TimelineBlocContext } from '../../../hooks/inject'
 import { useTimeline } from '../../modules/useTimeline'
-import { File, Post } from '../../../models'
+import { File } from '../../../models'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { useTheme } from '../../../hooks/useTheme'
+import { useAnimatedSnapshotRef } from '../../../hooks/animated'
+import { Header } from './Header'
+import { FAB } from './FAB'
 
 const HEADER_HEIGHT = NavigationHeader.HEIGHT
 
-export const Header: React.FC<{ onTouchEnd?: () => void; connectedToStream?: boolean }> = ({
-  onTouchEnd,
-  connectedToStream,
-}) => (
-  <AppHeader style={{ zIndex: 1 }} onTouchEnd={onTouchEnd}>
-    <Appbar.Content title="ホーム" />
-    <Appbar.Action icon="wifi" disabled={!connectedToStream} />
-  </AppHeader>
-)
-
-const SendIconAtom = styled(MaterialIcons)`
-  padding-left: 3;
-`
-
-const SendIcon: React.FC<{ size?: number; color?: string }> = ({ size, color }) => (
-  <SendIconAtom name="send" size={size} color={color} />
-)
-
-export const FAB: React.FC<{ onPress?: () => void }> = ({ onPress }) => <PrimaryFAB icon={SendIcon} onPress={onPress} />
-
-const AnimatedFlatList = forwardRef((props: FlatListProps<Post>, ref: React.Ref<FlatList<Post>>) => {
-  const nodeRef = useRef<{ node: FlatList<Post> | null }>({ node: null })
+const AnimatedFlatList: {
+  new <A extends unknown>(props: FlatListProps<A> & React.RefAttributes<FlatList<A>>): FlatList<A>
+} = forwardRef(<A extends unknown>(props: FlatListProps<A>, ref: React.Ref<FlatList<A>>) => {
+  const nodeRef = useRef<{ node: FlatList<A> | null }>({ node: null })
   useImperativeHandle(ref, () => nodeRef.current.node!)
 
   const animatedRefCallback = useCallback(
-    (node: { getNode(): FlatList<Post> | null } | null) => {
+    (node: { getNode(): FlatList<A> | null } | null) => {
       if (node == null) return
       nodeRef.current.node = node.getNode()
     },
@@ -59,50 +42,9 @@ const AnimatedFlatList = forwardRef((props: FlatListProps<Post>, ref: React.Ref<
   )
 
   return <Animated.FlatList ref={animatedRefCallback} {...props} />
-})
+}) as any
 
-const useAnimatedSnapshotRef = (node: Animated.AnimatedWithChildren) => {
-  const ref = useRef<number>()
-  useEffect(() => {
-    const id = node.addListener(({ value }) => {
-      ref.current = value
-    })
-    return () => node.removeListener(id)
-  }, [node])
-  return ref
-}
-
-export const MainView: React.FC<{
-  timelineBloc: TimelineBloc
-  onPostButtonPress: () => void
-  navigateToFileModal: (files: File[], index: number) => void
-  openUrl: (url: string) => void
-}> = ({ timelineBloc, onPostButtonPress, navigateToFileModal, openUrl }) => {
-  const statusBarHeight = getStatusBarHeight()
-
-  const TimelineRefreshControl = useCallback(
-    (props: RefreshControlProps) => <RefreshControl {...props} progressViewOffset={HEADER_HEIGHT + statusBarHeight} />,
-    [statusBarHeight],
-  )
-
-  const { flatListRef, flatListProps } = useTimeline({
-    timelineBloc,
-    navigateToFileModal,
-    openUrl,
-    RefreshControl: TimelineRefreshControl,
-  })
-
-  const scrollToTop = useCallback(() => {
-    if (flatListRef.current == null) return
-    flatListRef.current.scrollToIndex({
-      index: 0,
-      viewOffset: HEADER_HEIGHT + statusBarHeight,
-      animated: true,
-    })
-  }, [flatListRef])
-
-  const connected = useObservable(() => timelineBloc.connectedToSocket$, false, [timelineBloc])
-
+const useCollapsibleHeader = <A extends unknown>(flatListRef: React.RefObject<FlatList<A>>) => {
   const { current: scrollY } = useRef(new Animated.Value(0))
   const { current: headerY } = useRef(Animated.diffClamp(Animated.multiply(-1, scrollY), -HEADER_HEIGHT, 0))
 
@@ -154,7 +96,7 @@ export const MainView: React.FC<{
 
   const timerRef = useRef<number>()
 
-  const onScrollEndDrug = useCallback(() => {
+  const onScrollEndDrag = useCallback(() => {
     // @types/node が依存関係に混入していて型が汚染されているので、無理矢理通す
     timerRef.current = (setTimeout(() => {
       moveHeader(scrollYRef.current!)
@@ -164,6 +106,61 @@ export const MainView: React.FC<{
   const onMomentumScrollBegin = useCallback(() => {
     clearTimeout(timerRef.current)
   }, [timerRef])
+
+  const headerStyle = useMemo<ViewStyle>(
+    () => ({
+      transform: [
+        {
+          translateY: headerY as any,
+        },
+      ],
+    }),
+    [headerY],
+  )
+
+  return {
+    headerStyle,
+    flatListProps: {
+      onScroll,
+      onScrollEndDrag,
+      onMomentumScrollBegin,
+      onMomentumScrollEnd,
+    },
+  }
+}
+
+export const MainView: React.FC<{
+  timelineBloc: TimelineBloc
+  onPostButtonPress: () => void
+  navigateToFileModal: (files: File[], index: number) => void
+  openUrl: (url: string) => void
+}> = ({ timelineBloc, onPostButtonPress, navigateToFileModal, openUrl }) => {
+  const statusBarHeight = getStatusBarHeight()
+
+  const TimelineRefreshControl = useCallback(
+    (props: RefreshControlProps) => <RefreshControl {...props} progressViewOffset={HEADER_HEIGHT + statusBarHeight} />,
+    [statusBarHeight],
+  )
+
+  const { flatListRef, flatListProps } = useTimeline({
+    timelineBloc,
+    navigateToFileModal,
+    openUrl,
+    RefreshControl: TimelineRefreshControl,
+  })
+
+  const scrollToTop = useCallback(() => {
+    if (flatListRef.current == null) return
+    flatListRef.current.scrollToIndex({
+      index: 0,
+      viewOffset: HEADER_HEIGHT + statusBarHeight,
+      animated: true,
+    })
+  }, [flatListRef])
+
+  const connected = useObservable(() => timelineBloc.connectedToSocket$, false, [timelineBloc])
+
+  const { flatListProps: collapsibleHeaderFlatListProps, headerStyle } = useCollapsibleHeader(flatListRef)
 
   const theme = useTheme()
 
@@ -181,14 +178,12 @@ export const MainView: React.FC<{
         }}
       />
       <Animated.View
-        style={{
-          transform: [
-            {
-              translateY: headerY,
-            },
-          ],
-          zIndex: 2,
-        }}
+        style={[
+          {
+            zIndex: 2,
+          },
+          headerStyle,
+        ]}
       >
         <Header onTouchEnd={scrollToTop} connectedToStream={connected} />
       </Animated.View>
@@ -211,10 +206,7 @@ export const MainView: React.FC<{
             paddingTop: HEADER_HEIGHT + getStatusBarHeight(),
           }}
           ListFooterComponentStyle={{ paddingBottom: HEADER_HEIGHT }}
-          onScroll={onScroll}
-          onScrollEndDrag={onScrollEndDrug}
-          onMomentumScrollBegin={onMomentumScrollBegin}
-          onMomentumScrollEnd={onMomentumScrollEnd}
+          {...collapsibleHeaderFlatListProps}
         />
       </ScreenView>
     </TimelineBlocContext.Provider>
