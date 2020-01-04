@@ -1,8 +1,8 @@
 import React from 'react'
-import { DarkTheme } from 'react-native-paper'
 import { enableScreens } from 'react-native-screens'
 import { AppContainer } from './navigators/App'
 import { StatusBar } from './view/design/StatusBar'
+import { DarkTheme } from './view/constants/theme'
 import { AuthBlocProvider, ThemeBlocProvider, PostSendBlocProvider } from './hooks/inject'
 
 enableScreens()
