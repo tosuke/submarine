@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { BottomNavigation, SceneProps } from 'react-native-paper'
+import { BottomNavigation } from 'react-native-paper'
 import { AppBottomNavigation } from '../view/design/AppBottomNavigation'
 import { HomeScreen } from '../view/pages/HomeScreen'
 import { PreferenceScreen } from '../view/pages/PreferanceScreen'
@@ -10,9 +10,14 @@ const routes = [
   { key: 'preferences', title: '設定', icon: 'settings' },
 ]
 
+type SceneProps = {
+  route: any
+  jumpTo: (key: string) => void
+}
+
 const scenes = BottomNavigation.SceneMap({
-  home: HomeScreen as React.ComponentType<SceneProps<unknown>>,
-  preferences: PreferenceScreen as React.ComponentType<SceneProps<unknown>>,
+  home: HomeScreen as React.ComponentType<SceneProps>,
+  preferences: PreferenceScreen as React.ComponentType<SceneProps>,
 })
 
 const MainTabImpl: React.FC = () => {

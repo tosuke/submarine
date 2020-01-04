@@ -1,7 +1,7 @@
-export { Snackbar, SnackbarProps } from 'react-native-paper'
+export { Snackbar } from 'react-native-paper'
 
 import { useState, useCallback, useMemo } from 'react'
-import { SnackbarProps } from 'react-native-paper'
+import { Snackbar } from 'react-native-paper'
 
 type Action = {
   label: string
@@ -33,7 +33,7 @@ export function useSnackBar({
     return typeof actionFactory === 'function' ? actionFactory({ dismiss }) : actionFactory
   }, [dismiss, actionFactory])
 
-  const snackBarProps: Pick<SnackbarProps, 'visible' | 'duration' | 'action' | 'onDismiss'> = {
+  const snackBarProps: Pick<React.PropTypeOf<typeof Snackbar>, 'visible' | 'duration' | 'action' | 'onDismiss'> = {
     visible,
     duration,
     action,

@@ -1,16 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { TextInput as NativeTextInput, TextInputProps as NativeTextInputProps, TextStyle } from 'react-native'
-import {
-  withTheme,
-  Theme,
-  DeepPartial,
-  TextInput as NativePaperTextInput,
-  TextInputProps as NativePaperTextInputProps,
-} from 'react-native-paper'
+import { withTheme, Theme, TextInput as NativePaperTextInput } from 'react-native-paper'
 
-export type TextInputProps = NativeTextInputProps & {
-  theme?: DeepPartial<Theme>
-}
+export type TextInputProps = NativeTextInputProps
 
 export const TextInput = withTheme(({ theme, ...rest }: TextInputProps & { theme: Theme }) => {
   const textInputStyle: TextStyle = { color: theme.colors.text }
@@ -47,7 +39,7 @@ export const TextInput = withTheme(({ theme, ...rest }: TextInputProps & { theme
   )
 })
 
-export type PaperTextInputProps = NativePaperTextInputProps
+export type PaperTextInputProps = React.PropTypeOf<typeof NativePaperTextInput>
 export const PaperTextInput = (props: PaperTextInputProps) => {
   return <NativePaperTextInput {...props} render={props => <TextInput {...props} />} />
 }
