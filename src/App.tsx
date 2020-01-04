@@ -1,6 +1,6 @@
 import React from 'react'
 import { enableScreens } from 'react-native-screens'
-import { AppContainer } from './navigators/App'
+import { AppView } from './view'
 import { StatusBar } from './view/design/StatusBar'
 import { DarkTheme } from './view/constants/theme'
 import { AuthBlocProvider, ThemeBlocProvider, PostSendBlocProvider } from './hooks/inject'
@@ -14,7 +14,7 @@ export default class App extends React.Component {
         <AuthBlocProvider>
           <PostSendBlocProvider>
             <StatusBar />
-            <AppContainer />
+            <AppView />
           </PostSendBlocProvider>
         </AuthBlocProvider>
       </ThemeBlocProvider>

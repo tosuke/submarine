@@ -1,28 +1,5 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { AppLoading } from 'expo'
-import { withNavigationOptions } from '../hocs/withNavigationOption'
-import { useValueObservable } from '../../hooks/useObservable'
-import { useAuthBloc, useNaviagtion } from '../../hooks/inject'
+import { AppPropsList } from '../navigators'
 
-const LoadingScreenImpl: React.FC = () => {
-  const authBloc = useAuthBloc()
-  const loading = useValueObservable(() => authBloc.loading$)
-  const seaClient = useValueObservable(() => authBloc.seaClient$)
-  const { navigate } = useNaviagtion()
-
-  useEffect(() => {
-    if (!loading) {
-      if (seaClient) {
-        navigate('App')
-      } else {
-        navigate('Auth')
-      }
-    }
-  }, [loading, seaClient])
-
-  return <AppLoading />
-}
-
-export const LoadingScreen = withNavigationOptions({
-  header: null,
-})(LoadingScreenImpl)
+export const LoadingScreen = (_: AppPropsList['Loading']) => <AppLoading />

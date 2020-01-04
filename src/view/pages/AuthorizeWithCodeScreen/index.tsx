@@ -1,18 +1,17 @@
 import React, { useCallback } from 'react'
-import { withNavigationOptions } from '../../hocs/withNavigationOption'
-import { useAuthBloc, useNaviagtion } from '../../../hooks/inject'
+import { useAuthBloc } from '../../../hooks/inject'
 import { useValueObservable, useObservableEffect } from '../../../hooks/useObservable'
 import { MainView } from './MainView'
+import { AuthPropsList } from '../../navigators/Auth'
 
-const Screen = () => {
+export const AuthorizeWithCodeScreen = ({ navigation: { navigate } }: AuthPropsList['AuthorizeWithCode']) => {
   const authBloc = useAuthBloc()
-  const { navigate } = useNaviagtion()
   const authorizing = useValueObservable(() => authBloc.authorizing$)
 
   useObservableEffect(
     () => authBloc.seaClient$,
     seaClient => {
-      if (seaClient) navigate('App')
+      if (seaClient) navigate('Main')
     },
     [authBloc],
   )
@@ -26,7 +25,3 @@ const Screen = () => {
 
   return <MainView authorizing={authorizing} authorize={authorize} invalidCodeErrorEvent={authBloc.invalidCodeError$} />
 }
-
-export const AuthorizeWithCodeScreen = withNavigationOptions({
-  title: 'コード認証',
-})(Screen)

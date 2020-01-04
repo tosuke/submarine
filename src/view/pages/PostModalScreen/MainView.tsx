@@ -1,10 +1,9 @@
 import React from 'react'
 import { Platform, ScrollView, InputAccessoryView } from 'react-native'
 import styled from 'styled-components/native'
-import { useTheme, Appbar } from 'react-native-paper'
 import { Header as NavHeader } from 'react-navigation'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
-import { AppHeader, ScreenView, KeyboardAvoidingView } from '../../design'
+import { ScreenView, KeyboardAvoidingView } from '../../design'
 import { PostBar } from './PostBar'
 import { PostTextInput } from './PostTextInput'
 
@@ -60,15 +59,4 @@ export const PostModalScreenView: React.FC<Props> = ({ text, onChangeText, edita
       </ScreenWrapper>
     )
   }
-}
-
-export const Header: React.FC<{ close?: () => void }> = ({ close }) => {
-  const theme = useTheme()
-
-  return (
-    <AppHeader>
-      <Appbar.Action icon="close" color={theme.colors.primary} onPress={close} />
-      <Appbar.Content title="投稿" />
-    </AppHeader>
-  )
 }

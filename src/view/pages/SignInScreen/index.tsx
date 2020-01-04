@@ -1,18 +1,17 @@
 import React, { useCallback, useMemo } from 'react'
-import { withNavigationOptions } from '../../hocs/withNavigationOption'
-import { useNaviagtion, useAuthBloc } from '../../../hooks/inject'
+import { useAuthBloc } from '../../../hooks/inject'
 import { endpoint } from '../../../config'
 import { MainView } from './MainView'
+import { AuthPropsList } from '../../navigators/Auth'
 
-const Screen: React.FC = () => {
+export const SignInScreen = ({ navigation }: AuthPropsList['SignIn']) => {
   const authBloc = useAuthBloc()
-  const { navigate } = useNaviagtion()
 
   const serverName = useMemo(() => new URL(endpoint).host, [])
 
   const onAuthorizeButtonClicked = useCallback(() => {
     authBloc.linkToAuthzURL$.next()
-    navigate('AuthorizeWithCode')
+    navigation.push('AuthorizeWithCode')
   }, [authBloc])
 
   const onSignInButtonClicked = useCallback(() => {
@@ -27,7 +26,3 @@ const Screen: React.FC = () => {
     />
   )
 }
-
-export const SignInScreen = withNavigationOptions({
-  title: 'ログイン',
-})(Screen)
