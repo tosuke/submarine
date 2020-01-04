@@ -7,7 +7,7 @@ export const StackHeader = ({ navigation, scene, scenes }: HeaderProps) => {
   const { title } = scene.descriptor.options
   return (
     <AppHeader>
-      {scenes.length > 1 && <Appbar.BackAction onPress={() => navigation.pop()} />}
+      {scenes.length > 1 && <Appbar.BackAction onPress={() => void navigation.pop()} />}
       <Appbar.Content title={title} />
     </AppHeader>
   )
