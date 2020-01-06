@@ -1,6 +1,6 @@
 import React from 'react'
 import { RouteProp } from '@react-navigation/native'
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack/src/index'
+import { createStackNavigator, StackNavigationProp, TransitionPresets } from '@react-navigation/stack/src/index'
 import { LoadingScreen } from '../pages/LoadingScreen'
 import { AuthNavigator } from './Auth'
 import { MainNavigator } from './Main'
@@ -30,7 +30,10 @@ export const AppNavigator = () => {
   const seaClient = useObservable(() => authBloc.seaClient$, undefined)
 
   return (
-    <AppStack.Navigator screenOptions={{ headerShown: false }} keyboardHandlingEnabled={false}>
+    <AppStack.Navigator
+      screenOptions={{ headerShown: false, ...TransitionPresets.ScaleFromCenterAndroid }}
+      keyboardHandlingEnabled={false}
+    >
       {loading ? (
         <AppStack.Screen name="Loading" component={LoadingScreen} />
       ) : seaClient ? (
