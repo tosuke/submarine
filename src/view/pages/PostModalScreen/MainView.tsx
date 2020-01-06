@@ -1,9 +1,8 @@
 import React from 'react'
 import { Platform, ScrollView, InputAccessoryView } from 'react-native'
 import styled from 'styled-components/native'
-import { Header as NavHeader } from 'react-navigation'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { ScreenView, KeyboardAvoidingView } from '../../design'
+import { HEADER_HEIGHT } from '../../constants/header'
 import { PostBar } from './PostBar'
 import { PostTextInput } from './PostTextInput'
 
@@ -30,7 +29,7 @@ type Props = {
 
 export const PostModalScreenView: React.FC<Props> = ({ text, onChangeText, editable, sendable, send }) => {
   if (Platform.OS !== 'ios') {
-    const keyboardVerticalOffset = NavHeader.HEIGHT + getStatusBarHeight()
+    const keyboardVerticalOffset = HEADER_HEIGHT
     return (
       <ScreenWrapper>
         <KeyboardAvoidingWrapper keyboardVerticalOffset={keyboardVerticalOffset}>
