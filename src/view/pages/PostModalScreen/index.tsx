@@ -3,9 +3,9 @@ import { useTheme, IconButton } from 'react-native-paper'
 import { usePostSendBloc } from '../../../hooks/inject'
 import { useObservableEffect } from '../../../hooks/useObservable'
 import { PostModalScreenView } from './MainView'
-import { MainPropsList } from '../../navigators/Main'
+import { AppPropsList } from '../../navigators/App'
 
-export const PostModalScreen = ({ navigation }: MainPropsList['PostModal']) => {
+export const PostModalScreen = ({ navigation }: AppPropsList['PostModal']) => {
   const theme = useTheme()
   useEffect(() => {
     navigation.setOptions({

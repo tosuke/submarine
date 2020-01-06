@@ -4,9 +4,9 @@ import { useSeaClient } from '../../../hooks/inject'
 import { PublicTimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { openUrl } from '../../../infra/openUrl'
 import { File } from '../../../models'
-import { MainPropsList } from '../../navigators/Main'
+import { AppPropsList } from '../../navigators/App'
 
-export const HomeScreen = ({ navigation }: MainPropsList['Home']) => {
+export const HomeScreen = ({ navigation }: AppPropsList['Home']) => {
   const seaClient = useSeaClient()
   const tlBloc = useMemo(() => seaClient && new PublicTimelineBloc(seaClient, 40, 20), [seaClient])
   useEffect(() => () => tlBloc && tlBloc.dispose(), [tlBloc])

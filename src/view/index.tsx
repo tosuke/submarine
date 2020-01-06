@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { NavigationNativeContainer } from '@react-navigation/native'
 import { useTheme } from 'react-native-paper'
 import { dividerColor } from './design'
-import { AppNavigator } from './navigators'
+import { RootNavigator } from './navigators'
 
 export const AppView = () => {
   const paperTheme = useTheme()
@@ -21,7 +21,7 @@ export const AppView = () => {
   )
   return (
     <NavigationNativeContainer theme={theme}>
-      <AppNavigator />
+      <RootNavigator />
     </NavigationNativeContainer>
   )
 }

@@ -4,41 +4,41 @@ import { createNativeStackNavigator } from './_utils/createNativeStackNavigator'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { LoadingScreen } from '../pages/LoadingScreen'
 import { AuthNavigator } from './Auth'
-import { MainNavigator } from './Main'
+import { AppNavigator } from './App'
 import { useAuthBloc } from '../../hooks/inject'
 import { useObservable } from '../../hooks/useObservable'
 
-type AppParamList = {
+type RootParamList = {
   Loading: undefined
   Auth: undefined
-  Main: undefined
+  App: undefined
 }
 
-export type AppNavigationProps = NativeStackNavigationProp<AppParamList>
+export type RootNavigationProps = NativeStackNavigationProp<RootParamList>
 
-export type AppPropsList = {
-  [K in keyof AppParamList]: {
-    route: RouteProp<AppParamList, K>
-    navigation: NativeStackNavigationProp<AppParamList, K>
+export type RootPropsList = {
+  [K in keyof RootParamList]: {
+    route: RouteProp<RootParamList, K>
+    navigation: NativeStackNavigationProp<RootParamList, K>
   }
 }
 
-const AppStack = createNativeStackNavigator<AppParamList>()
+const RootStack = createNativeStackNavigator<RootParamList>()
 
-export const AppNavigator = () => {
+export const RootNavigator = () => {
   const authBloc = useAuthBloc()
   const loading = useObservable(() => authBloc.loading$, true)
   const seaClient = useObservable(() => authBloc.seaClient$, undefined)
 
   return (
-    <AppStack.Navigator screenOptions={{ headerShown: false }}>
+    <RootStack.Navigator screenOptions={{ headerShown: false }}>
       {loading ? (
-        <AppStack.Screen name="Loading" component={LoadingScreen} />
+        <RootStack.Screen name="Loading" component={LoadingScreen} />
       ) : seaClient ? (
-        <AppStack.Screen name="Main" component={MainNavigator} />
+        <RootStack.Screen name="App" component={AppNavigator} />
       ) : (
-        <AppStack.Screen name="Auth" component={AuthNavigator} />
+        <RootStack.Screen name="Auth" component={AuthNavigator} />
       )}
-    </AppStack.Navigator>
+    </RootStack.Navigator>
   )
 }
