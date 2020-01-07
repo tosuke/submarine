@@ -1,13 +1,8 @@
 import React from 'react'
 import { Platform, ScrollView, InputAccessoryView } from 'react-native'
 import styled from 'styled-components/native'
-import { Header as NavHeader } from 'react-navigation'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
-import { ScreenView } from '../../design/ScreenView'
-import { Appbar } from 'react-native-paper'
-import { useTheme } from '../../../hooks/useTheme'
-import { KeyboardAvoidingView } from '../../design/KeyboardAvoidingView'
-import { AppHeader } from '../../design/AppHeader'
+import { ScreenView, KeyboardAvoidingView } from '../../design'
+import { HEADER_HEIGHT } from '../../constants/header'
 import { PostBar } from './PostBar'
 import { PostTextInput } from './PostTextInput'
 
@@ -34,7 +29,7 @@ type Props = {
 
 export const PostModalScreenView: React.FC<Props> = ({ text, onChangeText, editable, sendable, send }) => {
   if (Platform.OS !== 'ios') {
-    const keyboardVerticalOffset = NavHeader.HEIGHT + getStatusBarHeight()
+    const keyboardVerticalOffset = HEADER_HEIGHT
     return (
       <ScreenWrapper>
         <KeyboardAvoidingWrapper keyboardVerticalOffset={keyboardVerticalOffset}>
@@ -63,15 +58,4 @@ export const PostModalScreenView: React.FC<Props> = ({ text, onChangeText, edita
       </ScreenWrapper>
     )
   }
-}
-
-export const Header: React.FC<{ close?: () => void }> = ({ close }) => {
-  const theme = useTheme()
-
-  return (
-    <AppHeader>
-      <Appbar.Action icon="close" color={theme.colors.primary} onPress={close} />
-      <Appbar.Content title="投稿" />
-    </AppHeader>
-  )
 }

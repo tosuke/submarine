@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import { StyleSheet } from 'react-native'
-import { Appbar } from 'react-native-paper'
-import { dividerColor } from '../../design/color'
-import { useTheme } from '../../../hooks/useTheme'
+import { useTheme, Appbar } from 'react-native-paper'
+import { dividerColor } from '../../design'
 
 const PostBarAtom = styled(Appbar)`
   max-height: 44;

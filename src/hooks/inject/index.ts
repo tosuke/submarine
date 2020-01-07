@@ -1,5 +1,4 @@
 export * from './useAuthBloc'
-export * from './useNavigation'
 export * from './usePostSendBloc'
 export * from './useTimelineBloc'
 export * from './useSeaClient'

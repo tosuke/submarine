@@ -1,20 +1,20 @@
 import React, { useMemo } from 'react'
-import { useNaviagtion, useAuthBloc } from '../../../hooks/inject'
+import { useAuthBloc } from '../../../hooks/inject'
 import { Preference, PreferenceContext } from './PreferenceContext'
 import { MainView } from './View'
+import { AppPropsList } from '../../navigators/App'
 
-export const PreferenceScreen: React.FC = () => {
+export const PreferenceScreen = ({ navigation }: AppPropsList['Preference']) => {
   const authBloc = useAuthBloc()
-  const { navigate } = useNaviagtion()
 
   const preference = useMemo<Preference>(
     () => ({
       logout: () => {
         authBloc.signOut$.next()
-        navigate('Auth')
+        navigation.navigate('Auth')
       },
     }),
-    [authBloc, navigate],
+    [authBloc],
   )
 
   return (

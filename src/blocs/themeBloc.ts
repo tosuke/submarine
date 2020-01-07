@@ -16,6 +16,6 @@ export class ThemeBloc {
   }
 
   dispose(): void {
-    this._theme$.unsubscribe()
+    this._theme$.complete()
   }
 }

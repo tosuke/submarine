@@ -6,8 +6,9 @@ const PostSendBlocCtx = createContext<PostSendBloc | undefined>(undefined)
 
 export const PostSendBlocProvider: React.FC = ({ children }) => {
   const seaClient = useSeaClient()
-  const postSendBloc = useMemo(() => new PostSendBloc(seaClient), [seaClient])
-  useEffect(() => () => postSendBloc.dispose(), [postSendBloc])
+  const postSendBloc = useMemo(() => seaClient && new PostSendBloc(seaClient), [seaClient])
+  useEffect(() => () => postSendBloc && postSendBloc.dispose(), [postSendBloc])
+  if (postSendBloc == null) return React.createElement(React.Fragment, {}, children)
   return React.createElement(PostSendBlocCtx.Provider, { value: postSendBloc }, children)
 }
 

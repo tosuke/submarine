@@ -1,9 +1,9 @@
 import React from 'react'
 import { ViewStyle, StyleSheet } from 'react-native'
-import { BottomNavigation, BottomNavigationProps, Theme, withTheme } from 'react-native-paper'
+import { BottomNavigation, Theme, withTheme } from 'react-native-paper'
 import { dividerColor } from './color'
 
-const AppBottomNavigationImpl: React.FC<BottomNavigationProps<unknown> & { theme: Theme }> = ({
+const AppBottomNavigationImpl: React.FC<React.PropTypeOf<typeof BottomNavigation> & { theme: Theme }> = ({
   theme,
   barStyle: defaultBarStyle,
   activeColor,

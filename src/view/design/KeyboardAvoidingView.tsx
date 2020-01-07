@@ -10,8 +10,7 @@ import {
   KeyboardEventListener,
   LayoutAnimation,
 } from 'react-native'
-import { Header } from 'react-navigation'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
+import { HEADER_HEIGHT } from '../constants/header'
 
 export type KeyboardAvoidingViewProps = {
   children?: React.ReactNode
@@ -20,7 +19,7 @@ export type KeyboardAvoidingViewProps = {
 }
 
 export const KeyboardAvoidingView = ({ children, style, keyboardVerticalOffset }: KeyboardAvoidingViewProps) => {
-  const keyboardOffset = keyboardVerticalOffset || Header.HEIGHT + getStatusBarHeight()
+  const keyboardOffset = keyboardVerticalOffset || HEADER_HEIGHT
   const [keyboardY, updateKeyboardY] = useState<number | undefined>()
   const [frame, updateFrame] = useState<LayoutRectangle | undefined>()
   const bottom = useMemo(() => {

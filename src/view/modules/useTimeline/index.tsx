@@ -1,11 +1,10 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useMemo } from 'react'
 import styled from 'styled-components/native'
-import { FlatList, FlatListProps, RefreshControl } from 'react-native'
-import { Divider } from 'react-native-paper'
+import { FlatList, FlatListProps, RefreshControl, RefreshControlProps } from 'react-native'
+import { Divider, useTheme } from 'react-native-paper'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { Post } from '../../../models'
 import { useObservable } from '../../../hooks/useObservable'
-import { useTheme } from '../../../hooks/useTheme'
 import { TimelineActions, TimelineActionsContext } from './inject'
 import { PostView } from './PostView'
 import { Footer } from './Footer'
@@ -19,9 +18,11 @@ const postKeyExtractor = (item: Post) => `${item.id}`
 
 export const useTimeline = ({
   timelineBloc,
+  RefreshControl: RefreshControlComponent = RefreshControl,
   ...actions
 }: {
   timelineBloc: TimelineBloc
+  RefreshControl?: React.ComponentType<RefreshControlProps>
 } & TimelineActions) => {
   const posts = useObservable(() => timelineBloc.posts$, [], [timelineBloc])
   const refreshing = useObservable(() => timelineBloc.isFetchingLatestPosts$, false, [timelineBloc])
@@ -39,14 +40,17 @@ export const useTimeline = ({
     }
   }, [])
 
-  const refreshControl = (
-    <RefreshControl
-      tintColor={theme.colors.text}
-      progressBackgroundColor={theme.colors.background}
-      colors={[theme.colors.primary]}
-      refreshing={refreshing || false}
-      onRefresh={refresh}
-    />
+  const refreshControl = useMemo(
+    () => (
+      <RefreshControlComponent
+        tintColor={theme.colors.text}
+        progressBackgroundColor={theme.colors.background}
+        colors={[theme.colors.primary]}
+        refreshing={refreshing || false}
+        onRefresh={refresh}
+      />
+    ),
+    [RefreshControlComponent],
   )
 
   const renderItem = useCallback(

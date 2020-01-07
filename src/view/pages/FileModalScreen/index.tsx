@@ -1,21 +1,24 @@
 import React, { useCallback } from 'react'
-import { withNavigationOptions } from '../../hocs/withNavigationOption'
-import { useNaviagtion } from '../../../hooks/inject'
-import { File } from '../../../models'
 import { MainView } from './MainView'
+import { AppPropsList } from '../../navigators/App'
+import { useNavigationOptions } from '../../../hooks/useNavigationOptions'
+import { TransitionPresets } from '@react-navigation/stack/src'
 
-const Screen = () => {
-  const { getParam, goBack } = useNaviagtion()
-  const files: File[] = getParam('files')
-  const index: number = getParam('index')
+export const FileModalScreen = ({ navigation, route }: AppPropsList['FileModal']) => {
+  const { files, index } = route.params
 
   const onBackButtonPress = useCallback(() => {
-    goBack()
-  }, [])
+    navigation.goBack()
+  }, [navigation])
+
+  useNavigationOptions(
+    navigation,
+    () => ({
+      headerShown: false,
+      ...TransitionPresets.ScaleFromCenterAndroid,
+    }),
+    [],
+  )
 
   return <MainView files={files} initialIndex={index} onBackButtonPress={onBackButtonPress} />
 }
-
-export const FileModalScreen = withNavigationOptions({
-  header: null,
-})(Screen)

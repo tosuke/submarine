@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { useTheme } from '../../../hooks/useTheme'
+import { useTheme } from 'react-native-paper'
 import { ScreenView } from '../../design/ScreenView'
 import { Title, Caption, Text, Divider as NativeDivider, Button } from 'react-native-paper'
 

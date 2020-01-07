@@ -1,8 +1,8 @@
 import React from 'react'
 import { ViewStyle } from 'react-native'
-import { FAB, FABProps, Theme, withTheme } from 'react-native-paper'
+import { FAB, Theme, withTheme } from 'react-native-paper'
 
-const PrimaryFABImpl: React.FC<FABProps & { theme: Theme }> = ({ theme, style, ...props }) => {
+const PrimaryFABImpl: React.FC<React.PropTypeOf<typeof FAB> & { theme: Theme }> = ({ theme, style, ...props }) => {
   const fabStyle: ViewStyle = {
     position: 'absolute',
     right: 0,

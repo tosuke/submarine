@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react'
 import { ScrollView, Alert } from 'react-native'
-import { Appbar, List, Divider } from 'react-native-paper'
+import { useTheme, Appbar, List, Divider } from 'react-native-paper'
 import { AppHeader } from '../../design/AppHeader'
 import { ScreenView } from '../../design/ScreenView'
-import { useTheme } from '../../../hooks/useTheme'
 import { usePreference } from './PreferenceContext'
 
 const Header = () => (
