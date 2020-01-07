@@ -12,7 +12,6 @@ import {
   NativeScrollEvent,
   ViewStyle,
 } from 'react-native'
-import { Header as NavigationHeader } from 'react-navigation'
 import { useTheme } from 'react-native-paper'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { useObservable } from '../../../hooks/useObservable'
@@ -20,12 +19,11 @@ import { ScreenView } from '../../design'
 import { TimelineBlocContext } from '../../../hooks/inject'
 import { useTimeline } from '../../modules/useTimeline'
 import { File } from '../../../models'
+import { HEADER_HEIGHT, APPBAR_HEIGHT } from '../../constants/header'
 import { getStatusBarHeight } from 'react-native-status-bar-height'
 import { useAnimatedSnapshotRef } from '../../../hooks/animated'
 import { Header } from './Header'
 import { FAB } from './FAB'
-
-const HEADER_HEIGHT = NavigationHeader.HEIGHT
 
 const AnimatedFlatList: {
   new <A extends unknown>(props: FlatListProps<A> & React.RefAttributes<FlatList<A>>): FlatList<A>
@@ -46,7 +44,7 @@ const AnimatedFlatList: {
 
 const useCollapsibleHeader = <A extends unknown>(flatListRef: React.RefObject<FlatList<A>>) => {
   const { current: scrollY } = useRef(new Animated.Value(0))
-  const { current: headerY } = useRef(Animated.diffClamp(Animated.multiply(-1, scrollY), -HEADER_HEIGHT, 0))
+  const { current: headerY } = useRef(Animated.diffClamp(Animated.multiply(-1, scrollY), -APPBAR_HEIGHT, 0))
 
   const scrollYRef = useAnimatedSnapshotRef(scrollY)
   const headerYRef = useAnimatedSnapshotRef(headerY)
@@ -71,14 +69,14 @@ const useCollapsibleHeader = <A extends unknown>(flatListRef: React.RefObject<Fl
   const moveHeader = useCallback(
     (offset: number) => {
       if (headerYRef.current == null || flatListRef.current == null) return
-      if (headerYRef.current > -HEADER_HEIGHT / 2) {
+      if (headerYRef.current > -APPBAR_HEIGHT / 2) {
         flatListRef.current.scrollToOffset({
           offset: offset + headerYRef.current,
           animated: true,
         })
       } else {
         flatListRef.current.scrollToOffset({
-          offset: offset + (HEADER_HEIGHT + headerYRef.current),
+          offset: offset + (APPBAR_HEIGHT + headerYRef.current),
           animated: true,
         })
       }
@@ -138,7 +136,7 @@ export const MainView: React.FC<{
   const statusBarHeight = getStatusBarHeight()
 
   const TimelineRefreshControl = useCallback(
-    (props: RefreshControlProps) => <RefreshControl {...props} progressViewOffset={HEADER_HEIGHT + statusBarHeight} />,
+    (props: RefreshControlProps) => <RefreshControl {...props} progressViewOffset={HEADER_HEIGHT} />,
     [statusBarHeight],
   )
 
@@ -153,7 +151,7 @@ export const MainView: React.FC<{
     if (flatListRef.current == null) return
     flatListRef.current.scrollToIndex({
       index: 0,
-      viewOffset: HEADER_HEIGHT + statusBarHeight,
+      viewOffset: HEADER_HEIGHT,
       animated: true,
     })
   }, [flatListRef])
@@ -203,7 +201,7 @@ export const MainView: React.FC<{
           overScrollMode="never"
           style={StyleSheet.absoluteFill}
           contentContainerStyle={{
-            paddingTop: HEADER_HEIGHT + getStatusBarHeight(),
+            paddingTop: HEADER_HEIGHT,
           }}
           ListFooterComponentStyle={{ paddingBottom: HEADER_HEIGHT }}
           {...collapsibleHeaderFlatListProps}

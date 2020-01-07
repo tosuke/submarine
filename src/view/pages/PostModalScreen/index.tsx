@@ -1,11 +1,23 @@
 import React, { useCallback, useState } from 'react'
-import { PostModalScreenView, Header } from './MainView'
-import { withNavigationOptions } from '../../hocs/withNavigationOption'
-import { useNaviagtion, usePostSendBloc } from '../../../hooks/inject'
+import { useTheme, IconButton } from 'react-native-paper'
+import { usePostSendBloc } from '../../../hooks/inject'
 import { useObservableEffect } from '../../../hooks/useObservable'
+import { PostModalScreenView } from './MainView'
+import { AppPropsList } from '../../navigators/App'
+import { useNavigationOptions } from '../../../hooks/useNavigationOptions'
 
-const PostModalScreenImpl: React.FC = () => {
-  const { navigate } = useNaviagtion()
+export const PostModalScreen = ({ navigation }: AppPropsList['PostModal']) => {
+  const theme = useTheme()
+  useNavigationOptions(
+    navigation,
+    () => ({
+      title: '投稿',
+      headerLeft: () => (
+        <IconButton size={24} color={theme.colors.primary} icon="close" onPress={() => navigation.goBack()} />
+      ),
+    }),
+    [theme],
+  )
 
   const postSendBloc = usePostSendBloc()
   const [text, updateText] = useState('')
@@ -20,7 +32,7 @@ const PostModalScreenImpl: React.FC = () => {
     () => postSendBloc.sendComplete$,
     () => {
       updateText('')
-      navigate('Main')
+      navigation.goBack()
     },
     [postSendBloc],
   )
@@ -29,15 +41,3 @@ const PostModalScreenImpl: React.FC = () => {
     <PostModalScreenView text={text} onChangeText={updateText} editable={editable} sendable={sendable} send={send} />
   )
 }
-
-const PostModalScreenHeader: React.FC = () => {
-  const { navigate } = useNaviagtion()
-  const onCloseButtonPress = useCallback(() => {
-    navigate('Main')
-  }, [navigate])
-  return <Header close={onCloseButtonPress} />
-}
-
-export const PostModalScreen = withNavigationOptions({
-  header: <PostModalScreenHeader />,
-})(PostModalScreenImpl)

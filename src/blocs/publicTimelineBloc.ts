@@ -132,11 +132,11 @@ export class PublicTimelineBloc implements TimelineBloc {
   dispose(): void {
     this._timelineSub.unsubscribe()
     this._connectedSub.unsubscribe()
-    this._fetchLatestPosts$.unsubscribe()
-    this._fetchMorePosts$.unsubscribe()
-    this._isFetchingLatestPosts$.unsubscribe()
-    this._isFetchingMorePosts$.unsubscribe()
-    this._posts$.unsubscribe()
+    this._fetchLatestPosts$.complete()
+    this._fetchMorePosts$.complete()
+    this._isFetchingLatestPosts$.complete()
+    this._isFetchingMorePosts$.complete()
+    this._posts$.complete()
   }
 
   private insertPosts(newPosts: readonly Post[]) {
