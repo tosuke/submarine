@@ -23,7 +23,7 @@ const AuthStack = createNativeStackNavigator<AuthParamList>()
 export const AuthNavigator = (_: RootPropsList['Auth']) => {
   return (
     <AuthStack.Navigator initialRouteName="SignIn">
-      <AuthStack.Screen name="SignIn" options={{ headerTitle: 'ログイン' }} component={SignInScreen} />
+      <AuthStack.Screen name="SignIn" component={SignInScreen} />
       <AuthStack.Screen
         name="AuthorizeWithCode"
         options={{ headerTitle: 'コード認証' }}

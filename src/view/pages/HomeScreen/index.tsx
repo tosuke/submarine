@@ -11,7 +11,6 @@ export const HomeScreen = ({ navigation }: AppPropsList['Home']) => {
   const tlBloc = useMemo(() => seaClient && new PublicTimelineBloc(seaClient, 40, 20), [seaClient])
   useEffect(() => () => tlBloc && tlBloc.dispose(), [tlBloc])
 
-  // const { navigate } = useNaviagtion()
   const onPostButtonPress = useCallback(() => {
     navigation.push('PostModal')
   }, [navigation])

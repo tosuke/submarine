@@ -71,14 +71,7 @@ export const AppNavigator = (_: RootPropsList['App']) => {
         )}
       </AppModal.Screen>
       <AppModal.Screen name="PostModal" component={PostModalScreen} />
-      <AppModal.Screen
-        name="FileModal"
-        options={{
-          headerShown: false,
-          ...TransitionPresets.ScaleFromCenterAndroid,
-        }}
-        component={FileModalScreen}
-      />
+      <AppModal.Screen name="FileModal" component={FileModalScreen} />
     </AppModal.Navigator>
   )
 }

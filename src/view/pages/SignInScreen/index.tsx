@@ -3,6 +3,7 @@ import { useAuthBloc } from '../../../hooks/inject'
 import { endpoint } from '../../../config'
 import { MainView } from './MainView'
 import { AuthPropsList } from '../../navigators/Auth'
+import { useNavigationOptions } from '../../../hooks/useNavigationOptions'
 
 export const SignInScreen = ({ navigation }: AuthPropsList['SignIn']) => {
   const authBloc = useAuthBloc()
@@ -18,6 +19,13 @@ export const SignInScreen = ({ navigation }: AuthPropsList['SignIn']) => {
     authBloc.linkToSignInURL$.next()
   }, [authBloc])
 
+  useNavigationOptions(
+    navigation,
+    () => ({
+      headerTitle: 'ログイン',
+    }),
+    [],
+  )
   return (
     <MainView
       serverName={serverName}
