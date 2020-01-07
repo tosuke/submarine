@@ -2,11 +2,10 @@ import React from 'react'
 import { RouteProp } from '@react-navigation/native'
 import { createNativeStackNavigator } from './_utils/createNativeStackNavigator'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { LoadingScreen } from '../pages/LoadingScreen'
+import { LoadingScreen } from './LoadingScreen'
 import { AuthNavigator } from './Auth'
 import { AppNavigator } from './App'
-import { useAuthBloc } from '../../hooks/inject'
-import { useObservable } from '../../hooks/useObservable'
+import { TransitionPresets } from '@react-navigation/stack/src'
 
 type RootParamList = {
   Loading: undefined
@@ -26,19 +25,18 @@ export type RootPropsList = {
 const RootStack = createNativeStackNavigator<RootParamList>()
 
 export const RootNavigator = () => {
-  const authBloc = useAuthBloc()
-  const loading = useObservable(() => authBloc.loading$, true)
-  const seaClient = useObservable(() => authBloc.seaClient$, undefined)
-
   return (
-    <RootStack.Navigator screenOptions={{ headerShown: false }}>
-      {loading ? (
-        <RootStack.Screen name="Loading" component={LoadingScreen} />
-      ) : seaClient ? (
-        <RootStack.Screen name="App" component={AppNavigator} />
-      ) : (
-        <RootStack.Screen name="Auth" component={AuthNavigator} />
-      )}
+    <RootStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: 'fade',
+        /* In Android Expo 36, Submarine uses StackNavigator instead of NativeStackNAvigator*/ ...TransitionPresets.ScaleFromCenterAndroid,
+      }}
+      initialRouteName="Loading"
+    >
+      <RootStack.Screen name="App" component={AppNavigator} />
+      <RootStack.Screen name="Auth" component={AuthNavigator} />
+      <RootStack.Screen name="Loading" component={LoadingScreen} />
     </RootStack.Navigator>
   )
 }
