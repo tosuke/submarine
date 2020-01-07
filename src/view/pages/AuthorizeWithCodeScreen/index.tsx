@@ -11,7 +11,7 @@ export const AuthorizeWithCodeScreen = ({ navigation: { navigate } }: AuthPropsL
   useObservableEffect(
     () => authBloc.seaClient$,
     seaClient => {
-      if (seaClient) navigate('Main')
+      if (seaClient) navigate('App')
     },
     [authBloc],
   )
