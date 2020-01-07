@@ -1,6 +1,6 @@
 import React from 'react'
 import { RouteProp, CompositeNavigationProp } from '@react-navigation/native'
-import { createStackNavigator, StackNavigationProp, TransitionPresets } from '@react-navigation/stack/src'
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack/src'
 import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs/src'
 import { RootPropsList, RootNavigationProps } from '..'
 import { MaterialIcons } from '@expo/vector-icons'
