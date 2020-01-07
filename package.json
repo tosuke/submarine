@@ -38,7 +38,7 @@
     "@expo/vector-icons": "^10.0.0",
     "@linkage-community/bottlemail": "^2.1.0",
     "@react-native-community/masked-view": "0.1.5",
-    "@react-navigation/bottom-tabs": "^5.0.0-alpha.31",
+    "@react-navigation/bottom-tabs": "^5.0.0-alpha.32",
     "@react-navigation/native": "^5.0.0-alpha.22",
     "@react-navigation/native-stack": "^5.0.0-alpha.21",
     "@react-navigation/stack": "^5.0.0-alpha.50",
