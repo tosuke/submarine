@@ -1,5 +1,5 @@
 import { RouteProp, CompositeNavigationProp } from '@react-navigation/native'
-import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack/src'
+import { createNativeStackNavigator, NativeStackNavigationProp } from './NativeStack'
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack/src'
 import { File } from '../../models'
 import { AuthStackParamList } from './Auth'
