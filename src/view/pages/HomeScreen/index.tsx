@@ -8,7 +8,6 @@ import { File } from '../../../models'
 import { MainTabPropsList, useStackNavigation } from '../../navigators/Main'
 import { FontAwesome } from '@expo/vector-icons'
 import { useTheme } from 'react-native-paper'
-import { View } from 'react-native'
 import { useObservable } from '../../../hooks/useObservable'
 
 const ConnectionStateIcon = ({ timelineBloc }: { timelineBloc: TimelineBloc }) => {

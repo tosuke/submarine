@@ -1,6 +1,5 @@
 import React from 'react'
 import { Platform, StyleSheet, FlatList } from 'react-native'
-import { useScrollToTop } from '@react-navigation/native'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { ScreenView } from '../../design'
 import { TimelineBlocContext } from '../../../hooks/inject'
