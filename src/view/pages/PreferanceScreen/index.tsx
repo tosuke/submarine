@@ -2,9 +2,9 @@ import React, { useMemo } from 'react'
 import { useAuthBloc } from '../../../hooks/inject'
 import { Preference, PreferenceContext } from './PreferenceContext'
 import { MainView } from './View'
-import { AppPropsList } from '../../navigators/App'
+import { MainTabPropsList } from '../../navigators/Main'
 
-export const PreferenceScreen = ({ navigation }: AppPropsList['Preference']) => {
+export const PreferenceScreen = ({ navigation }: MainTabPropsList['Preference']) => {
   const authBloc = useAuthBloc()
 
   const preference = useMemo<Preference>(
