@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import { useTheme } from 'react-native-paper'
-import { ScreenView } from '../../design/ScreenView'
+import { ScreenView } from '../../../design/ScreenView'
 import { Title, Caption, Text, Divider as NativeDivider, Button } from 'react-native-paper'
 
 const ScreenWrapper = styled(ScreenView)`

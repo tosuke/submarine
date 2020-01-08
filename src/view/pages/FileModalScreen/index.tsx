@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 import { MainView } from './MainView'
-import { AppPropsList } from '../../navigators/App'
 import { useNavigationOptions } from '../../../hooks/useNavigationOptions'
 import { TransitionPresets } from '@react-navigation/stack/src'
+import { RootModalPropsList } from '../../navigators'
 
-export const FileModalScreen = ({ navigation, route }: AppPropsList['FileModal']) => {
+export const FileModalScreen = ({ navigation, route }: RootModalPropsList['FileModal']) => {
   const { files, index } = route.params
 
   const onBackButtonPress = useCallback(() => {

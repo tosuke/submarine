@@ -1,15 +1,8 @@
 import React, { useCallback } from 'react'
 import { ScrollView, Alert } from 'react-native'
-import { useTheme, Appbar, List, Divider } from 'react-native-paper'
-import { AppHeader } from '../../design/AppHeader'
+import { useTheme, List, Divider } from 'react-native-paper'
 import { ScreenView } from '../../design/ScreenView'
 import { usePreference } from './PreferenceContext'
-
-const Header = () => (
-  <AppHeader>
-    <Appbar.Content title="設定" />
-  </AppHeader>
-)
 
 const Wrapper: React.FC = ({ children }) => (
   <ScreenView>
@@ -47,15 +40,12 @@ const LogoutItem = () => {
 }
 
 export const MainView = () => (
-  <>
-    <Header />
-    <Wrapper>
-      <AccountSection>
-        <Divider />
-        <NameItem />
-        <Divider />
-        <LogoutItem />
-      </AccountSection>
-    </Wrapper>
-  </>
+  <Wrapper>
+    <AccountSection>
+      <Divider />
+      <NameItem />
+      <Divider />
+      <LogoutItem />
+    </AccountSection>
+  </Wrapper>
 )

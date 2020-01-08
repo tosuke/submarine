@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
-import { NavigationProp } from '@react-navigation/core'
 
 export const useNavigationOptions = <ScreenOptions extends object>(
-  navigation: NavigationProp<any, any, any, ScreenOptions>,
+  navigation: { setOptions(options: Partial<ScreenOptions>): void },
   factory: () => Partial<ScreenOptions>,
   deps: unknown[],
 ) => {

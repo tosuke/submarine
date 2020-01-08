@@ -1,24 +1,11 @@
 import React, { useCallback, useState } from 'react'
-import { useTheme, IconButton } from 'react-native-paper'
 import { usePostSendBloc } from '../../../hooks/inject'
 import { useObservableEffect } from '../../../hooks/useObservable'
 import { PostModalScreenView } from './MainView'
-import { AppPropsList } from '../../navigators/App'
-import { useNavigationOptions } from '../../../hooks/useNavigationOptions'
+import { PostModalHeader } from './PostModalHeader'
+import { RootModalPropsList } from '../../navigators'
 
-export const PostModalScreen = ({ navigation }: AppPropsList['PostModal']) => {
-  const theme = useTheme()
-  useNavigationOptions(
-    navigation,
-    () => ({
-      title: '投稿',
-      headerLeft: () => (
-        <IconButton size={24} color={theme.colors.primary} icon="close" onPress={() => navigation.goBack()} />
-      ),
-    }),
-    [theme],
-  )
-
+export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal']) => {
   const postSendBloc = usePostSendBloc()
   const [text, updateText] = useState('')
   const [editable, setEditable] = useState(true)
@@ -38,6 +25,9 @@ export const PostModalScreen = ({ navigation }: AppPropsList['PostModal']) => {
   )
 
   return (
-    <PostModalScreenView text={text} onChangeText={updateText} editable={editable} sendable={sendable} send={send} />
+    <>
+      <PostModalHeader goBack={navigation.goBack} />
+      <PostModalScreenView text={text} onChangeText={updateText} editable={editable} sendable={sendable} send={send} />
+    </>
   )
 }
