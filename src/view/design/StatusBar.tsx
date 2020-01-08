@@ -4,5 +4,6 @@ import { withTheme, Theme } from 'react-native-paper'
 
 export const StatusBar = withTheme(({ theme, ...rest }: NativeStatusBarProps & { theme: Theme }) => {
   const barStyle: NativeStatusBarProps['barStyle'] = theme.dark ? 'light-content' : 'dark-content'
-  return <NativeStatusBar barStyle={rest.barStyle || barStyle} {...rest}></NativeStatusBar>
+  const backgroundColor = theme.dark ? '#000' : '#fff'
+  return <NativeStatusBar barStyle={barStyle} backgroundColor={backgroundColor} {...rest} />
 })
