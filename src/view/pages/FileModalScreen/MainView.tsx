@@ -1,6 +1,5 @@
 import React, { useRef, useMemo } from 'react'
-import { View, StatusBar, ViewStyle, Dimensions } from 'react-native'
-import { getStatusBarHeight } from 'react-native-status-bar-height'
+import { View, ViewStyle, Dimensions } from 'react-native'
 import { Theme, withTheme, Appbar } from 'react-native-paper'
 import { File } from '../../../models'
 import { ScreenView } from '../../design/ScreenView'
@@ -104,19 +103,7 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
 
   return (
     <ScreenView>
-      {Platform.OS === 'ios' && <StatusBar hidden />}
-      <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: StatusBar.currentHeight,
-          zIndex: 2,
-          backgroundColor: theme.colors.background,
-        }}
-      />
-      <Animated.View style={[{ position: 'absolute', top: getStatusBarHeight(), zIndex: 1 }, headerAnimatedStyle]}>
+      <Animated.View style={[{ position: 'absolute', top: 0, zIndex: 1 }, headerAnimatedStyle]}>
         {Platform.OS === 'android' ? (
           <Appbar.BackAction style={backButtonStyle} color={theme.colors.text} size={24} onPress={onBackButtonPress} />
         ) : (
