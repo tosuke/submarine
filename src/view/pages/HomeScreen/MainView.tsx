@@ -95,10 +95,12 @@ const useCollapsibleHeader = <A extends unknown>(flatListRef: React.RefObject<Fl
   const timerRef = useRef<number>()
 
   const onScrollEndDrag = useCallback(() => {
-    // @types/node が依存関係に混入していて型が汚染されているので、無理矢理通す
-    timerRef.current = (setTimeout(() => {
-      moveHeader(scrollYRef.current!)
-    }, 200) as unknown) as number
+    if (Platform.OS === 'ios') {
+      // @types/node が依存関係に混入していて型が汚染されているので、無理矢理通す
+      timerRef.current = (setTimeout(() => {
+        moveHeader(scrollYRef.current!)
+      }, 200) as unknown) as number
+    }
   }, [timerRef, scrollYRef, moveHeader])
 
   const onMomentumScrollBegin = useCallback(() => {
