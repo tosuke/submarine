@@ -48,7 +48,7 @@ export type NativeStackNavigationOptions = {
   /**
    * String to display in the header as title. Defaults to scene `title`.
    */
-  headerTitle?: string
+  headerTitle?: string | (() => React.ReactNode)
   /**
    * Title to display in the back button.
    * Only supported on iOS.
@@ -87,6 +87,8 @@ export type NativeStackNavigationOptions = {
    * Function which returns a React Element to display on the right side of the header.
    */
   headerRight?: () => React.ReactNode
+
+  headerLeft?: () => React.ReactNode
   /**
    * Tint color for the header. Changes the color of back button and title.
    */

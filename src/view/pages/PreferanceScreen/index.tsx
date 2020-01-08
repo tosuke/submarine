@@ -23,6 +23,8 @@ export const PreferenceScreen = ({ navigation }: MainTabPropsList['Preference'])
     () =>
       void stackNavigation.setOptions({
         headerTitle: '設定',
+        headerLeft: () => null,
+        headerRight: () => null,
       }),
   )
 

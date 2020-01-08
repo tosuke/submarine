@@ -15,11 +15,7 @@ const ConnectionStateIcon = ({ timelineBloc }: { timelineBloc: TimelineBloc }) =
   const theme = useTheme()
   const connected = useObservable(() => timelineBloc.connectedToSocket$, false, [timelineBloc])
   const color = connected ? theme.colors.primary : theme.colors.disabled
-  return (
-    <View style={{ marginRight: 10 }}>
-      <FontAwesome size={24} color={color} name="bolt" />
-    </View>
-  )
+  return <FontAwesome size={24} color={color} name="bolt" />
 }
 
 export const HomeScreen = ({ navigation }: MainTabPropsList['Home']) => {
@@ -28,8 +24,7 @@ export const HomeScreen = ({ navigation }: MainTabPropsList['Home']) => {
   useEffect(() => () => tlBloc && tlBloc.dispose(), [tlBloc])
 
   const onPostButtonPress = useCallback(() => {
-    // navigation.push('PostModal')
-    navigation.push('AuthRoot')
+    navigation.push('PostModal')
   }, [navigation])
   const navigateToFileModal = useCallback(
     (files: File[], index: number) => navigation.push('FileModal', { files, index }),
@@ -40,6 +35,7 @@ export const HomeScreen = ({ navigation }: MainTabPropsList['Home']) => {
   useFocusEffect(() => {
     stackNavigation.setOptions({
       headerTitle: 'ホーム',
+      headerLeft: () => null,
       headerRight: () => tlBloc && <ConnectionStateIcon timelineBloc={tlBloc} />,
     })
     return void 0
