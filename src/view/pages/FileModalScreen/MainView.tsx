@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from 'react'
-import { View, ViewStyle, Dimensions } from 'react-native'
+import { View, ViewStyle, Dimensions, Platform } from 'react-native'
 import { Theme, withTheme, Appbar } from 'react-native-paper'
 import { File } from '../../../models'
 import { ScreenView } from '../../design/ScreenView'
@@ -8,7 +8,8 @@ import { VideoModal } from './VideoModal'
 import color from 'color'
 import { FlatList, PanGestureHandler, State } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
-import { Platform } from '@unimodules/core'
+import { getStatusBarHeight } from 'react-native-status-bar-height'
+import { StatusBar } from '../../design'
 
 const { Value, event, block, cond, eq, greaterThan, set, multiply, abs, call } = Animated
 
@@ -103,7 +104,8 @@ const FileModalScreenViewImpl: React.FC<Props & { theme: Theme }> = ({
 
   return (
     <ScreenView>
-      <Animated.View style={[{ position: 'absolute', top: 0, zIndex: 1 }, headerAnimatedStyle]}>
+      {Platform.OS !== 'android' && <StatusBar hidden />}
+      <Animated.View style={[{ position: 'absolute', top: getStatusBarHeight(), zIndex: 1 }, headerAnimatedStyle]}>
         {Platform.OS === 'android' ? (
           <Appbar.BackAction style={backButtonStyle} color={theme.colors.text} size={24} onPress={onBackButtonPress} />
         ) : (

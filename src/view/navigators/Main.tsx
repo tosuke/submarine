@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { RouteProp, CompositeNavigationProp } from '@react-navigation/native'
 import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -24,29 +24,32 @@ export type MainTabPropsList = {
 
 const MainTab = createBottomTabNavigator<MainTabParamList>()
 
+const StackNavigationContext = React.createContext<RootStackPropsList['Main']['navigation'] | undefined>(undefined)
+
+export const useStackNavigation = () => useContext(StackNavigationContext)!
+
 const MainNavigator = ({ navigation }: RootStackPropsList['Main']) => {
-  navigation.setOptions({
-    headerShown: false,
-  })
   return (
-    <MainTab.Navigator initialRouteName="Home">
-      <MainTab.Screen
-        name="Home"
-        options={{
-          title: 'ホーム',
-          tabBarIcon: props => <MaterialIcons {...props} name="home" />,
-        }}
-        component={HomeScreen}
-      />
-      <MainTab.Screen
-        name="Preference"
-        options={{
-          title: '設定',
-          tabBarIcon: props => <MaterialIcons {...props} name="settings" />,
-        }}
-        component={PreferenceScreen}
-      />
-    </MainTab.Navigator>
+    <StackNavigationContext.Provider value={navigation}>
+      <MainTab.Navigator initialRouteName="Home">
+        <MainTab.Screen
+          name="Home"
+          options={{
+            title: 'ホーム',
+            tabBarIcon: props => <MaterialIcons {...props} name="home" />,
+          }}
+          component={HomeScreen}
+        />
+        <MainTab.Screen
+          name="Preference"
+          options={{
+            title: '設定',
+            tabBarIcon: props => <MaterialIcons {...props} name="settings" />,
+          }}
+          component={PreferenceScreen}
+        />
+      </MainTab.Navigator>
+    </StackNavigationContext.Provider>
   )
 }
 

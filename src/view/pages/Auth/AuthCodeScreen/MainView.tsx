@@ -54,7 +54,7 @@ export const MainView: React.FC<{
 
   return (
     <ScreenView>
-      <StatusBar />
+      <StatusBar translucent={false} />
       <Wrapper>
         <Snackbar {...invalidCodeErrorBar.snackBarProps}>コードが不正です。</Snackbar>
         <Title>コードで認証</Title>

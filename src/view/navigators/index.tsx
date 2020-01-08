@@ -18,7 +18,7 @@ export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
             {MainStackScreen()}
             <RootStack.Screen
               name="PostModal"
-              options={{ presentation: 'modal', headerShown: false }}
+              options={{ presentation: 'transparentModal', headerShown: false }}
               component={PostModalScreen}
             />
           </RootStack.Navigator>
