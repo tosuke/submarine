@@ -4,7 +4,6 @@ import {
   Platform,
   StyleSheet,
   FlatList,
-  View,
   FlatListProps,
   RefreshControl,
   RefreshControlProps,
@@ -12,7 +11,6 @@ import {
   NativeScrollEvent,
   ViewStyle,
 } from 'react-native'
-import { useTheme } from 'react-native-paper'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { useObservable } from '../../../hooks/useObservable'
 import { ScreenView } from '../../design'
@@ -162,21 +160,8 @@ export const MainView: React.FC<{
 
   const { flatListProps: collapsibleHeaderFlatListProps, headerStyle } = useCollapsibleHeader(flatListRef)
 
-  const theme = useTheme()
-
   const HeaderAndFAB = (
     <>
-      <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: statusBarHeight,
-          backgroundColor: theme.colors.background,
-          zIndex: 3,
-        }}
-      />
       <Animated.View
         style={[
           {
@@ -203,7 +188,7 @@ export const MainView: React.FC<{
           overScrollMode="never"
           style={StyleSheet.absoluteFill}
           contentContainerStyle={{
-            paddingTop: HEADER_HEIGHT,
+            paddingTop: APPBAR_HEIGHT,
           }}
           ListFooterComponentStyle={{ paddingBottom: HEADER_HEIGHT }}
           {...collapsibleHeaderFlatListProps}
