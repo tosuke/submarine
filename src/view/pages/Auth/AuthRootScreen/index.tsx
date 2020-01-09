@@ -28,13 +28,10 @@ export const AuthRootScreen = ({ navigation }: RootStackPropsList['AuthRoot']) =
     [],
   )
   return (
-    <>
-      <StatusBar translucent={false} />
-      <MainView
-        serverName={serverName}
-        onAuthorizeButtonPressed={onAuthorizeButtonClicked}
-        onSignInToSeaButtonPressed={onSignInButtonClicked}
-      />
-    </>
+    <MainView
+      serverName={serverName}
+      onAuthorizeButtonPressed={onAuthorizeButtonClicked}
+      onSignInToSeaButtonPressed={onSignInButtonClicked}
+    />
   )
 }

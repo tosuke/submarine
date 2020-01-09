@@ -4,6 +4,7 @@ import { createStackNavigator, StackNavigationProp } from '@react-navigation/sta
 import { File } from '../../models'
 import { AuthStackParamList } from './Auth'
 import { MainStackParamList } from './Main'
+import { Platform } from 'react-native'
 
 type ModalParamList = {
   App: undefined
@@ -36,4 +37,7 @@ export type RootStackPropsList = {
 
 export const RootModal = createStackNavigator<ModalParamList>()
 
-export const RootStack = createNativeStackNavigator<StackParamList>()
+export const RootStack = Platform.select({
+  default: () => createNativeStackNavigator<StackParamList>(),
+  android: () => createStackNavigator<StackParamList>(),
+})()

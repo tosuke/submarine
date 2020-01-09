@@ -51,7 +51,13 @@ export default function NativeStackView({ state, navigation, descriptors }: Prop
             }}
           >
             <HeaderConfig {...options} route={route} />
-            <View style={[styles.container, { backgroundColor: colors.background }, contentStyle]}>
+            <View
+              style={[
+                styles.container,
+                { backgroundColor: colors.background, borderColor: colors.border },
+                contentStyle,
+              ]}
+            >
               {renderScene()}
             </View>
           </Screen>
@@ -64,5 +70,6 @@ export default function NativeStackView({ state, navigation, descriptors }: Prop
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    borderTopWidth: StyleSheet.hairlineWidth * 1.2,
   },
 })
