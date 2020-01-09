@@ -81,7 +81,7 @@
     "babel-preset-expo": "^8.0.0",
     "emotion-theming": "^10.0.27",
     "handlebars": "^4.5.3",
-    "husky": "^4.0.1",
+    "husky": "^4.0.3",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
     "react-native-storybook-loader": "^1.8.1",
