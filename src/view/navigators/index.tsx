@@ -15,17 +15,17 @@ export { RootModalPropsList, RootStackPropsList } from './navigator'
 export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
   const theme = useTheme()
   const stackScreenOptions = useMemo<StackNavigationOptions & NativeStackNavigationOptions>(
-    () =>
-      Platform.select({
+    () => ({
+      headerStyle: {
+        borderColor: theme.colors.border,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+      },
+      ...Platform.select({
         android: {
           headerTintColor: theme.colors.primary,
           headerPressColorAndroid: theme.colors.primary,
           headerTitleStyle: {
             color: theme.colors.text,
-          },
-          headerStyle: {
-            borderColor: theme.colors.border,
-            borderBottomWidth: StyleSheet.hairlineWidth * 1.2,
           },
           headerRightContainerStyle: {
             marginRight: 12,
@@ -33,10 +33,11 @@ export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
         },
         default: {},
       }),
+    }),
     [],
   )
   return (
-    <RootModal.Navigator mode="modal">
+    <RootModal.Navigator mode="modal" screenOptions={stackScreenOptions}>
       <RootModal.Screen name="App" options={{ headerShown: false }}>
         {_ => (
           <RootStack.Navigator initialRouteName={authRequired ? 'AuthRoot' : 'Main'} screenOptions={stackScreenOptions}>
@@ -47,7 +48,7 @@ export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
       </RootModal.Screen>
       <RootModal.Screen
         name="PostModal"
-        options={{ headerShown: false, ...TransitionPresets.ModalSlideFromBottomIOS }}
+        options={{ ...TransitionPresets.ModalSlideFromBottomIOS }}
         component={PostModalScreen}
       />
       <RootModal.Screen name="FileModal" component={FileModalScreen} />

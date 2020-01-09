@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react'
+import { IconButton, useTheme } from 'react-native-paper'
 import { usePostSendBloc } from '../../../hooks/inject'
 import { useObservableEffect } from '../../../hooks/useObservable'
 import { PostModalScreenView } from './MainView'
-import { PostModalHeader } from './PostModalHeader'
 import { RootModalPropsList } from '../../navigators'
+import { useNavigationOptions } from '../../../hooks/useNavigationOptions'
 
 export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal']) => {
   const postSendBloc = usePostSendBloc()
@@ -24,10 +25,17 @@ export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal'])
     [postSendBloc],
   )
 
+  const theme = useTheme()
+  useNavigationOptions(
+    navigation,
+    () => ({
+      title: '投稿',
+      headerLeft: () => <IconButton size={24} color={theme.colors.primary} icon="close" onPress={navigation.goBack} />,
+    }),
+    [],
+  )
+
   return (
-    <>
-      <PostModalHeader goBack={navigation.goBack} />
-      <PostModalScreenView text={text} onChangeText={updateText} editable={editable} sendable={sendable} send={send} />
-    </>
+    <PostModalScreenView text={text} onChangeText={updateText} editable={editable} sendable={sendable} send={send} />
   )
 }
