@@ -4,7 +4,6 @@ import { endpoint } from '../../../../config'
 import { MainView } from './MainView'
 import { RootStackPropsList } from '../../../navigators'
 import { useNavigationOptions } from '../../../../hooks/useNavigationOptions'
-import { StatusBar } from '../../../design'
 
 export const AuthRootScreen = ({ navigation }: RootStackPropsList['AuthRoot']) => {
   const authBloc = useAuthBloc()
