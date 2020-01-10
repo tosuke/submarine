@@ -1,5 +1,5 @@
 import React from 'react'
-import { RootStack } from './navigator'
+import { RootStack } from './define'
 import { AuthRootScreen } from '../pages/Auth/AuthRootScreen'
 import { AuthCodeScreen } from '../pages/Auth/AuthCodeScreen'
 

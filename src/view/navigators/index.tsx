@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { RootStack, RootModal } from './navigator'
+import { RootStack, RootModal } from './define'
 import { useTheme } from '@react-navigation/native'
 import { StackNavigationOptions } from '@react-navigation/stack'
 import { NativeStackNavigationOptions } from './NativeStack'
@@ -10,7 +10,7 @@ import { FileModalScreen } from '../pages/FileModalScreen'
 import { TransitionPresets } from '@react-navigation/stack/src'
 import { StyleSheet, Platform } from 'react-native'
 
-export { RootModalPropsList, RootStackPropsList } from './navigator'
+export { RootModalPropsList, RootStackPropsList } from './define'
 
 export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
   const theme = useTheme()

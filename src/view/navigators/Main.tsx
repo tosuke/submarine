@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { RouteProp, CompositeNavigationProp } from '@react-navigation/native'
 import { createBottomTabNavigator, BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { MaterialIcons } from '@expo/vector-icons'
-import { RootStackPropsList, RootNavigationProps, RootStack } from './navigator'
+import { RootStackPropsList, RootNavigationProps, RootStack } from './define'
 import { HomeScreen } from '../pages/HomeScreen'
 import { PreferenceScreen } from '../pages/PreferanceScreen'
 
