@@ -1611,12 +1611,12 @@
     shortid "^2.2.15"
     use-subscription "^1.3.0"
 
-"@react-navigation/native-stack@^5.0.0-alpha.22":
-  version "5.0.0-alpha.22"
-  resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-5.0.0-alpha.22.tgz#ed6bd935605ee623bc258a5b05004950fdfdcfb8"
-  integrity sha512-YzRltOgd4ty3ET+dV+iwtdjd27vih60xVDnvqwnVY3XJFbqKo1jOcSIw9bRzmxg2SDjedACnxuM/Fb2N7r4nBw==
+"@react-navigation/native-stack@^5.0.0-alpha.24":
+  version "5.0.0-alpha.24"
+  resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-5.0.0-alpha.24.tgz#e84fe11886521a94654d0146aff7d595103d7ca7"
+  integrity sha512-Db/gzaKIQJ6uR+8pcJrxCc3e7lxBOK/hFhc8UyuG62M2B9ffpGd3dz42bouFJR06ZBjnMND6lJuZWJIqK9xPqQ==
   dependencies:
-    "@react-navigation/routers" "^5.0.0-alpha.20"
+    "@react-navigation/routers" "^5.0.0-alpha.22"
 
 "@react-navigation/native@^5.0.0-alpha.24":
   version "5.0.0-alpha.24"
@@ -1625,7 +1625,7 @@
   dependencies:
     "@react-navigation/core" "^5.0.0-alpha.32"
 
-"@react-navigation/routers@^5.0.0-alpha.20", "@react-navigation/routers@^5.0.0-alpha.22":
+"@react-navigation/routers@^5.0.0-alpha.22":
   version "5.0.0-alpha.22"
   resolved "https://registry.yarnpkg.com/@react-navigation/routers/-/routers-5.0.0-alpha.22.tgz#db2086012ad9660da95df7b34fcb23b89f4a7429"
   integrity sha512-GaTDJk7PeSbdStUfODb4VSDkwPUNtuZRYToTqwbI7WvY1yuRJbYZS2Jkrk/waOdf13U0rt7xDcdpmfGUNuZ2DQ==
