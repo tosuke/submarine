@@ -1,5 +1,7 @@
 import React from 'react'
 import { Platform, StyleSheet, FlatList } from 'react-native'
+import { useScrollToTop } from '@react-navigation/native'
+import { Divider } from 'react-native-paper'
 import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
 import { ScreenView } from '../../design'
 import { TimelineBlocContext } from '../../../hooks/inject'
@@ -7,7 +9,6 @@ import { useTimeline } from '../../modules/useTimeline'
 import { File } from '../../../models'
 import { APPBAR_HEIGHT } from '../../constants/header'
 import { FAB } from './FAB'
-import { Divider } from 'react-native-paper'
 
 export const MainView: React.FC<{
   timelineBloc: TimelineBloc
@@ -20,6 +21,8 @@ export const MainView: React.FC<{
     navigateToFileModal,
     openUrl,
   })
+
+  useScrollToTop(flatListRef)
 
   return (
     <TimelineBlocContext.Provider value={timelineBloc}>
