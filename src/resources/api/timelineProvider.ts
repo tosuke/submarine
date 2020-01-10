@@ -15,6 +15,7 @@ export type TimelineEvent = {
 
 export interface TimelineStreamProvider extends TimelineProvider {
   connectToStream(): void
+  dispose(): void
   readonly connectionState$: Observable<ConnectionState>
   readonly timelineEvents$: Observable<TimelineEvent>
 }

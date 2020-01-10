@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs'
 import { User } from './user'
 import { Client } from './client'
 import { File } from './file'
@@ -27,6 +28,6 @@ export interface Post {
   }
   readonly body: PostBody
   readonly files: readonly File[]
-  readonly createdAt: Date
-  readonly updatedAt: Date
+  readonly createdAt: Dayjs
+  readonly updatedAt: Dayjs
 }
