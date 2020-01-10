@@ -1592,12 +1592,12 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/masked-view/-/masked-view-0.1.5.tgz#25421be6cd943a4b1660b62cfbcd45be8891462c"
   integrity sha512-Lj1DzfCmW0f4HnmHtEuX8Yy2f7cnUA8r5KGGUuDDGtQt1so6QJkKeUmsnLo2zYDtsF8due6hvIL06Vdo5xxuLQ==
 
-"@react-navigation/bottom-tabs@^5.0.0-alpha.32":
-  version "5.0.0-alpha.32"
-  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.0.0-alpha.32.tgz#c0dfe52a65a7306385bade2822afc975e40aa1c1"
-  integrity sha512-8V/0O6dC8n50DnaW3Ab2YkrugvUEYRm9Um8dduk4Qhpk9Gws9EOsFmEKpV3j7vtN9FaO+oIW1EJccU+E8TuP3g==
+"@react-navigation/bottom-tabs@^5.0.0-alpha.34":
+  version "5.0.0-alpha.34"
+  resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.0.0-alpha.34.tgz#cc21f1ba3042fe254f749786d00e5820ed603671"
+  integrity sha512-LlcPPQVQudQ2dI2ZqCr944X+60LFxmMWRlAxJLbdC8p3Lk0/GrLeKYbRXSHReSCrohmV1bK/DogkBiTjhTTKQg==
   dependencies:
-    "@react-navigation/routers" "^5.0.0-alpha.20"
+    "@react-navigation/routers" "^5.0.0-alpha.22"
     color "^3.1.2"
     react-native-iphone-x-helper "^1.2.1"
 
