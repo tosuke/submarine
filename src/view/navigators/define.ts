@@ -3,7 +3,7 @@ import { createNativeStackNavigator, NativeStackNavigationProp } from './NativeS
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack/src'
 import { File } from '../../models'
 import { AuthStackParamList } from './Auth'
-import { MainStackParamList } from './Main'
+import { MainStackParamList } from './Main/defines'
 import { Platform } from 'react-native'
 
 type ModalParamList = {
