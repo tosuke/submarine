@@ -39,7 +39,7 @@
     "@linkage-community/bottlemail": "^2.1.0",
     "@react-native-community/masked-view": "0.1.5",
     "@react-navigation/bottom-tabs": "^5.0.0-alpha.34",
-    "@react-navigation/native": "^5.0.0-alpha.22",
+    "@react-navigation/native": "^5.0.0-alpha.24",
     "@react-navigation/native-stack": "^5.0.0-alpha.22",
     "@react-navigation/stack": "^5.0.0-alpha.58",
     "@use-it/interval": "^0.1.3",
