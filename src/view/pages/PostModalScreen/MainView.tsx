@@ -4,7 +4,7 @@ import { PostBar } from './PostBar'
 import { PostTextInput } from './PostTextInput'
 import { ViewProps, ViewStyle } from 'react-native'
 import { KeyboardAvoidingView } from '../../design'
-import { useFloatingHeaderHeight } from '@react-navigation/stack/src'
+import { useHeaderHeight } from '@react-navigation/stack/src'
 
 const wrapperStyle: ViewStyle = {
   flex: 1,
@@ -13,11 +13,7 @@ const wrapperStyle: ViewStyle = {
 }
 
 const WrapperView: React.FC<ViewProps> = props => (
-  <KeyboardAvoidingView
-    {...props}
-    style={[wrapperStyle, props.style]}
-    keyboardVerticalOffset={useFloatingHeaderHeight()}
-  />
+  <KeyboardAvoidingView {...props} style={[wrapperStyle, props.style]} keyboardVerticalOffset={useHeaderHeight()} />
 )
 
 const InputWrapper = styled.View`
