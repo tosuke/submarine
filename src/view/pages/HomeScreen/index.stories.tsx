@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react-native'
 import { MainView } from './MainView'
 import { Post, User, Application, File } from '../../../models'
-import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
+import { TimelineBloc } from '../../../blocs_old/publicTimelineBloc'
 import { Subject, BehaviorSubject } from 'rxjs'
 
 const avatar = new File(1, 'iona_v2.png', 'image', [

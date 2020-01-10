@@ -1,6 +1,6 @@
 import React, { createContext, useMemo, useEffect, useContext } from 'react'
 import { Theme, Provider } from 'react-native-paper'
-import { ThemeBloc } from '../../blocs/themeBloc'
+import { ThemeBloc } from '../../blocs_old/themeBloc'
 import { useValueObservable } from './../useObservable'
 import { ThemeProvider as StyledThemeProvider } from 'styled-components/native'
 

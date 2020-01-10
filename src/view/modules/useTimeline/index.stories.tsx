@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react-native'
 import { StyleSheet, FlatList } from 'react-native'
 import { Post, User, Application, File } from '../../../models'
 import { Subject, BehaviorSubject } from 'rxjs'
-import { TimelineBloc } from '../../../blocs/publicTimelineBloc'
+import { TimelineBloc } from '../../../blocs_old/publicTimelineBloc'
 import { useTimeline } from './'
 import { ScreenView } from '../../design'
 

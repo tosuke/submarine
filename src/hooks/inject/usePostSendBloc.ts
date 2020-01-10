@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useEffect, useContext } from 'react'
-import { PostSendBloc } from '../../blocs/postSendBloc'
+import { PostSendBloc } from '../../blocs_old/postSendBloc'
 import { useSeaClient } from './useSeaClient'
 
 const PostSendBlocCtx = createContext<PostSendBloc | undefined>(undefined)
