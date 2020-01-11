@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useRef } from 'react'
 import { Platform, Keyboard, AppState } from 'react-native'
 import { IconButton, useTheme } from 'react-native-paper'
 import { usePostSendBloc } from '../../../hooks/inject'
@@ -36,12 +36,24 @@ export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal'])
     [],
   )
 
+  const keyboardIsShowRef = useRef<boolean>()
   useEffect(() => {
     if (Platform.OS === 'android') {
-      const sub = Keyboard.addListener('keyboardDidHide', () => {
-        if (AppState.currentState === 'active' && navigation.isFocused()) navigation.goBack()
+      const showSub = Keyboard.addListener('keyboardDidShow', () => {
+        keyboardIsShowRef.current = true
       })
-      return () => sub.remove()
+      const hideSub = Keyboard.addListener('keyboardDidHide', () => {
+        keyboardIsShowRef.current = false
+        setTimeout(() => {
+          if (AppState.currentState === 'active' && navigation.isFocused() && keyboardIsShowRef.current === false) {
+            navigation.goBack()
+          }
+        }, 200)
+      })
+      return () => {
+        showSub.remove()
+        hideSub.remove()
+      }
     }
     return () => {}
   })
