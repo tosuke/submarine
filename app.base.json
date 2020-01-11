@@ -8,6 +8,8 @@
     "version": "1.2.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "primaryColor": "#039be5",
+    "backgroundColor": "#777777",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
