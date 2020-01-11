@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
+import { Platform, Keyboard } from 'react-native'
 import { IconButton, useTheme } from 'react-native-paper'
 import { usePostSendBloc } from '../../../hooks/inject'
 import { useObservableEffect } from '../../../hooks/useObservable'
@@ -34,6 +35,16 @@ export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal'])
     }),
     [],
   )
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      const sub = Keyboard.addListener('keyboardDidHide', () => {
+        if (navigation.isFocused()) navigation.goBack()
+      })
+      return () => sub.remove()
+    }
+    return () => {}
+  })
 
   return (
     <PostModalScreenView text={text} onChangeText={updateText} editable={editable} sendable={sendable} send={send} />
