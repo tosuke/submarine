@@ -1601,10 +1601,10 @@
     color "^3.1.2"
     react-native-iphone-x-helper "^1.2.1"
 
-"@react-navigation/core@^5.0.0-alpha.32":
-  version "5.0.0-alpha.32"
-  resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.0.0-alpha.32.tgz#b7c4f68e405080062df95936998be8e44ceb3e2a"
-  integrity sha512-HCPNXPoTzE8IOsexrjqr14F/w1B5C9ZoTdeokKphK7oxvMrt8ceDkb1AR7KmNT2zEXbzt3FZ9LW0V+Y9sGY2LA==
+"@react-navigation/core@^5.0.0-alpha.32", "@react-navigation/core@^5.0.0-alpha.34":
+  version "5.0.0-alpha.34"
+  resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.0.0-alpha.34.tgz#31eee123d629cdacc05ac8644c3556b3f6460b2b"
+  integrity sha512-+LtlV0VT4gjQmpeI3jMaSWF4pgPJK7VagSBgTVdaQvvgHPblCTP5Hviylb7Mm2W5UFQNWqixipmCAxr7uYD8ZQ==
   dependencies:
     escape-string-regexp "^2.0.0"
     query-string "^6.9.0"
@@ -1618,12 +1618,12 @@
   dependencies:
     "@react-navigation/routers" "^5.0.0-alpha.22"
 
-"@react-navigation/native@^5.0.0-alpha.24":
-  version "5.0.0-alpha.24"
-  resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-5.0.0-alpha.24.tgz#5051d5d89e33aa8b15132aa65157504e82359822"
-  integrity sha512-OX/S11Td+GwNIoLzlU5yFQ4gNtks9FYKI9IQIckfdtH69919NIvwtw1nUbYv8gqo4hfiLtJuE7MkR4059VNQ9A==
+"@react-navigation/native@^5.0.0-alpha.26":
+  version "5.0.0-alpha.26"
+  resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-5.0.0-alpha.26.tgz#af53b1780021e880a447ee160ae09213f48a33bf"
+  integrity sha512-SS2vzqhnKr0h3Ec9QMuIBVydBtLSGmnu6iVCFSdScw0gv1YAPM4+wZlN2hX85WHqKoToDiYY1b+FBS1WfBmUTQ==
   dependencies:
-    "@react-navigation/core" "^5.0.0-alpha.32"
+    "@react-navigation/core" "^5.0.0-alpha.34"
 
 "@react-navigation/routers@^5.0.0-alpha.22":
   version "5.0.0-alpha.22"
