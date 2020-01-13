@@ -42,17 +42,19 @@ export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal'])
       const showSub = Keyboard.addListener('keyboardDidShow', () => {
         keyboardIsShowRef.current = true
       })
+      let timeoutHandle: number
       const hideSub = Keyboard.addListener('keyboardDidHide', () => {
         keyboardIsShowRef.current = false
-        setTimeout(() => {
+        timeoutHandle = setTimeout(() => {
           if (AppState.currentState === 'active' && navigation.isFocused() && keyboardIsShowRef.current === false) {
             navigation.goBack()
           }
-        }, 200)
+        }, 200) as any
       })
       return () => {
         showSub.remove()
         hideSub.remove()
+        clearTimeout(timeoutHandle)
       }
     }
     return () => {}
