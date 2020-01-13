@@ -81,4 +81,4 @@ export const $File: Transformer<unknown, File> = $.obj({
   name: $.string,
   type: $.string,
   variants: $.array($FileVariant),
-}).compose(new Transformer(({ id, name, type, variants }) => ok(new File(id, name, type, variants)), ok))
+}).compose(Transformer.from(({ id, name, type, variants }) => ok(new File(id, name, type, variants))))

@@ -34,9 +34,7 @@ export const $User: Transformer<unknown, User> = $.obj({
   updatedAt: $Date,
   avatarFile: $.nullable($File),
 }).compose(
-  new Transformer(
-    ({ id, name, screenName, postsCount, createdAt, updatedAt, avatarFile }) =>
-      ok(new User(id, name, screenName, postsCount, createdAt, updatedAt, avatarFile)),
-    ok,
+  Transformer.from(({ id, name, screenName, postsCount, createdAt, updatedAt, avatarFile }) =>
+    ok(new User(id, name, screenName, postsCount, createdAt, updatedAt, avatarFile)),
   ),
 )

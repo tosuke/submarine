@@ -30,9 +30,7 @@ export const $Post: Transformer<unknown, Post> = $.obj({
   updatedAt: $Date,
   files: $.array($File),
 }).compose(
-  new Transformer(
-    ({ id, text, user, application, createdAt, updatedAt, files }) =>
-      ok(new Post(id, text, user, application, createdAt, updatedAt, files)),
-    ok,
+  Transformer.from(({ id, text, user, application, createdAt, updatedAt, files }) =>
+    ok(new Post(id, text, user, application, createdAt, updatedAt, files)),
   ),
 )

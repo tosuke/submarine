@@ -7,5 +7,5 @@ export class Application {
 export const $Application: Transformer<unknown, Application> = $.obj({
   id: $.number,
   name: $.string,
-  isAutomated: $.optional($.boolean).compose(new Transformer(b => ok(b !== undefined ? b : false), ok)),
-}).compose(new Transformer(({ id, name, isAutomated }) => ok(new Application(id, name, isAutomated)), ok))
+  isAutomated: $.optional($.boolean).compose(Transformer.from(b => ok(b !== undefined ? b : false))),
+}).compose(Transformer.from(({ id, name, isAutomated }) => ok(new Application(id, name, isAutomated))))

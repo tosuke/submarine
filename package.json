@@ -67,7 +67,7 @@
     "react-native-web": "^0.11.7",
     "rxjs": "^6.5.4",
     "styled-components": "^4.4.1",
-    "transform-ts": "^0.2.2"
+    "transform-ts": "0.3.0"
   },
   "devDependencies": {
     "@storybook/addon-knobs": "^5.2.8",
