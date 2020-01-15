@@ -9,5 +9,13 @@ module.exports = function(api) {
         },
       ],
     ],
+    plugins: [
+      [
+        'babel-plugin-transform-inline-environment-variables',
+        {
+          include: ['SEA_URL', 'CLIENT_ID', 'CLIENT_SECRET'],
+        },
+      ],
+    ],
   }
 }

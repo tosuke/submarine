@@ -36,12 +36,5 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: Generate App
-        run: yarn run generate:app
-        env:
-          SEA_URL: ${{ secrets.SEA_URL }}
-          CLIENT_ID: ${{ secrets.CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-
       - name: Publish to Expo
         run: yarn run publish
