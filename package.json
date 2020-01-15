@@ -69,7 +69,7 @@
     "transform-ts": "^0.2.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.0",
+    "@babel/core": "^7.8.3",
     "@react-native-community/cli": "^3.0.4",
     "@storybook/addon-knobs": "^5.2.8",
     "@storybook/addon-ondevice-knobs": "^5.2.8",
