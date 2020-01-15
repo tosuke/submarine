@@ -2,6 +2,7 @@
 node_modules/**/*
 .expo/*
 .expo-shared/*
+.gradle
 dist/
 npm-debug.*
 *.jks
