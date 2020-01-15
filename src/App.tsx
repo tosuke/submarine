@@ -13,7 +13,6 @@ export default class App extends React.Component {
       <ThemeBlocProvider defaultTheme={DarkTheme}>
         <AuthBlocProvider>
           <PostSendBlocProvider>
-            <StatusBar translucent />
             <AppView />
           </PostSendBlocProvider>
         </AuthBlocProvider>

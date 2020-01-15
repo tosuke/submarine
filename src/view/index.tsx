@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { NavigationNativeContainer } from '@react-navigation/native'
 import { useTheme } from 'react-native-paper'
 import { LoadingView } from './pages/Loading'
-import { dividerColor } from './design'
+import { dividerColor, StatusBar } from './design'
 import { RootNavigator } from './navigators'
 import { useAuthBloc } from '../hooks/inject'
 import { useObservable } from '../hooks/useObservable'
@@ -33,6 +33,7 @@ export const AppView = () => {
   return (
     <View style={{ backgroundColor: paperTheme.colors.background, flex: 1 }}>
       <NavigationNativeContainer theme={theme}>
+        <StatusBar translucent />
         <RootNavigator authRequired={authRequired} />
       </NavigationNativeContainer>
     </View>
