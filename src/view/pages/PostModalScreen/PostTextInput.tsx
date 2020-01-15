@@ -11,4 +11,4 @@ const PostTextInputAtom = styled(TextInput)`
 export const PostTextInput: React.FC<Pick<
   TextInputProps,
   'value' | 'onChangeText' | 'editable' | 'inputAccessoryViewID'
->> = props => <PostTextInputAtom placeholder="What's up Otaku?" multiline autoFocus {...props}></PostTextInputAtom>
+>> = props => <PostTextInputAtom placeholder="What's up Otaku?" multiline autoFocus {...props} />

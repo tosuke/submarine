@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react'
 import {
+  StyleProp,
   ViewStyle,
   View,
   LayoutRectangle,
@@ -14,12 +15,12 @@ import { HEADER_HEIGHT } from '../constants/header'
 
 export type KeyboardAvoidingViewProps = {
   children?: React.ReactNode
-  style?: ViewStyle
+  style?: StyleProp<ViewStyle>
   keyboardVerticalOffset?: number
 }
 
 export const KeyboardAvoidingView = ({ children, style, keyboardVerticalOffset }: KeyboardAvoidingViewProps) => {
-  const keyboardOffset = keyboardVerticalOffset || HEADER_HEIGHT
+  const keyboardOffset = keyboardVerticalOffset == null ? HEADER_HEIGHT : keyboardVerticalOffset
   const [keyboardY, updateKeyboardY] = useState<number | undefined>()
   const [frame, updateFrame] = useState<LayoutRectangle | undefined>()
   const bottom = useMemo(() => {

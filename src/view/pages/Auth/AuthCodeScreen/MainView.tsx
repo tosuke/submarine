@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react'
 import styled from 'styled-components/native'
 import { Title, Divider as NativeDivider, Button, Text } from 'react-native-paper'
-import { ScreenView, PaperTextInput, KeyboardAvoidingView, Snackbar, useSnackBar, Caption } from '../../design'
+import { ScreenView, PaperTextInput, KeyboardAvoidingView, Snackbar, useSnackBar, Caption } from '../../../design'
 import { Observable } from 'rxjs'
-import { useObservableEffect } from '../../../hooks/useObservable'
+import { useObservableEffect } from '../../../../hooks/useObservable'
 
 const Wrapper = styled(KeyboardAvoidingView)`
   flex: 1;

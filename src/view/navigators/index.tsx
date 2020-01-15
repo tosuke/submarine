@@ -1,42 +1,57 @@
-import React from 'react'
-import { RouteProp } from '@react-navigation/native'
-import { createNativeStackNavigator } from './_utils/createNativeStackNavigator'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { LoadingScreen } from './LoadingScreen'
-import { AuthNavigator } from './Auth'
-import { AppNavigator } from './App'
+import React, { useMemo } from 'react'
+import { RootStack, RootModal } from './define'
+import { useTheme } from '@react-navigation/native'
+import { StackNavigationOptions } from '@react-navigation/stack'
+import { NativeStackNavigationOptions } from './NativeStack'
+import { AuthStackScreens } from './Auth'
+import { MainStackScreen } from './Main'
+import { PostModalScreen } from '../pages/PostModalScreen'
+import { FileModalScreen } from '../pages/FileModalScreen'
 import { TransitionPresets } from '@react-navigation/stack/src'
+import { StyleSheet, Platform } from 'react-native'
 
-type RootParamList = {
-  Loading: undefined
-  Auth: undefined
-  App: undefined
-}
+export { RootModalPropsList, RootStackPropsList } from './define'
 
-export type RootNavigationProps = NativeStackNavigationProp<RootParamList>
-
-export type RootPropsList = {
-  [K in keyof RootParamList]: {
-    route: RouteProp<RootParamList, K>
-    navigation: NativeStackNavigationProp<RootParamList, K>
-  }
-}
-
-const RootStack = createNativeStackNavigator<RootParamList>()
-
-export const RootNavigator = () => {
+export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
+  const theme = useTheme()
+  const stackScreenOptions = useMemo<StackNavigationOptions & NativeStackNavigationOptions>(
+    () => ({
+      headerStyle: {
+        borderColor: theme.colors.border,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+      },
+      ...Platform.select({
+        android: {
+          headerTintColor: theme.colors.primary,
+          headerPressColorAndroid: theme.colors.primary,
+          headerTitleStyle: {
+            color: theme.colors.text,
+          },
+          headerRightContainerStyle: {
+            marginRight: 12,
+          },
+        },
+        default: {},
+      }),
+    }),
+    [],
+  )
   return (
-    <RootStack.Navigator
-      screenOptions={{
-        headerShown: false,
-        animation: 'fade',
-        /* In Android Expo 36, Submarine uses StackNavigator instead of NativeStackNAvigator*/ ...TransitionPresets.ScaleFromCenterAndroid,
-      }}
-      initialRouteName="Loading"
-    >
-      <RootStack.Screen name="App" component={AppNavigator} />
-      <RootStack.Screen name="Auth" component={AuthNavigator} />
-      <RootStack.Screen name="Loading" component={LoadingScreen} />
-    </RootStack.Navigator>
+    <RootModal.Navigator mode="modal" screenOptions={stackScreenOptions}>
+      <RootModal.Screen name="App" options={{ headerShown: false }}>
+        {_ => (
+          <RootStack.Navigator initialRouteName={authRequired ? 'AuthRoot' : 'Main'} screenOptions={stackScreenOptions}>
+            {AuthStackScreens()}
+            {MainStackScreen()}
+          </RootStack.Navigator>
+        )}
+      </RootModal.Screen>
+      <RootModal.Screen
+        name="PostModal"
+        options={{ ...TransitionPresets.ModalSlideFromBottomIOS }}
+        component={PostModalScreen}
+      />
+      <RootModal.Screen name="FileModal" component={FileModalScreen} />
+    </RootModal.Navigator>
   )
 }

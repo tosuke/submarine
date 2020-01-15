@@ -1,18 +1,21 @@
 import React, { useCallback } from 'react'
-import { useAuthBloc } from '../../../hooks/inject'
-import { useValueObservable, useObservableEffect } from '../../../hooks/useObservable'
+import { useAuthBloc } from '../../../../hooks/inject'
+import { useValueObservable, useObservableEffect } from '../../../../hooks/useObservable'
 import { MainView } from './MainView'
-import { AuthPropsList } from '../../navigators/Auth'
-import { useNavigationOptions } from '../../../hooks/useNavigationOptions'
+import { RootStackPropsList } from '../../../navigators'
+import { useNavigationOptions } from '../../../../hooks/useNavigationOptions'
 
-export const AuthorizeWithCodeScreen = ({ navigation }: AuthPropsList['AuthorizeWithCode']) => {
+export const AuthCodeScreen = ({ navigation }: RootStackPropsList['AuthCode']) => {
   const authBloc = useAuthBloc()
   const authorizing = useValueObservable(() => authBloc.authorizing$)
 
   useObservableEffect(
     () => authBloc.seaClient$,
     seaClient => {
-      if (seaClient) navigation.navigate('App')
+      if (seaClient) {
+        navigation.popToTop()
+        navigation.navigate('Main')
+      }
     },
     [authBloc],
   )
