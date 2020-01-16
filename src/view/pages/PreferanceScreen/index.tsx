@@ -12,7 +12,7 @@ export const PreferenceScreen = ({ navigation }: MainTabPropsList['Preference'])
     () => ({
       logout: () => {
         authBloc.signOut$.next()
-        navigation.navigate('Auth')
+        navigation.navigate('AuthRoot')
       },
     }),
     [authBloc],
