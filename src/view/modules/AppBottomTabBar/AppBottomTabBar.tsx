@@ -1,9 +1,38 @@
-import React from 'react'
-import { View, ViewStyle, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, ViewStyle, StyleSheet, Keyboard, Platform } from 'react-native'
 import { BottomTabBar, BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { useTheme } from 'react-native-paper'
 import { QuickPostBar } from './QuickPostBar'
-import { dividerColor } from '../../design'
+import { dividerColor, KeyboardAvoidingView } from '../../design'
+
+const useTabBarVisible = () => {
+  const [tabBarVisible, setTabBarVisible] = useState(true)
+  useEffect(() => {
+    const showSub = Keyboard.addListener(
+      Platform.select({
+        ios: 'keyboardWillShow',
+        default: 'keyboardDidShow',
+      }),
+      () => {
+        setTabBarVisible(false)
+      },
+    )
+    const hideSub = Keyboard.addListener(
+      Platform.select({
+        ios: 'keyboardWillHide',
+        default: 'keyboardDidHide',
+      }),
+      () => {
+        setTabBarVisible(true)
+      },
+    )
+    return () => {
+      showSub.remove()
+      hideSub.remove()
+    }
+  }, [])
+  return tabBarVisible
+}
 
 const wrapperStyle: ViewStyle = {
   elevation: 8,
@@ -11,15 +40,22 @@ const wrapperStyle: ViewStyle = {
 
 const quickPostBarStyle: ViewStyle = {
   borderTopWidth: StyleSheet.hairlineWidth,
-  marginLeft: 6,
+  paddingLeft: 10,
 }
+
+const Wrapper: React.FC = Platform.select({
+  default: props => <KeyboardAvoidingView style={wrapperStyle} {...props} />,
+  android: props => <View style={wrapperStyle} {...props} />,
+})
 
 export const AppBottomTabBar = (props: BottomTabBarProps) => {
   const theme = useTheme()
+  const tabBarVisible = useTabBarVisible()
+
   return (
-    <View style={wrapperStyle}>
+    <Wrapper>
       <QuickPostBar style={[quickPostBarStyle, { borderColor: dividerColor(theme) }]} />
-      <BottomTabBar {...props} />
-    </View>
+      {tabBarVisible && <BottomTabBar {...props} />}
+    </Wrapper>
   )
 }
