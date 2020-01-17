@@ -1,16 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { TextInput as NativeTextInput, TextInputProps as NativeTextInputProps, TextStyle } from 'react-native'
-import { withTheme, Theme, TextInput as NativePaperTextInput } from 'react-native-paper'
+import { TextInput as NativePaperTextInput, useTheme } from 'react-native-paper'
 
 export type TextInputProps = NativeTextInputProps
 
-export const TextInput = withTheme(({ theme, ...rest }: TextInputProps & { theme: Theme }) => {
+export const TextInput = forwardRef(({ ...rest }: TextInputProps, ref: React.Ref<NativeTextInput>) => {
+  const theme = useTheme()
   const textInputStyle: TextStyle = { color: theme.colors.text }
   const placeholderTextColor = rest.placeholderTextColor || theme.colors.text
   const keyboardAppearance = rest.keyboardAppearance || (theme.dark ? 'dark' : 'default')
 
   // https://github.com/facebook/react-native/issues/20887
   const textInputRef = useRef<NativeTextInput>(null)
+  useImperativeHandle(ref, () => textInputRef.current!, [textInputRef])
+
   const [editable, setEditable] = useState(rest.editable !== false)
 
   useEffect(() => {
