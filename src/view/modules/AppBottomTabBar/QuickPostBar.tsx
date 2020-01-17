@@ -1,6 +1,15 @@
 import React, { forwardRef, useState, useCallback, useRef, useImperativeHandle } from 'react'
-import { StyleProp, ViewStyle, View, TextInput as NativeTextInput, Animated, TextInputProps } from 'react-native'
+import {
+  StyleProp,
+  ViewStyle,
+  View,
+  TextInput as NativeTextInput,
+  Animated,
+  TextInputProps,
+  Vibration,
+} from 'react-native'
 import { useTheme, IconButton } from 'react-native-paper'
+import * as Haptics from 'expo-haptics'
 import { TextInput, captionColor } from '../../design'
 import { usePostSendBloc } from '../../../hooks/inject'
 import { useObservableEffect } from '../../../hooks/useObservable'
@@ -53,6 +62,9 @@ const useQuickPostBar = ({ textInputRef }: { textInputRef: React.RefObject<Nativ
           useNativeDriver: true,
         }),
       ]).start()
+      setTimeout(() => {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+      }, 16)
     },
     [postSendBloc],
   )
