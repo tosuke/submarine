@@ -1,13 +1,5 @@
 import React, { forwardRef, useState, useCallback, useRef, useImperativeHandle } from 'react'
-import {
-  StyleProp,
-  ViewStyle,
-  View,
-  TextInput as NativeTextInput,
-  Animated,
-  TextInputProps,
-  Vibration,
-} from 'react-native'
+import { StyleProp, ViewStyle, View, TextInput as NativeTextInput, Animated, TextInputProps } from 'react-native'
 import { useTheme, IconButton } from 'react-native-paper'
 import * as Haptics from 'expo-haptics'
 import { TextInput, captionColor } from '../../design'
