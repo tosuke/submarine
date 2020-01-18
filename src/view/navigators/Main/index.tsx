@@ -2,13 +2,14 @@ import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import { RootStackPropsList, RootStack } from '../define'
 import { MainTab, StackNavigationContext } from './defines'
+import { AppBottomTabBar } from '../../modules/AppBottomTabBar'
 import { HomeScreen } from '../../pages/HomeScreen'
 import { PreferenceScreen } from '../../pages/PreferanceScreen'
 
 const MainNavigator = ({ navigation }: RootStackPropsList['Main']) => {
   return (
     <StackNavigationContext.Provider value={navigation}>
-      <MainTab.Navigator initialRouteName="Home">
+      <MainTab.Navigator initialRouteName="Home" tabBar={props => <AppBottomTabBar {...props} />}>
         <MainTab.Screen
           name="Home"
           options={{

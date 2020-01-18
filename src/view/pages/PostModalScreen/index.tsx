@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useRef } from 'react'
+import React, { useCallback, useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { Platform, Keyboard, AppState } from 'react-native'
 import { IconButton, useTheme } from 'react-native-paper'
 import { usePostSendBloc } from '../../../hooks/inject'
@@ -17,11 +17,22 @@ export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal'])
   }, [text])
   const sendable = text.length > 0
 
+  const goBackCalledRef = useRef<boolean>()
+  useLayoutEffect(() => {
+    goBackCalledRef.current = false
+  })
+  const goBack = useCallback(() => {
+    if (goBackCalledRef.current !== true) {
+      navigation.goBack()
+      goBackCalledRef.current = true
+    }
+  }, [navigation])
+
   useObservableEffect(
     () => postSendBloc.sendComplete$,
     () => {
       updateText('')
-      navigation.goBack()
+      goBack()
     },
     [postSendBloc],
   )
@@ -31,9 +42,9 @@ export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal'])
     navigation,
     () => ({
       title: '投稿',
-      headerLeft: () => <IconButton size={24} color={theme.colors.primary} icon="close" onPress={navigation.goBack} />,
+      headerLeft: () => <IconButton size={24} color={theme.colors.primary} icon="close" onPress={goBack} />,
     }),
-    [],
+    [goBack],
   )
 
   const keyboardIsShowRef = useRef<boolean>()
@@ -47,7 +58,7 @@ export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal'])
         keyboardIsShowRef.current = false
         timeoutHandle = setTimeout(() => {
           if (AppState.currentState === 'active' && navigation.isFocused() && keyboardIsShowRef.current === false) {
-            navigation.goBack()
+            goBack()
           }
         }, 200) as any
       })
@@ -58,7 +69,7 @@ export const PostModalScreen = ({ navigation }: RootModalPropsList['PostModal'])
       }
     }
     return () => {}
-  })
+  }, [goBack])
 
   return (
     <PostModalScreenView text={text} onChangeText={updateText} editable={editable} sendable={sendable} send={send} />

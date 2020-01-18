@@ -47,6 +47,7 @@
     "date-fns": "^2.9.0",
     "expo": "^36.0.2",
     "expo-av": "~8.0.0",
+    "expo-haptics": "^8.0.0",
     "expo-web-browser": "~8.0.0",
     "hoist-non-react-statics": "^3.3.1",
     "ky": "^0.16.1",
