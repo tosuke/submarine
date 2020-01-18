@@ -1,0 +1,31 @@
+class AppVersion {
+    private int major
+    private int minor
+
+    AppVersion(int major, int minor) {
+        this.major = major
+        this.minor = minor
+    }
+
+    int getCode() {
+        return major * 1000 + minor
+    }
+
+    String getName() {
+        return "${major}.${minor}"
+    }
+}
+
+ext {
+    def vProperties = new Properties()
+    vProperties.load(rootProject.file('version.properties').newDataInputStream())
+    def versionMajor = vProperties.getProperty("version.major").toInteger()
+    def versionMinor = vProperties.getProperty("version.minor").toInteger()
+    def appVersion = new AppVersion(versionMajor, versionMinor)
+    getVersionCode = {
+        return appVersion.getCode()
+    }
+    getVersionName = {
+        return appVersion.getName()
+    }
+}
