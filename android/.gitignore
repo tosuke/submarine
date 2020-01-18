@@ -2,4 +2,5 @@
 /.gradle
 /.idea
 /local.properties
+/version.properties
 *.iml
