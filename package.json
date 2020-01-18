@@ -6,11 +6,15 @@
     "storybook": "react-native start",
     "format": "prettier --write \"{src,storybook}/**/*.{js,ts,tsx}\"",
     "type-check": "tsc --noEmit",
+    "generate:version": "ts-node tools/generate-version.ts",
     "generate:preview-page": "ts-node tools/generate-preview-page.ts",
     "export": "cp -r App.app.tsx App.tsx && expo export",
     "publish": "cp -r App.app.tsx App.tsx && expo publish",
     "ios": "react-native run-ios",
     "android": "react-native run-android",
+    "prerelease:android": "npm run generate:version && chmod +x ./android/gradlew",
+    "release:android:apk": "npm run prerelease:android && cd ./android && ./gradlew buildRelease",
+    "release:android:aab": "npm run prerelease:android && cd ./android && ./gradlew bundleRelease",
     "postinstall": "jetify"
   },
   "lint-staged": {
