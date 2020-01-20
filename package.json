@@ -54,7 +54,7 @@
     "expo-haptics": "^8.0.0",
     "expo-web-browser": "~8.0.0",
     "hoist-non-react-statics": "^3.3.1",
-    "ky": "^0.16.1",
+    "ky": "^0.16.2",
     "pictograph": "^2.3.0",
     "punycode": "^2.1.1",
     "react": "~16.9.0",
