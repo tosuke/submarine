@@ -1,17 +1,7 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react'
-import {
-  StyleProp,
-  ViewStyle,
-  View,
-  LayoutRectangle,
-  LayoutChangeEvent,
-  Keyboard,
-  EmitterSubscription,
-  Platform,
-  KeyboardEventListener,
-  LayoutAnimation,
-} from 'react-native'
+import React, { useState, useMemo, useCallback } from 'react'
+import { StyleProp, ViewStyle, View, LayoutRectangle, LayoutChangeEvent, LayoutAnimation, Platform } from 'react-native'
 import { HEADER_HEIGHT } from '../constants/header'
+import { useKeyboardChangeFrameEffect } from '../../hooks/useKeyboardEffect'
 
 export type KeyboardAvoidingViewProps = {
   children?: React.ReactNode
@@ -32,41 +22,37 @@ export const KeyboardAvoidingView = ({ children, style, keyboardVerticalOffset }
     updateFrame(ev.nativeEvent.layout)
   }, [])
 
-  useEffect(() => {
-    const onKeyboardChange: KeyboardEventListener = ev => {
-      if (ev == null) {
-        updateKeyboardY(undefined)
-        return
-      }
-      if (ev.duration && ev.easing) {
-        LayoutAnimation.configureNext({
+  useKeyboardChangeFrameEffect(ev => {
+    if (ev == null) {
+      updateKeyboardY(undefined)
+      return
+    }
+    updateKeyboardY(ev.endCoordinates.screenY)
+    if (ev.duration != null && ev.easing != null) {
+      const easing = Platform.OS === 'android' && ev.easing === 'keyboard' ? 'easeInEaseOut' : ev.easing
+      LayoutAnimation.configureNext({
+        duration: Math.max(ev.duration, 10),
+        update: {
           duration: Math.max(ev.duration, 10),
-          update: {
-            duration: Math.max(ev.duration, 10),
-            type: LayoutAnimation.Types[ev.easing] || 'keyboard',
-          },
-        })
-      }
-      updateKeyboardY(ev.endCoordinates.screenY)
+          type: LayoutAnimation.Types[easing],
+        },
+      })
     }
-
-    let subs: EmitterSubscription[] = []
-    if (Platform.OS === 'ios') {
-      subs.push(Keyboard.addListener('keyboardWillChangeFrame', onKeyboardChange))
-    } else if (Platform.OS === 'android') {
-      subs.push(Keyboard.addListener('keyboardDidShow', onKeyboardChange))
-      subs.push(Keyboard.addListener('keyboardDidHide', onKeyboardChange))
-    }
-
-    return () => {
-      for (const sub of subs) {
-        sub.remove()
-      }
-    }
-  }, [])
+  })
 
   return (
-    <View onLayout={onLayout} style={[style, { paddingBottom: bottom }]}>
+    <View
+      onLayout={onLayout}
+      style={[
+        style,
+        {
+          paddingBottom: Platform.select({
+            default: bottom,
+            android: 0,
+          }),
+        },
+      ]}
+    >
       {children}
     </View>
   )
