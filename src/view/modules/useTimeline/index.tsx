@@ -45,12 +45,13 @@ export const useTimeline = ({
       <RefreshControlComponent
         tintColor={theme.colors.text}
         progressBackgroundColor={theme.colors.background}
+        titleColor={theme.colors.text}
         colors={[theme.colors.primary]}
         refreshing={refreshing || false}
         onRefresh={refresh}
       />
     ),
-    [RefreshControlComponent],
+    [RefreshControlComponent, theme],
   )
 
   const renderItem = useCallback(

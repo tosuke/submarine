@@ -1,6 +1,8 @@
 package com.submarine;
 
 import android.os.Bundle;
+import android.content.Intent;
+import android.content.res.Configuration;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
@@ -26,6 +28,14 @@ public class MainActivity extends ReactActivity {
         // https://github.com/kmagiera/react-native-screens/issues/114
         super.onCreate(null);
         // super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Intent intent = new Intent("onConfigurationChanged");
+        intent.putExtra("newConfig", newConfig);
+        sendBroadcast(intent);
     }
 
     @Override

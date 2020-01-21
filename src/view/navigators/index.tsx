@@ -34,7 +34,7 @@ export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
         default: {},
       }),
     }),
-    [],
+    [theme],
   )
   return (
     <RootModal.Navigator mode="modal" initialRouteName="App" screenOptions={stackScreenOptions}>
