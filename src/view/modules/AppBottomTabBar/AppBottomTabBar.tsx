@@ -43,19 +43,16 @@ const quickPostBarStyle: ViewStyle = {
   paddingLeft: 10,
 }
 
-const Wrapper: React.FC = Platform.select({
-  default: props => <KeyboardAvoidingView style={wrapperStyle} {...props} />,
-  android: props => <View style={wrapperStyle} {...props} />,
-})
-
 export const AppBottomTabBar = (props: BottomTabBarProps) => {
   const theme = useTheme()
   const tabBarVisible = useTabBarVisible()
 
   return (
-    <Wrapper>
-      <QuickPostBar style={[quickPostBarStyle, { borderColor: dividerColor(theme) }]} />
+    <>
+      <KeyboardAvoidingView style={wrapperStyle}>
+        <QuickPostBar style={[quickPostBarStyle, { borderColor: dividerColor(theme) }]} />
+      </KeyboardAvoidingView>
       {tabBarVisible && <BottomTabBar {...props} />}
-    </Wrapper>
+    </>
   )
 }
