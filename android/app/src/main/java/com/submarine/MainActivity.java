@@ -20,8 +20,12 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.show(this);  // here
-        super.onCreate(savedInstanceState);
+        SplashScreen.show(this);
+        // workaround for crashing on killed app restore
+        // https://github.com/kmagiera/react-native-screens/issues/17#issuecomment-424704067
+        // https://github.com/kmagiera/react-native-screens/issues/114
+        super.onCreate(null);
+        // super.onCreate(savedInstanceState);
     }
 
     @Override
