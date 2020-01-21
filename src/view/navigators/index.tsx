@@ -37,7 +37,7 @@ export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
     [],
   )
   return (
-    <RootModal.Navigator mode="modal" screenOptions={stackScreenOptions}>
+    <RootModal.Navigator mode="modal" initialRouteName="App" screenOptions={stackScreenOptions}>
       <RootModal.Screen name="App" options={{ headerShown: false }}>
         {_ => (
           <RootStack.Navigator initialRouteName={authRequired ? 'AuthRoot' : 'Main'} screenOptions={stackScreenOptions}>
