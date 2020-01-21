@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
 import { NavigationNativeContainer } from '@react-navigation/native'
 import { useTheme } from 'react-native-paper'
 import { LoadingView } from './pages/Loading'
@@ -31,11 +30,9 @@ export const AppView = () => {
 
   if (loading) return <LoadingView />
   return (
-    <View style={{ backgroundColor: paperTheme.colors.background, flex: 1 }}>
-      <NavigationNativeContainer theme={theme}>
-        <StatusBar translucent />
-        <RootNavigator authRequired={authRequired} />
-      </NavigationNativeContainer>
-    </View>
+    <NavigationNativeContainer theme={theme}>
+      <StatusBar translucent />
+      <RootNavigator authRequired={authRequired} />
+    </NavigationNativeContainer>
   )
 }
