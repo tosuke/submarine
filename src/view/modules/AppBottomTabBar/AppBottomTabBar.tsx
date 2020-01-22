@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, ViewStyle, StyleSheet, Keyboard, Platform } from 'react-native'
+import { ViewStyle, StyleSheet, Keyboard, Platform } from 'react-native'
 import { BottomTabBar, BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { useTheme } from 'react-native-paper'
 import { QuickPostBar } from './QuickPostBar'
