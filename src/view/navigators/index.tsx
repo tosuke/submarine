@@ -1,17 +1,21 @@
 import React, { useMemo } from 'react'
 import { RootStack, RootModal } from './define'
 import { useTheme } from '@react-navigation/native'
-import { StackNavigationOptions } from '@react-navigation/stack'
+import { StackNavigationOptions, TransitionPresets } from '@react-navigation/stack/src'
 import { NativeStackNavigationOptions } from './NativeStack'
 import { AuthStackScreens } from './Auth'
 import { MainStackScreen } from './Main'
 import { PreferenceScreens } from './Preference'
 import { PostModalScreen } from '../pages/PostModalScreen'
 import { FileModalScreen } from '../pages/FileModalScreen'
-import { TransitionPresets } from '@react-navigation/stack/src'
 import { StyleSheet, Platform } from 'react-native'
 
 export { RootModalPropsList, RootStackPropsList } from './define'
+
+const DefaultStackTransition = Platform.select({
+  default: TransitionPresets.DefaultTransition,
+  android: Platform.Version >= 29 ? TransitionPresets.ScaleFromCenterAndroid : TransitionPresets.DefaultTransition,
+})
 
 export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
   const theme = useTheme()
@@ -31,6 +35,7 @@ export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
           headerRightContainerStyle: {
             marginRight: 12,
           },
+          ...DefaultStackTransition,
         },
         default: {},
       }),
