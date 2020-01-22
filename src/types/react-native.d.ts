@@ -15,4 +15,11 @@ declare module 'react-native' {
       removeAllListeners(): void
     }
   }
+
+  interface CheckBoxProps {
+    tintColors: {
+      true?: string
+      false?: string
+    }
+  }
 }
