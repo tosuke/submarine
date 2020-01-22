@@ -7,6 +7,7 @@ import { Avatar } from './Avatar'
 import { Thumbnail } from './Thumbnail'
 import { Body } from './Body'
 import { Footer } from './Footer'
+import { usePreference } from '../../../../hooks/inject'
 
 const PostViewWrapper = styled.View`
   flex-direction: row;
@@ -37,6 +38,7 @@ const PostFooterWrapper = styled.View`
 `
 
 export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
+  const { appViaEnabled } = usePreference()
   const { navigateToFileModal } = useTimelineActions()
   const avatarVariant = post.user.avatarFile && post.user.avatarFile.thumbnailVariant
   const avatarThumbnailUri = (avatarVariant && avatarVariant.url) || undefined
@@ -71,9 +73,11 @@ export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
             })}
           </PostThumbnailsWrapper>
         )}
-        <PostFooterWrapper>
-          <Footer appName={post.application.name} appIsAutomated={post.application.isAutomated} />
-        </PostFooterWrapper>
+        {appViaEnabled && (
+          <PostFooterWrapper>
+            <Footer appName={post.application.name} appIsAutomated={post.application.isAutomated} />
+          </PostFooterWrapper>
+        )}
       </PostContentWrapper>
     </PostViewWrapper>
   )
