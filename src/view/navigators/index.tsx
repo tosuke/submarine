@@ -5,6 +5,7 @@ import { StackNavigationOptions } from '@react-navigation/stack'
 import { NativeStackNavigationOptions } from './NativeStack'
 import { AuthStackScreens } from './Auth'
 import { MainStackScreen } from './Main'
+import { PreferenceScreens } from './Preference'
 import { PostModalScreen } from '../pages/PostModalScreen'
 import { FileModalScreen } from '../pages/FileModalScreen'
 import { TransitionPresets } from '@react-navigation/stack/src'
@@ -43,6 +44,7 @@ export const RootNavigator = ({ authRequired }: { authRequired: boolean }) => {
           <RootStack.Navigator initialRouteName={authRequired ? 'AuthRoot' : 'Main'} screenOptions={stackScreenOptions}>
             {AuthStackScreens()}
             {MainStackScreen()}
+            {PreferenceScreens()}
           </RootStack.Navigator>
         )}
       </RootModal.Screen>
