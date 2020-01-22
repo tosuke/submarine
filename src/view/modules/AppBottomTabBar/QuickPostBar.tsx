@@ -90,7 +90,7 @@ export const QuickPostBar = ({ style }: QuickPostBarProps) => {
   const buttonColor = sendable ? theme.colors.primary : theme.colors.disabled
 
   return (
-    <View style={[wrapperStyle, style]}>
+    <View style={[wrapperStyle, { backgroundColor: theme.colors.surface }, style]}>
       <TextInput
         Component={AnimatedTextInput}
         ref={textInputRef}

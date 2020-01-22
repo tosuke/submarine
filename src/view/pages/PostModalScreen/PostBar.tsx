@@ -6,7 +6,7 @@ import { dividerColor } from '../../design'
 
 const PostBarAtom = styled(Appbar)`
   max-height: 44;
-  background-color: ${props => props.theme.colors.background};
+  background-color: ${props => props.theme.colors.surface};
   border-color: ${props => dividerColor(props.theme)};
   border-top-width: ${StyleSheet.hairlineWidth * 2};
 `

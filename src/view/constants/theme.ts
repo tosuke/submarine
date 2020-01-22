@@ -1,4 +1,5 @@
 import { Theme, DarkTheme as PaperDarkTheme, DefaultTheme } from 'react-native-paper'
+import color from 'color'
 
 export const LightTheme: Theme = {
   ...DefaultTheme,
@@ -23,5 +24,8 @@ export const DarkTheme: Theme = {
     primary: '#039be5',
     accent: '#388e3c',
     error: '#ff1744',
+    surface: color(PaperDarkTheme.colors.background)
+      .mix(color('white'), 0.05)
+      .hex(),
   },
 }
