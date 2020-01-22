@@ -1,4 +1,6 @@
-import React, { createContext, useReducer, Dispatch, useContext, Reducer } from 'react'
+import React, { createContext, useReducer, Dispatch, useContext, Reducer, useEffect } from 'react'
+import { AsyncStorage } from 'react-native'
+import $, { Transformer } from 'transform-ts'
 
 export type PreferenceType = {
   appViaEnabled: boolean
@@ -54,8 +56,61 @@ const preferenceReducer: Reducer<PreferenceType, PreferenceActions> = (state, ac
   }
 }
 
+const preferenceKey = 'v1/preference'
+
+const PreferenceTransformer: Transformer<unknown, PreferenceType> = $.obj({
+  appViaEnabled: $.boolean,
+  quickPostBarEnabled: $.boolean,
+  theme: $.literal('follow-system', 'light', 'dark'),
+})
+const loadPreference = async () => {
+  try {
+    const json = await AsyncStorage.getItem(preferenceKey)
+    if (json == null) return undefined
+    return PreferenceTransformer.transformOrThrow(JSON.parse(json))
+  } catch {
+    AsyncStorage.removeItem(preferenceKey).catch(() => {})
+    return undefined
+  }
+}
+
+const createResource = <A extends any>(f: () => Promise<A>): { get(): A } => {
+  let state: 'pending' | 'resolved' | 'rejected' = 'pending'
+  let value: unknown
+  const promise = f().then(
+    v => {
+      state = 'resolved'
+      value = v
+    },
+    err => {
+      state = 'rejected'
+      value = err
+    },
+  )
+
+  return {
+    get: () => {
+      switch (state) {
+        case 'pending':
+          throw promise
+        case 'resolved':
+          return value as A
+        case 'rejected':
+          throw value // err
+      }
+    },
+  }
+}
+
+const preferenceResource = createResource(loadPreference)
+
 export const PreferenceProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer(preferenceReducer, initialPreference)
+  const initial = preferenceResource.get() || initialPreference
+  const [state, dispatch] = useReducer(preferenceReducer, initial)
+
+  useEffect(() => {
+    AsyncStorage.setItem(preferenceKey, JSON.stringify(state))
+  }, [state])
 
   return <PreferenceContext.Provider value={{ state, dispatch }}>{children}</PreferenceContext.Provider>
 }
