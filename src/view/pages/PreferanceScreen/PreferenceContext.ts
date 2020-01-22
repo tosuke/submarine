@@ -1,11 +1,13 @@
 import { createContext, useContext } from 'react'
 
-export interface Preference {
+export interface PreferenceActions {
   logout: () => void
+  pushToAppThemeScreen: () => void
 }
 
-export const PreferenceContext = createContext<Preference>({
+export const PreferenceActionsContext = createContext<PreferenceActions>({
   logout: () => {},
+  pushToAppThemeScreen: () => {},
 })
 
-export const usePreference = () => useContext(PreferenceContext)
+export const usePreferenceActions = () => useContext(PreferenceActionsContext)
