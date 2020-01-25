@@ -6,12 +6,14 @@ export type PreferenceType = {
   appViaEnabled: boolean
   quickPostBarEnabled: boolean
   theme: 'light' | 'dark' | 'follow-system'
+  postFontSize: number
 }
 
 const initialPreference: PreferenceType = {
   appViaEnabled: true,
   quickPostBarEnabled: false,
   theme: 'follow-system',
+  postFontSize: 15,
 }
 
 export type PreferenceActions =
@@ -62,6 +64,7 @@ const PreferenceTransformer: Transformer<unknown, PreferenceType> = $.obj({
   appViaEnabled: $.boolean,
   quickPostBarEnabled: $.boolean,
   theme: $.literal('follow-system', 'light', 'dark'),
+  postFontSize: $.number,
 })
 const loadPreference = async () => {
   try {
@@ -106,7 +109,7 @@ const preferenceResource = createResource(loadPreference)
 
 export const PreferenceProvider: React.FC = ({ children }) => {
   const initial = preferenceResource.get() || initialPreference
-  const [state, dispatch] = useReducer(preferenceReducer, initial)
+  const [state, dispatch] = useReducer(preferenceReducer, initialPreference)
 
   useEffect(() => {
     AsyncStorage.setItem(preferenceKey, JSON.stringify(state))

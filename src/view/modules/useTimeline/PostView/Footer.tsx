@@ -1,18 +1,10 @@
 import React from 'react'
-import styled, { css } from 'styled-components/native'
+import styled from 'styled-components/native'
 import { Caption } from '../../../design'
+import { useFontSizeStyle } from './styles'
 
 const FooterView = styled.View`
   flex-direction: row;
-`
-
-const FontFragment = css`
-  font-size: 12;
-  line-height: ${12 * 1.2};
-`
-
-const FooterAppNameCaption = styled(Caption)`
-  ${FontFragment}
 `
 
 const FooterBotCaption = styled(Caption)`
@@ -21,12 +13,14 @@ const FooterBotCaption = styled(Caption)`
   margin-left: 2;
   padding-left: 3;
   padding-right: 1;
-  ${FontFragment}
 `
 
-export const Footer: React.FC<{ appName: string; appIsAutomated: boolean }> = ({ appName, appIsAutomated }) => (
-  <FooterView>
-    <FooterAppNameCaption>via {appName}</FooterAppNameCaption>
-    {appIsAutomated && <FooterBotCaption>Bot</FooterBotCaption>}
-  </FooterView>
-)
+export const Footer: React.FC<{ appName: string; appIsAutomated: boolean }> = ({ appName, appIsAutomated }) => {
+  const fontSizeStyle = useFontSizeStyle(0.85)
+  return (
+    <FooterView style={fontSizeStyle}>
+      <Caption style={fontSizeStyle}>via {appName}</Caption>
+      {appIsAutomated && <FooterBotCaption style={fontSizeStyle}>Bot</FooterBotCaption>}
+    </FooterView>
+  )
+}
