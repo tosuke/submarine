@@ -44,7 +44,7 @@ export const useTimeline = ({
     () => (
       <RefreshControlComponent
         tintColor={theme.colors.text}
-        progressBackgroundColor={theme.colors.background}
+        progressBackgroundColor={theme.colors.surface}
         titleColor={theme.colors.text}
         colors={[theme.colors.primary]}
         refreshing={refreshing || false}
