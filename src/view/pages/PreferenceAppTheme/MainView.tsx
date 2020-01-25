@@ -27,8 +27,6 @@ export const MainView: React.FC<{ value: ThemeType; onValueChange: (value: Theme
   return (
     <ScreenView>
       <List.Section>
-        <List.Subheader>テーマ</List.Subheader>
-        <Divider />
         <PreferenceSectionItems value={value} onValueChange={onValueChange} entries={entries} />
       </List.Section>
     </ScreenView>
