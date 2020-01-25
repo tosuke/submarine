@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { InteractionManager } from 'react-native'
 import { RootStackPropsList } from '../../navigators/define'
-import { usePreference, usePreferenceDispatch } from '../../../hooks/inject'
+import { usePreference, usePreferenceUpdate } from '../../../hooks/inject'
 import { MainView } from './MainView'
 
 export const PreferenceAppThemeScreen = ({ navigation }: RootStackPropsList['PreferenceAppTheme']) => {
@@ -11,10 +11,10 @@ export const PreferenceAppThemeScreen = ({ navigation }: RootStackPropsList['Pre
 
   const { theme } = usePreference()
   const [themeState, updateTheme] = useState(theme)
-  const dispatch = usePreferenceDispatch()
+  const update = usePreferenceUpdate()
   useEffect(() => {
     const handle = InteractionManager.runAfterInteractions(() => {
-      dispatch({ type: 'themeUpdated', theme: themeState })
+      update(state => ({ ...state, theme: themeState }))
     })
     return () => handle.cancel()
   }, [themeState])

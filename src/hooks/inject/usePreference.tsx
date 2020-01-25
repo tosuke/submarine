@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, Dispatch, useContext, Reducer, useEffect } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { AsyncStorage } from 'react-native'
 import $, { Transformer } from 'transform-ts'
 
@@ -16,47 +16,16 @@ const initialPreference: PreferenceType = {
   postFontSize: 15,
 }
 
-export type PreferenceActions =
-  | {
-      type: 'appViaStateUpdated'
-      appViaEnabled: boolean
-    }
-  | {
-      type: 'quickPostBarStateUpdated'
-      quickPostBarEnabled: boolean
-    }
-  | {
-      type: 'themeUpdated'
-      theme: PreferenceType['theme']
-    }
-
-const PreferenceContext = createContext<{ state: PreferenceType; dispatch: Dispatch<PreferenceActions> }>({
+const PreferenceContext = createContext<{
+  state: PreferenceType
+  update: (f: (state: PreferenceType) => PreferenceType) => void
+}>({
   state: initialPreference,
-  dispatch: () => {},
+  update: () => {},
 })
 
 export const usePreference = () => useContext(PreferenceContext).state
-export const usePreferenceDispatch = () => useContext(PreferenceContext).dispatch
-
-const preferenceReducer: Reducer<PreferenceType, PreferenceActions> = (state, action) => {
-  switch (action.type) {
-    case 'appViaStateUpdated':
-      return {
-        ...state,
-        appViaEnabled: action.appViaEnabled,
-      }
-    case 'quickPostBarStateUpdated':
-      return {
-        ...state,
-        quickPostBarEnabled: action.quickPostBarEnabled,
-      }
-    case 'themeUpdated':
-      return {
-        ...state,
-        theme: action.theme,
-      }
-  }
-}
+export const usePreferenceUpdate = () => useContext(PreferenceContext).update
 
 const preferenceKey = 'v1/preference'
 
@@ -109,11 +78,11 @@ const preferenceResource = createResource(loadPreference)
 
 export const PreferenceProvider: React.FC = ({ children }) => {
   const initial = preferenceResource.get() || initialPreference
-  const [state, dispatch] = useReducer(preferenceReducer, initialPreference)
+  const [state, update] = useState(initial)
 
   useEffect(() => {
     AsyncStorage.setItem(preferenceKey, JSON.stringify(state))
   }, [state])
 
-  return <PreferenceContext.Provider value={{ state, dispatch }}>{children}</PreferenceContext.Provider>
+  return <PreferenceContext.Provider value={{ state, update }}>{children}</PreferenceContext.Provider>
 }

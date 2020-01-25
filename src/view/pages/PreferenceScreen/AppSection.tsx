@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { List, Divider } from 'react-native-paper'
-import { usePreference, usePreferenceDispatch } from '../../../hooks/inject'
+import { usePreference, usePreferenceUpdate } from '../../../hooks/inject'
 import { InteractionManager, LayoutAnimation } from 'react-native'
 import { PreferenceSwitchItem, PreferenceNavigationItem } from '../../design'
 import { usePreferenceActions } from './PreferenceContext'
@@ -8,11 +8,11 @@ import { usePreferenceActions } from './PreferenceContext'
 const AppViaEnabledItem = () => {
   const { appViaEnabled } = usePreference()
   const [enabled, setEnabled] = useState(appViaEnabled)
-  const dispatch = usePreferenceDispatch()
+  const update = usePreferenceUpdate()
 
   useEffect(() => {
     const handle = InteractionManager.runAfterInteractions(() =>
-      dispatch({ type: 'appViaStateUpdated', appViaEnabled: enabled }),
+      update(state => ({ ...state, appViaEnabled: enabled })),
     )
     return () => handle.cancel()
   }, [enabled])
@@ -23,10 +23,10 @@ const AppViaEnabledItem = () => {
 const QuickPostBarEnabledItem = () => {
   const { quickPostBarEnabled } = usePreference()
   const [enabled, setEnabled] = useState(quickPostBarEnabled)
-  const dispatch = usePreferenceDispatch()
+  const update = usePreferenceUpdate()
   useEffect(() => {
     const handle = InteractionManager.runAfterInteractions(() => {
-      dispatch({ type: 'quickPostBarStateUpdated', quickPostBarEnabled: enabled })
+      update(state => ({ ...state, quickPostBarEnabled: enabled }))
       LayoutAnimation.spring()
     })
     return () => handle.cancel()

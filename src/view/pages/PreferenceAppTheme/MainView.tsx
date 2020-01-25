@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, Divider } from 'react-native-paper'
+import { List } from 'react-native-paper'
 import { PreferenceSectionItems, ScreenView } from '../../design'
 import { PreferenceType } from '../../../hooks/inject'
 
