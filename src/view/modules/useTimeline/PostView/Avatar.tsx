@@ -1,34 +1,51 @@
 import React from 'react'
-import styled from 'styled-components/native'
-import { Text } from 'react-native-paper'
+import { Text, useTheme } from 'react-native-paper'
+import { memoize } from 'lodash-es'
+import { ViewStyle, ImageStyle, TextStyle, View, Image } from 'react-native'
+import { usePreference } from '../../../../hooks/inject'
 
-const AvatarView = styled.View`
-  border-radius: 4;
-  width: 32;
-  height: 32;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props => (props.theme.dark ? '#000' : '#fff')};
-`
-
-const AvatarImage = styled.Image`
-  border-radius: 4;
-  width: 32;
-  height: 32;
-`
-
-const AvatarText = styled(Text)`
-  color: ${props => (props.theme.dark ? '#fff' : '#000')};
-  font-size: 16;
-  line-height: 32;
-`
-
-export const Avatar: React.FC<{ name?: string; thumbnailUri?: string }> = ({ name, thumbnailUri }) => (
-  <AvatarView>
-    {thumbnailUri ? (
-      <AvatarImage source={{ uri: thumbnailUri, width: 32, height: 32 }} />
-    ) : (
-      <AvatarText>{String.fromCodePoint((name || ' ').codePointAt(0)!)}</AvatarText>
-    )}
-  </AvatarView>
+const createAvatarViewStyle = memoize(
+  (size: number, dark: boolean): ViewStyle => ({
+    borderRadius: 4,
+    width: size,
+    height: size,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: dark ? '#000' : '#fff',
+  }),
 )
+
+const createAvatarImageStyle = memoize(
+  (size: number): ImageStyle => ({
+    borderRadius: 4,
+    width: size,
+    height: size,
+  }),
+)
+
+const createAvatarTextStyle = memoize(
+  (size: number, dark: boolean): TextStyle => ({
+    color: dark ? '#fff' : '#000',
+    fontSize: size / 2,
+    lineHeight: size,
+  }),
+)
+
+export const Avatar: React.FC<{ name?: string; thumbnailUri?: string }> = ({ name, thumbnailUri }) => {
+  const theme = useTheme()
+  const { postAvatarSize } = usePreference()
+
+  const avatarViewStyle = createAvatarViewStyle(postAvatarSize, theme.dark)
+  const avatarImageStyle = createAvatarImageStyle(postAvatarSize)
+  const avatarTextStyle = createAvatarTextStyle(postAvatarSize, theme.dark)
+
+  return (
+    <View style={avatarViewStyle}>
+      {thumbnailUri ? (
+        <Image style={avatarImageStyle} source={{ uri: thumbnailUri, width: postAvatarSize, height: postAvatarSize }} />
+      ) : (
+        <Text style={avatarTextStyle}>{String.fromCodePoint((name || ' ').codePointAt(0)!)}</Text>
+      )}
+    </View>
+  )
+}

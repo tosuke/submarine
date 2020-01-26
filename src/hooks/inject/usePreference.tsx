@@ -7,6 +7,7 @@ export type PreferenceType = {
   quickPostBarEnabled: boolean
   theme: 'light' | 'dark' | 'follow-system'
   postFontSize: number
+  postAvatarSize: number
 }
 
 const initialPreference: PreferenceType = {
@@ -14,6 +15,7 @@ const initialPreference: PreferenceType = {
   quickPostBarEnabled: false,
   theme: 'follow-system',
   postFontSize: 15,
+  postAvatarSize: 32,
 }
 
 export const PreferenceContext = createContext<{
@@ -34,6 +36,7 @@ const PreferenceTransformer: Transformer<unknown, PreferenceType> = $.obj({
   quickPostBarEnabled: $.boolean,
   theme: $.literal('follow-system', 'light', 'dark'),
   postFontSize: $.number,
+  postAvatarSize: $.number,
 })
 const loadPreference = async () => {
   try {
