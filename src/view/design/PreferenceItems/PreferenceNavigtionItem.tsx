@@ -9,7 +9,11 @@ export const PreferenceNavigationItem = (props: PreferenceNavigationItemProps) =
   const theme = useTheme()
   const rightBlock = useCallback(
     () => (
-      <List.Icon style={{ margin: 0, justifyContent: 'center' }} icon="chevron-right" color={captionColor(theme)} />
+      <List.Icon
+        style={{ margin: 0, marginRight: -10, justifyContent: 'center' }}
+        icon="chevron-right"
+        color={captionColor(theme)}
+      />
     ),
     [theme],
   )
