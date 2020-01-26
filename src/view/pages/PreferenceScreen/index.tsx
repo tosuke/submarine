@@ -15,6 +15,7 @@ export const PreferenceScreen = ({ navigation }: MainTabPropsList['Preference'])
         navigation.navigate('AuthRoot')
       },
       pushToAppThemeScreen: () => navigation.push('PreferenceAppTheme'),
+      pushToPostViewScreen: () => navigation.push('PreferencePostView'),
     }),
     [authBloc],
   )

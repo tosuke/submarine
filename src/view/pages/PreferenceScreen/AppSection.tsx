@@ -5,21 +5,6 @@ import { InteractionManager, LayoutAnimation } from 'react-native'
 import { PreferenceSwitchItem, PreferenceNavigationItem } from '../../design'
 import { usePreferenceActions } from './PreferenceContext'
 
-const AppViaEnabledItem = () => {
-  const { appViaEnabled } = usePreference()
-  const [enabled, setEnabled] = useState(appViaEnabled)
-  const update = usePreferenceUpdate()
-
-  useEffect(() => {
-    const handle = InteractionManager.runAfterInteractions(() =>
-      update(state => ({ ...state, appViaEnabled: enabled })),
-    )
-    return () => handle.cancel()
-  }, [enabled])
-
-  return <PreferenceSwitchItem title="アプリのvia表記" value={enabled} onValueChange={setEnabled} />
-}
-
 const QuickPostBarEnabledItem = () => {
   const { quickPostBarEnabled } = usePreference()
   const [enabled, setEnabled] = useState(quickPostBarEnabled)
@@ -45,12 +30,17 @@ const ThemeItem = () => {
   return <PreferenceNavigationItem title="テーマ" description={description} onPress={pushToAppThemeScreen} />
 }
 
+const PostViewItem = () => {
+  const { pushToPostViewScreen } = usePreferenceActions()
+  return <PreferenceNavigationItem title="投稿の表示設定" onPress={pushToPostViewScreen} />
+}
+
 export const AppSection: React.FC = () => (
   <List.Section>
     <List.Subheader>アプリ設定</List.Subheader>
     <Divider />
-    <AppViaEnabledItem />
     <QuickPostBarEnabledItem />
+    <PostViewItem />
     <ThemeItem />
   </List.Section>
 )

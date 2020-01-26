@@ -16,7 +16,7 @@ const initialPreference: PreferenceType = {
   postFontSize: 15,
 }
 
-const PreferenceContext = createContext<{
+export const PreferenceContext = createContext<{
   state: PreferenceType
   update: (f: (state: PreferenceType) => PreferenceType) => void
 }>({
