@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { View, Platform } from 'react-native'
-import { Divider, List, Caption, useTheme } from 'react-native-paper'
-import { ScreenView, Slider, PreferenceItem, NativeSlider, PreferenceSwitchItem } from '../../design'
+import React, { useCallback } from 'react'
+import { View } from 'react-native'
+import { Divider, List, useTheme } from 'react-native-paper'
+import { ScreenView, PreferenceItem, PreferenceSwitchItem, PreferenceSliderItem } from '../../design'
 import { PostView } from '../../modules/useTimeline/PostView'
 import { Post, User, Application } from '../../../models'
 import { usePreference, usePreferenceUpdate } from '../../../hooks/inject'
@@ -16,61 +16,39 @@ const post = new Post(
   [],
 )
 
-const PostFontSizeSlider = () => {
-  const theme = useTheme()
-  const backgroundColor = Platform.select({
-    ios: theme.colors.surface,
-  })
-  const sliderRef = useRef<NativeSlider>(null)
-  const [sliding, setSliding] = useState(false)
+const PostFontSizeItem = () => {
   const { postFontSize } = usePreference()
   const update = usePreferenceUpdate()
-
-  const [fontSize, setFontSize] = useState(postFontSize)
-
-  const updateFontSize = useCallback(
-    (value: number) => {
-      update(state => ({ ...state, postFontSize: value }))
-      setFontSize(value)
-      setSliding(true)
-    },
-    [update],
-  )
-  const onSlidingComplete = useCallback(() => setSliding(false), [])
-
-  const formattedFontSize = fontSize.toFixed(1)
-
-  useEffect(() => {
-    if (sliderRef.current && !sliding) {
-      sliderRef.current.setNativeProps({
-        value: postFontSize,
-      })
-      setFontSize(postFontSize)
-    }
-  }, [postFontSize, sliding])
-
+  const onValueChange = useCallback((value: number) => update(state => ({ ...state, postFontSize: value })), [update])
   return (
-    <View
-      style={{ paddingHorizontal: 12, paddingBottom: 8, backgroundColor, flexDirection: 'row', alignItems: 'center' }}
-    >
-      <Caption style={{ fontSize: 16, paddingRight: 6 }}>{formattedFontSize}</Caption>
-      <Slider
-        ref={sliderRef}
-        style={{ flex: 1 }}
-        minimumValue={10}
-        maximumValue={20}
-        onValueChange={updateFontSize}
-        onSlidingComplete={onSlidingComplete}
-      />
-    </View>
+    <PreferenceSliderItem
+      title="本文の文字サイズ"
+      minimumValue={10}
+      maximumValue={20}
+      step={1}
+      value={postFontSize}
+      onValueChange={onValueChange}
+      formatValue={v => v.toFixed(1)}
+    />
   )
 }
 
-const PostFontSizeItem = () => (
-  <PreferenceItem title="本文の文字サイズ">
-    <PostFontSizeSlider />
-  </PreferenceItem>
-)
+const PostAvatarSizeItem = () => {
+  const { postAvatarSize } = usePreference()
+  const update = usePreferenceUpdate()
+  const onValueChange = useCallback((value: number) => update(state => ({ ...state, postAvatarSize: value })), [update])
+  return (
+    <PreferenceSliderItem
+      title="アバターの大きさ"
+      minimumValue={16}
+      maximumValue={64}
+      step={1}
+      value={postAvatarSize}
+      onValueChange={onValueChange}
+      formatValue={v => v.toFixed(1)}
+    />
+  )
+}
 
 const AppViaEnabledItem = () => {
   const { appViaEnabled } = usePreference()
@@ -83,7 +61,10 @@ const AppViaEnabledItem = () => {
 const ResetItem = () => {
   const theme = useTheme()
   const update = usePreferenceUpdate()
-  const reset = useCallback(() => update(state => ({ ...state, postFontSize: 15, appViaEnabled: true })), [update])
+  const reset = useCallback(
+    () => update(state => ({ ...state, postFontSize: 15, postAvatarSize: 48, appViaEnabled: true })),
+    [update],
+  )
   return <PreferenceItem title="リセット" titleStyle={{ color: theme.colors.primary }} onPress={reset}></PreferenceItem>
 }
 
@@ -102,6 +83,7 @@ export const MainView = () => {
         <List.Subheader>設定</List.Subheader>
         <Divider />
         <PostFontSizeItem />
+        <PostAvatarSizeItem />
         <AppViaEnabledItem />
         <ResetItem />
       </List.Section>
