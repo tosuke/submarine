@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { List, Divider } from 'react-native-paper'
 import { usePreference, usePreferenceUpdate } from '../../../hooks/inject'
-import { InteractionManager, LayoutAnimation } from 'react-native'
+import { InteractionManager, LayoutAnimation, Platform } from 'react-native'
 import { PreferenceSwitchItem, PreferenceNavigationItem } from '../../design'
 import { usePreferenceActions } from './PreferenceContext'
 
@@ -12,7 +12,7 @@ const QuickPostBarEnabledItem = () => {
   useEffect(() => {
     const handle = InteractionManager.runAfterInteractions(() => {
       update(state => ({ ...state, quickPostBarEnabled: enabled }))
-      LayoutAnimation.spring()
+      if (Platform.OS !== 'android') LayoutAnimation.easeInEaseOut()
     })
     return () => handle.cancel()
   }, [enabled])
