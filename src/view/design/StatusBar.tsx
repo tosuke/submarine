@@ -5,7 +5,7 @@ import { getStatusBarHeight } from 'react-native-status-bar-height'
 
 export const StatusBar = withTheme(({ theme, ...rest }: NativeStatusBarProps & { theme: Theme; opaque?: boolean }) => {
   const barStyle: NativeStatusBarProps['barStyle'] = theme.dark ? 'light-content' : 'dark-content'
-  const backgroundColor = theme.dark ? '#000000' : '#ffffff'
+  const backgroundColor = theme.colors.surface
   return (
     <>
       <NativeStatusBar barStyle={barStyle} backgroundColor={backgroundColor} animated={false} {...rest} />

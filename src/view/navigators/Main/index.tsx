@@ -4,12 +4,12 @@ import { RootStackPropsList, RootStack } from '../define'
 import { MainTab, StackNavigationContext } from './defines'
 import { AppBottomTabBar } from '../../modules/AppBottomTabBar'
 import { HomeScreen } from '../../pages/HomeScreen'
-import { PreferenceScreen } from '../../pages/PreferanceScreen'
+import { PreferenceScreen } from '../../pages/PreferenceScreen'
 
 const MainNavigator = ({ navigation }: RootStackPropsList['Main']) => {
   return (
     <StackNavigationContext.Provider value={navigation}>
-      <MainTab.Navigator initialRouteName="Home" tabBar={props => <AppBottomTabBar {...props} />}>
+      <MainTab.Navigator initialRouteName="Home" lazy={false} tabBar={props => <AppBottomTabBar {...props} />}>
         <MainTab.Screen
           name="Home"
           options={{

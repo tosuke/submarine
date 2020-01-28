@@ -1,34 +1,27 @@
 import React from 'react'
-import styled, { css } from 'styled-components/native'
+import styled from 'styled-components/native'
 import { Text } from 'react-native-paper'
 import { Caption } from '../../../design'
 import { useRelativeTime } from './useRelativeTime'
+import { useFontSizeStyle } from './styles'
 
 const HeaderView = styled.View`
   flex-direction: row;
   flex-wrap: nowrap;
 `
 
-const HeaderTextFragment = css`
-  font-size: 14;
-  line-height: ${14 * 1.2};
-`
-
 const HeaderNameText = styled(Text)`
   flex-shrink: 1;
   margin-right: 6;
   font-weight: bold;
-  ${HeaderTextFragment}
 `
 
 const HeaderScreenNameText = styled(Caption)`
   margin-right: 6;
-  ${HeaderTextFragment}
 `
 
 const HeaderTimeText = styled(Caption)`
   margin-left: auto;
-  ${HeaderTextFragment}
 `
 
 export const Header: React.FC<{ name: string; screenName: string; createdAt: Date }> = ({
@@ -37,13 +30,14 @@ export const Header: React.FC<{ name: string; screenName: string; createdAt: Dat
   createdAt,
 }) => {
   const relativeTime = useRelativeTime(createdAt)
+  const fontSizeStyle = useFontSizeStyle()
   return (
     <HeaderView>
-      <HeaderNameText numberOfLines={1} ellipsizeMode="tail">
+      <HeaderNameText style={fontSizeStyle} numberOfLines={1} ellipsizeMode="tail">
         {name}
       </HeaderNameText>
-      <HeaderScreenNameText>@{screenName}</HeaderScreenNameText>
-      <HeaderTimeText>{relativeTime}</HeaderTimeText>
+      <HeaderScreenNameText style={fontSizeStyle}>@{screenName}</HeaderScreenNameText>
+      <HeaderTimeText style={fontSizeStyle}>{relativeTime}</HeaderTimeText>
     </HeaderView>
   )
 }

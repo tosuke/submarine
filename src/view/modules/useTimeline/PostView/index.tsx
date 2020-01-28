@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import { memoize } from 'lodash-es'
 import { Post } from '../../../../models'
 import { useTimelineActions } from '../inject'
 import { Header } from './Header'
@@ -7,13 +8,17 @@ import { Avatar } from './Avatar'
 import { Thumbnail } from './Thumbnail'
 import { Body } from './Body'
 import { Footer } from './Footer'
+import { usePreference } from '../../../../hooks/inject'
+import { ViewStyle, View } from 'react-native'
+
+const createAvatarWrapperStyle = memoize(
+  (avatarSize: number): ViewStyle => ({
+    marginRight: 2 + avatarSize / 8,
+  }),
+)
 
 const PostViewWrapper = styled.View`
   flex-direction: row;
-`
-
-const PostAvatarWrapper = styled.View`
-  margin-right: 6;
 `
 
 const PostContentWrapper = styled.View`
@@ -37,15 +42,18 @@ const PostFooterWrapper = styled.View`
 `
 
 export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
+  const { appViaEnabled, postAvatarSize } = usePreference()
   const { navigateToFileModal } = useTimelineActions()
   const avatarVariant = post.user.avatarFile && post.user.avatarFile.thumbnailVariant
   const avatarThumbnailUri = (avatarVariant && avatarVariant.url) || undefined
 
+  const avatarWrapperStyle = createAvatarWrapperStyle(postAvatarSize)
+
   return (
     <PostViewWrapper>
-      <PostAvatarWrapper>
+      <View style={avatarWrapperStyle}>
         <Avatar name={post.user.name} thumbnailUri={avatarThumbnailUri} />
-      </PostAvatarWrapper>
+      </View>
       <PostContentWrapper>
         <Header name={post.user.name} screenName={post.user.screenName} createdAt={post.createdAt} />
 
@@ -71,9 +79,11 @@ export const PostView: React.FC<{ post: Post }> = React.memo(({ post }) => {
             })}
           </PostThumbnailsWrapper>
         )}
-        <PostFooterWrapper>
-          <Footer appName={post.application.name} appIsAutomated={post.application.isAutomated} />
-        </PostFooterWrapper>
+        {appViaEnabled && (
+          <PostFooterWrapper>
+            <Footer appName={post.application.name} appIsAutomated={post.application.isAutomated} />
+          </PostFooterWrapper>
+        )}
       </PostContentWrapper>
     </PostViewWrapper>
   )

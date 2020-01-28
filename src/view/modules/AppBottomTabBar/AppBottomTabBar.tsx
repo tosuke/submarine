@@ -4,6 +4,7 @@ import { BottomTabBar, BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { useTheme } from 'react-native-paper'
 import { QuickPostBar } from './QuickPostBar'
 import { dividerColor, KeyboardAvoidingView } from '../../design'
+import { usePreference } from '../../../hooks/inject'
 
 const useTabBarVisible = () => {
   const [tabBarVisible, setTabBarVisible] = useState(true)
@@ -46,12 +47,15 @@ const quickPostBarStyle: ViewStyle = {
 export const AppBottomTabBar = (props: BottomTabBarProps) => {
   const theme = useTheme()
   const tabBarVisible = useTabBarVisible()
+  const { quickPostBarEnabled } = usePreference()
 
   return (
     <>
-      <KeyboardAvoidingView style={wrapperStyle}>
-        <QuickPostBar style={[quickPostBarStyle, { borderColor: dividerColor(theme) }]} />
-      </KeyboardAvoidingView>
+      {quickPostBarEnabled && (
+        <KeyboardAvoidingView style={wrapperStyle}>
+          <QuickPostBar style={[quickPostBarStyle, { borderColor: dividerColor(theme) }]} />
+        </KeyboardAvoidingView>
+      )}
       {tabBarVisible && <BottomTabBar {...props} />}
     </>
   )
