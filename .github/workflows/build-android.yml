@@ -1,0 +1,49 @@
+name: CD/Build/Android
+
+on:
+  push:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Node & Java
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          java-version: 1.8
+
+      - name: Cache Yarn Cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/yarn
+          key: v1-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            v1-yarn-cache-${{ runner.OS }}-
+
+      - name: Install Dependencies
+        run: yarn install --skip-integrity-check --frozen-lockfile --non-interactive --no-progress
+
+      - name: Build APK
+        run: |
+          export PATH=$PATH:$ANDROID_HOME/platform-tools
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode  > submarine.jks
+          yarn run release:android:apk
+        env:
+          SEA_URL: ${{ secrets.SEA_URL }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          ANDROID_KEY_FILE: submarine.jks
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v1
+        with:
+          name: apk
+          path: ./android/app/build/outputs/apk/release/app-release.apk
