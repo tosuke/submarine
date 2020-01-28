@@ -43,7 +43,7 @@
     "@react-native-community/checkbox": "^0.2.2",
     "@react-native-community/masked-view": "0.1.5",
     "@react-native-community/slider": "^2.0.8",
-    "@react-navigation/bottom-tabs": "^5.0.0-alpha.34",
+    "@react-navigation/bottom-tabs": "^5.0.0-alpha.39",
     "@react-navigation/native": "^5.0.0-alpha.27",
     "@react-navigation/native-stack": "^5.0.0-alpha.24",
     "@react-navigation/stack": "^5.0.0-alpha.58",
@@ -65,7 +65,7 @@
     "react-native": "^0.61.5",
     "react-native-appearance": "^0.3.2",
     "react-native-gesture-handler": "^1.5.2",
-    "react-native-paper": "^3.4.0",
+    "react-native-paper": "^3.5.1",
     "react-native-reanimated": "~1.4.0",
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
@@ -83,7 +83,7 @@
     "@storybook/addon-knobs": "^5.2.8",
     "@storybook/addon-ondevice-knobs": "^5.2.8",
     "@storybook/addon-ondevice-notes": "^5.3.6",
-    "@storybook/react-native": "^5.3.7",
+    "@storybook/react-native": "^5.3.9",
     "@types/color": "^3.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/lodash-es": "^4.17.3",
@@ -104,7 +104,7 @@
     "react-native-storybook-loader": "^1.8.1",
     "react-test-renderer": "~16.12.0",
     "ts-node": "^8.6.2",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.5"
   },
   "private": true
 }
