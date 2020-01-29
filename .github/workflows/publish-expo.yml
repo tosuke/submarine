@@ -32,6 +32,7 @@ jobs:
 
       - name: Publish to Expo
         run: |
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
           yarn expo login --non-interactive -u "$EXPO_CLI_USERNAME"
           yarn run publish
         env:
