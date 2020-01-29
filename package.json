@@ -12,8 +12,8 @@
     "publish": "cp -r App.app.tsx App.tsx && expo publish",
     "ios": "react-native run-ios",
     "android": "react-native run-android",
-    "prerelease:android": "npm run generate:version && chmod +x ./android/gradlew",
-    "release:android:apk": "npm run prerelease:android && cd ./android && ./gradlew buildRelease",
+    "prerelease:android": "cp -r App.app.tsx App.tsx && npm run generate:version && chmod +x ./android/gradlew",
+    "release:android:apk": "npm run prerelease:android && cd ./android && ./gradlew assembleRelease",
     "release:android:aab": "npm run prerelease:android && cd ./android && ./gradlew bundleRelease",
     "postinstall": "jetify"
   },
