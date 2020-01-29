@@ -98,3 +98,59 @@ jobs:
           name: aab
           path: ./android/app/build/outputs/bundle/release/app.aab
 
+  release-artifacts:
+    needs: [build-apk, build-appbundle]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Download APK
+        uses: actions/download-artifact@v1
+        with:
+          name: apk
+
+      - name: Download AppBundle
+        uses: actions/download-artifact@v1
+        with:
+          name: aab
+
+      - name: Create release
+        id: create-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: 'true'
+
+      - name: Release APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: './apk/app-release.apk'
+          asset_name: submarine-${{ steps.create-release.outputs.id }}.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Release AppBundle
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: './aab/app.aab'
+          asset_name: submarine-${{ steps.create-release.outputs.id }}.aab
+          asset_content_type: application/zip
+
+      - name: Notify to Slack
+        uses: 8398a7/action-slack@v2
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          text: ${{ steps.create-release.html_url }}
