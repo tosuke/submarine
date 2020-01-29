@@ -15,6 +15,17 @@ jobs:
           node-version: '12.x'
           java-version: 1.8
 
+      - name: Get Yarn Cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: v1-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            v1-yarn-cache-${{ runner.OS }}-
+
       - name: Install Dependencies
         run: yarn install --skip-integrity-check --frozen-lockfile --non-interactive --no-progress
 
@@ -22,7 +33,7 @@ jobs:
         run: |
           export PATH=$PATH:$ANDROID_HOME/platform-tools
           echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode  > submarine.jks
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > submarine.jks
           yarn run release:android:apk
         env:
           SEA_URL: ${{ secrets.SEA_URL }}
