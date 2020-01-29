@@ -27,7 +27,7 @@ jobs:
             v2-yarn-cache-${{ runner.OS }}-
 
       - name: Install Dependencies
-        run: yarn install --skip-integrity-check --frozen-lockfile --non-interactive --no-progress
+        run: yarn install --skip-integrity-check --frozen-lockfile --prefer-offline --non-interactive --no-progress
 
       - name: Build APK
         run: |
@@ -74,7 +74,7 @@ jobs:
             v2-yarn-cache-${{ runner.OS }}-
 
       - name: Install Dependencies
-        run: yarn install --skip-integrity-check --frozen-lockfile --non-interactive --no-progress
+        run: yarn install --skip-integrity-check --frozen-lockfile --prefer-offline --non-interactive --no-progress
 
       - name: Build AppBundle
         run: |
