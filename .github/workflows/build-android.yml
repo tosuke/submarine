@@ -22,9 +22,9 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
-          key: v1-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
+          key: v2-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            v1-yarn-cache-${{ runner.OS }}-
+            v2-yarn-cache-${{ runner.OS }}-
 
       - name: Install Dependencies
         run: yarn install --skip-integrity-check --frozen-lockfile --non-interactive --no-progress
@@ -69,9 +69,9 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
-          key: v1-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
+          key: v2-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            v1-yarn-cache-${{ runner.OS }}-
+            v2-yarn-cache-${{ runner.OS }}-
 
       - name: Install Dependencies
         run: yarn install --skip-integrity-check --frozen-lockfile --non-interactive --no-progress
