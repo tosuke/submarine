@@ -11,117 +11,97 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-
-      - uses: actions/setup-node@v1
+      - name: Setup Node & Java
+        uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+          java-version: 1.8
 
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '1.8.0'
+      - name: Get Yarn Cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Cache Dependencies
-        uses: actions/cache@v1
+      - uses: actions/cache@v1
         with:
-          path: node_modules
-          key: ${{ runner.OS }}-turtle-${{ hashFiles('yarn.lock') }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: v2-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
           restore-keys: |
-            ${{ runner.OS }}-turtle-${{ env.cache-name }}-
-            ${{ runner.OS }}-turtle-
-            ${{ runner.OS }}-
+            v2-yarn-cache-${{ runner.OS }}-
 
       - name: Install Dependencies
-        run: yarn install
-
-      - name: Install Turtle
-        run: yarn add turtle-cli
+        run: yarn install --skip-integrity-check --frozen-lockfile --prefer-offline --non-interactive --no-progress
 
       - name: Build APK
         run: |
-          cp App.app.tsx App.tsx
-          yarn generate:app
-          echo "$EXPO_ANDROID_KEYSTORE_BASE64" | base64 --decode > submarine.jks
-          yarn run turtle build:android \
-            --keystore-path ./submarine.jks \
-            --keystore-alias "$EXPO_ANDROID_KEYSTORE_ALIAS" \
-            --type apk \
-            -o ./submarine.apk
+          export PATH=$PATH:$ANDROID_HOME/platform-tools
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > submarine.jks
+          yarn run release:android:apk
         env:
           SEA_URL: ${{ secrets.SEA_URL }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-          EXPO_USERNAME: ${{ secrets.EXPO_USERNAME }}
-          EXPO_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
-          EXPO_ANDROID_KEYSTORE_BASE64: ${{ secrets.EXPO_ANDROID_KEYSTORE_BASE64 }}
-          EXPO_ANDROID_KEYSTORE_ALIAS: ${{ secrets.EXPO_ANDROID_KEYSTORE_ALIAS }}
-          EXPO_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.EXPO_ANDROID_KEYSTORE_PASSWORD }}
-          EXPO_ANDROID_KEY_PASSWORD: ${{ secrets.EXPO_ANDROID_KEY_PASSWORD }}
+          ANDROID_KEYSTORE_FILE: submarine.jks
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v1
         with:
           name: apk
-          path: ./submarine.apk
+          path: ./android/app/build/outputs/apk/release/app-release.apk
 
-  # build-appbundle:
-  #   runs-on: ubuntu-latest
-  #
-  #   steps:
-  #     - uses: actions/checkout@v1
-  #
-  #     - uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '12.x'
-  #
-  #     - uses: actions/setup-java@v1
-  #       with:
-  #         java-version: '1.8.0'
-  #
-  #     - name: Cache Dependencies
-  #       uses: actions/cache@v1
-  #       with:
-  #         path: node_modules
-  #         key: ${{ runner.OS }}-turtle-${{ hashFiles('yarn.lock') }}
-  #         restore-keys: |
-  #           ${{ runner.OS }}-turtle-${{ env.cache-name }}-
-  #           ${{ runner.OS }}-turtle-
-  #           ${{ runner.OS }}-
-  #
-  #     - name: Install Dependencies
-  #       run: yarn install
-  #
-  #     - name: Install Turtle
-  #       run: yarn add turtle-cli
-  #
-  #     - name: Build AppBundle
-  #       run: |
-  #         cp App.app.tsx App.tsx
-  #         yarn generate:app
-  #         echo "$EXPO_ANDROID_KEYSTORE_BASE64" | base64 --decode > submarine.jks
-  #         yarn run turtle build:android \
-  #           --keystore-path ./submarine.jks \
-  #           --keystore-alias "$EXPO_ANDROID_KEYSTORE_ALIAS" \
-  #           --type app-bundle \
-  #           -o ./submarine.aab
-  #       env:
-  #         SEA_URL: ${{ secrets.SEA_URL }}
-  #         CLIENT_ID: ${{ secrets.CLIENT_ID }}
-  #         CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-  #         EXPO_USERNAME: ${{ secrets.EXPO_USERNAME }}
-  #         EXPO_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
-  #         EXPO_ANDROID_KEYSTORE_BASE64: ${{ secrets.EXPO_ANDROID_KEYSTORE_BASE64 }}
-  #         EXPO_ANDROID_KEYSTORE_ALIAS: ${{ secrets.EXPO_ANDROID_KEYSTORE_ALIAS }}
-  #         EXPO_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.EXPO_ANDROID_KEYSTORE_PASSWORD }}
-  #         EXPO_ANDROID_KEY_PASSWORD: ${{ secrets.EXPO_ANDROID_KEY_PASSWORD }}
-  #
-  #     - name: Upload AppBundle
-  #       uses: actions/upload-artifact@v1
-  #       with:
-  #         name: aab
-  #         path: ./submarine.aab
-  #
-  create-release:
-    needs: [build-apk]
+  build-appbundle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup Node & Java
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          java-version: 1.8
+
+      - name: Get Yarn Cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: v2-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            v2-yarn-cache-${{ runner.OS }}-
+
+      - name: Install Dependencies
+        run: yarn install --skip-integrity-check --frozen-lockfile --prefer-offline --non-interactive --no-progress
+
+      - name: Build AppBundle
+        run: |
+          export PATH=$PATH:$ANDROID_HOME/platform-tools
+          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > submarine.jks
+          yarn run release:android:aab
+        env:
+          SEA_URL: ${{ secrets.SEA_URL }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          ANDROID_KEYSTORE_FILE: submarine.jks
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
+      - name: Upload AppBundle
+        uses: actions/upload-artifact@v1
+        with:
+          name: aab
+          path: ./android/app/build/outputs/bundle/release/app.aab
+
+  release-artifacts:
+    needs: [build-apk, build-appbundle]
     runs-on: ubuntu-latest
 
     steps:
@@ -132,13 +112,13 @@ jobs:
         with:
           name: apk
 
-      # - name: Download AppBundle
-      #   uses: actions/download-artifact@v1
-      #   with:
-      #     name: aab
+      - name: Download AppBundle
+        uses: actions/download-artifact@v1
+        with:
+          name: aab
 
-      - name: Create Release
-        id: create_release
+      - name: Create release
+        id: create-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -152,16 +132,27 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./apk/submarine.apk
-          asset_name: submarine-${{ steps.create_release.outputs.id }}.apk
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: './apk/app-release.apk'
+          asset_name: submarine-${{ steps.create-release.outputs.id }}.apk
           asset_content_type: application/vnd.android.package-archive
-      # - name: Release AppBundle
-      #   uses: actions/upload-release-asset@v1.0.1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./aab/submarine.aab
-      #     asset_name: submarine-${{ steps.create_release.outputs.id }}.aab
-      #     asset_content_type: application/zip
+
+      - name: Release AppBundle
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: './aab/app.aab'
+          asset_name: submarine-${{ steps.create-release.outputs.id }}.aab
+          asset_content_type: application/zip
+
+      - name: Notify to Slack
+        uses: 8398a7/action-slack@v2
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          status: ${{ job.status }}
+          text: ${{ steps.create-release.outputs.html_url }}
