@@ -17,17 +17,6 @@ jobs:
           node-version: '12.x'
           java-version: 1.8
 
-      - name: Get Yarn Cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: v2-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            v2-yarn-cache-${{ runner.OS }}-
-
       - name: Install Dependencies
         run: yarn install --skip-integrity-check --frozen-lockfile --prefer-offline --non-interactive --no-progress
 
@@ -64,19 +53,8 @@ jobs:
           node-version: '12.x'
           java-version: 1.8
 
-      - name: Get Yarn Cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v1
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: v2-yarn-cache-${{ runner.OS }}-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            v2-yarn-cache-${{ runner.OS }}-
-
       - name: Install Dependencies
-        run: yarn install --skip-integrity-check --frozen-lockfile --prefer-offline --non-interactive --no-progress
+        run: yarn install --skip-integrity-check --frozen-lockfile --non-interactive --no-progress
 
       - name: Build AppBundle
         run: |
