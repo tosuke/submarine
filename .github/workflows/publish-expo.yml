@@ -19,11 +19,14 @@ jobs:
       - name: Install Dependencies
         run: yarn install --skip-integrity-check --frozen-lockfile --non-interactive --no-progress
 
+      - name: Setup Expo
+        uses: expo/expo-github-action@v5
+        with:
+          expo-version: 3.x
+          expo-username: ${{ secrets.EXPO_USERNAME }}
+          expo-password: ${{ secrets.EXPO_PASSWORD }}
+          expo-cache: true
+
       - name: Publish to Expo
         run: |
-          echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-          yarn expo login --non-interactive -u "$EXPO_CLI_USERNAME"
           yarn run publish
-        env:
-          EXPO_CLI_USERNAME: ${{ secrets.EXPO_USERNAME }}
-          EXPO_CLI_PASSWORD: ${{ secrets.EXPO_PASSWORD }}
