@@ -27,6 +27,12 @@ jobs:
           expo-password: ${{ secrets.EXPO_PASSWORD }}
           expo-cache: true
 
+      - name: Metro Cache
+        uses: actions/cache@v1
+        with:
+          path: /tmp/metro-cache
+          key: v1-metro-cache
+
       - name: Publish to Expo
         run: |
           yarn run publish

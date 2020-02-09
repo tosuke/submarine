@@ -25,3 +25,32 @@ jobs:
 
       - name: Type Check
         run: yarn type-check
+
+  bundle-js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Install Dependencies
+        run: yarn install --skip-integrity-check --frozen-lockfile --non-interactive --no-progress
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v5
+        with:
+          expo-version: 3.x
+          expo-username: ${{ secrets.EXPO_USERNAME }}
+          expo-password: ${{ secrets.EXPO_PASSWORD }}
+          expo-cache: true
+
+      - uses: actions/cache@v1
+        with:
+          path: /tmp/metro-cache
+          key: v1-metro-cache
+
+      - name: Bundle Assets
+        run: yarn run export --public-url https://example.net
