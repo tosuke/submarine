@@ -7939,10 +7939,10 @@ react-native-safe-area-view@^0.14.6:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-react-native-screens@2.0.0-alpha.12:
-  version "2.0.0-alpha.12"
-  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-alpha.12.tgz#35a6ef3b472958e9d35f0ca9e582d0d158f8e379"
-  integrity sha512-x9M7FEdcm97bVDp3pi//nhduJHLFMrmDQs0fq299yx3kHdgHbrmhsa8jgW4HvDQhjyPE0FWADY/GrXFuPRj80w==
+react-native-screens@2.0.0-beta.13:
+  version "2.0.0-beta.13"
+  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.0.0-beta.13.tgz#ada338c3b46d016b06d0416e59d4aa0b9b39c731"
+  integrity sha512-u2ajGWVv9QoQnFzRFHD2Oe0v+jRqWzGNXJm31B9b03x21oFDv6NRTCMF3UqntQcg1SRJh6PdlQQc2M0qymDIww==
   dependencies:
     debounce "^1.2.0"
 
