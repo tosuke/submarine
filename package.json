@@ -44,7 +44,7 @@
     "@react-native-community/masked-view": "0.1.5",
     "@react-native-community/slider": "^2.0.8",
     "@react-navigation/bottom-tabs": "^5.0.0-alpha.39",
-    "@react-navigation/native": "^5.0.0-alpha.27",
+    "@react-navigation/native": "^5.3.2",
     "@react-navigation/native-stack": "^5.0.0-alpha.24",
     "@react-navigation/stack": "^5.0.0-alpha.58",
     "@use-it/interval": "^0.1.3",
