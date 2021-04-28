@@ -1,0 +1,39 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "20:00"
+  open-pull-requests-limit: 10
+  assignees:
+  - Tosuke
+  ignore:
+  - dependency-name: react-native-reanimated
+    versions:
+    - 1.13.2
+    - 2.0.0
+    - 2.0.1
+  - dependency-name: react-native-screens
+    versions:
+    - 2.17.1
+    - 2.18.0
+  - dependency-name: "@react-navigation/native"
+    versions:
+    - 5.9.2
+    - 5.9.3
+  - dependency-name: react-native-gesture-handler
+    versions:
+    - 1.10.0
+    - 1.10.1
+    - 1.10.2
+    - 1.9.0
+  - dependency-name: ky
+    versions:
+    - 0.26.0
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
+  - dependency-name: "@react-native-community/masked-view"
+    versions:
+    - 0.1.10
