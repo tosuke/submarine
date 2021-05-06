@@ -96,7 +96,7 @@
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-preset-expo": "^8.0.0",
     "emotion-theming": "^10.0.27",
-    "handlebars": "^4.7.2",
+    "handlebars": "^4.7.7",
     "husky": "^4.2.1",
     "jest": "~25.1.0",
     "jetifier": "~1.6.4",
